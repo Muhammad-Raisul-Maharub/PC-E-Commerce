@@ -83,7 +83,7 @@ const BATTLESTATION_RIGS = [
     coolant: "Cryo Cyan Hardline",
     price: 585000,
     status: "Ready for In-Store Audition",
-    image: "/images/waterblock.png",
+    image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=1200&q=80",
   },
   {
     id: "rig-obsidian",
@@ -94,7 +94,7 @@ const BATTLESTATION_RIGS = [
     coolant: "Ultraviolet Plasma",
     price: 435000,
     status: "3 Units in Dhaka Lab",
-    image: "/images/waterblock.png",
+    image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1200&q=80",
   },
   {
     id: "rig-phantom",
@@ -105,13 +105,12 @@ const BATTLESTATION_RIGS = [
     coolant: "Acid Green Opaque",
     price: 365000,
     status: "Custom Build (48h)",
-    image: "/images/waterblock.png",
+    image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?auto=format&fit=crop&w=1200&q=80",
   },
 ];
 
 export default function NeonForgeHome() {
   const [selectedCoolant, setSelectedCoolant] = useState<CoolantPreset>(COOLANT_PRESETS[0]);
-  const [hero3DMode, setHero3DMode] = useState<"liquid" | "hardware">("liquid");
   const { addStandaloneItem } = useCartStore();
 
   const liquidProducts = HARDWARE_PRODUCTS.filter(
@@ -123,8 +122,8 @@ export default function NeonForgeHome() {
       {/* Background Cyberpunk Subtle Isometric Grid */}
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:24px_24px] opacity-20"></div>
 
-      {/* 1. Hero Stage: 3D Liquid Chassis + Coolant Control Engine */}
-      <section className="relative max-w-[1440px] mx-auto px-4 sm:px-6 pt-6 pb-16">
+      {/* 1. Hero Stage: Pure 3D Hardware Model Viewport */}
+      <section className="relative max-w-[1440px] mx-auto px-4 sm:px-6 pt-6 pb-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           {/* Left Hero Narrative & Fluid Controller */}
           <div className="lg:col-span-6 space-y-6 z-10">
@@ -132,7 +131,7 @@ export default function NeonForgeHome() {
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#12121A] border border-cyan-500/40 shadow-[0_0_12px_rgba(0,240,255,0.2)]">
               <span className="w-2 h-2 rounded-full bg-[#00F0FF] animate-pulse" />
               <span className="font-mono text-[11px] uppercase font-bold text-cyan-300 tracking-wider">
-                CONCEPT 2 // CUSTOM LIQUID COOLING BATTLESTATIONS
+                CONCEPT 2 // 3D LIQUID COOLING BATTLESTATIONS
               </span>
             </div>
 
@@ -167,7 +166,7 @@ export default function NeonForgeHome() {
                     <button
                       key={preset.id}
                       onClick={() => setSelectedCoolant(preset)}
-                      className={`p-2 rounded-lg border text-left transition-all flex items-center gap-2.5 ${
+                      className={`p-2 rounded-lg border text-left transition-all flex items-center gap-2.5 cursor-pointer ${
                         isCurrent
                           ? "bg-[#1E1E2D] border-cyan-400 shadow-[0_0_12px_rgba(0,240,255,0.3)] text-white"
                           : "bg-[#0A0A0F] border-slate-800 hover:border-slate-600 text-slate-400"
@@ -211,49 +210,14 @@ export default function NeonForgeHome() {
             </div>
           </div>
 
-          {/* Right Hero Stage: Interactive 3D WebGL Liquid Chassis Scene / GLB Hardware Viewer */}
-          <div className="lg:col-span-6 space-y-2">
-            <div className="flex items-center justify-between p-2 rounded-xl bg-[#12121A]/90 border border-cyan-500/30 backdrop-blur-md">
-              <span className="font-mono text-[11px] text-cyan-400 font-bold uppercase tracking-wider flex items-center gap-1.5">
-                <span className="material-symbols-outlined text-sm">view_in_ar</span>
-                <span>3D Canvas Mode:</span>
-              </span>
-              <div className="flex items-center gap-1.5">
-                <button
-                  onClick={() => setHero3DMode("liquid")}
-                  className={`px-3 py-1 rounded text-xs font-mono font-bold uppercase transition-all cursor-pointer ${
-                    hero3DMode === "liquid"
-                      ? "bg-cyan-500 text-black shadow-[0_0_12px_rgba(0,240,255,0.4)]"
-                      : "bg-[#0A0A0F] text-slate-400 hover:text-white border border-slate-800"
-                  }`}
-                >
-                  Fluid Chassis
-                </button>
-                <button
-                  onClick={() => setHero3DMode("hardware")}
-                  className={`px-3 py-1 rounded text-xs font-mono font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer ${
-                    hero3DMode === "hardware"
-                      ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-[0_0_15px_rgba(236,72,153,0.4)]"
-                      : "bg-[#0A0A0F] text-slate-400 hover:text-white border border-slate-800"
-                  }`}
-                >
-                  <span>Hardware Models (.GLB)</span>
-                  <span className="w-1.5 h-1.5 rounded-full bg-pink-400 animate-pulse" />
-                </button>
-              </div>
-            </div>
-
-            {hero3DMode === "liquid" ? (
-              <LiquidChassis3DScene coolantColor={selectedCoolant.hex} />
-            ) : (
-              <div className="rounded-2xl overflow-hidden border border-cyan-500/30">
-                <Hardware3DViewer
-                  concept="neonforge"
-                  modelPath="/models/chassis-gaming.glb"
-                  className="w-full h-[500px] lg:h-[550px]"
-                />
-              </div>
-            )}
+          {/* Right Hero Stage: Pure 3D Hardware Model Viewport (Full-bleed, always loaded) */}
+          <div className="lg:col-span-6 w-full h-[540px] lg:h-[620px] rounded-2xl overflow-hidden border border-cyan-500/40 shadow-[0_0_35px_rgba(0,240,255,0.15)]">
+            <Hardware3DViewer
+              concept="neonforge"
+              modelPath="/models/chassis-gaming.glb"
+              accentColor="#00F0FF"
+              className="w-full h-full"
+            />
           </div>
         </div>
       </section>
@@ -295,13 +259,13 @@ export default function NeonForgeHome() {
             >
               <div>
                 {/* Rig Image Container */}
-                <div className="w-full h-44 bg-[#0A0A0F] rounded-xl mb-4 p-3 flex items-center justify-center relative overflow-hidden border border-white/5">
+                <div className="w-full h-48 bg-[#0A0A0F] rounded-xl mb-4 relative overflow-hidden border border-white/5">
                   <img
                     src={rig.image}
                     alt={rig.name}
-                    className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <span className="absolute top-2 right-2 px-2 py-0.5 rounded bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 font-mono text-[9px] uppercase font-bold">
+                  <span className="absolute top-2.5 right-2.5 px-2.5 py-1 rounded bg-black/80 border border-cyan-500/50 text-cyan-300 font-mono text-[10px] uppercase font-bold backdrop-blur-md shadow-md">
                     {rig.coolant}
                   </span>
                 </div>
@@ -336,7 +300,7 @@ export default function NeonForgeHome() {
 
                 <Link
                   href="/checkout"
-                  className="px-4 py-2 bg-[#00F0FF] hover:bg-[#00dbe9] text-[#0A0A0F] font-chakra font-bold text-xs uppercase rounded-lg transition-colors"
+                  className="px-4 py-2 bg-[#00F0FF] hover:bg-[#00dbe9] text-[#0A0A0F] font-chakra font-bold text-xs uppercase rounded-lg transition-colors cursor-pointer"
                 >
                   Order Rig
                 </Link>
@@ -370,11 +334,15 @@ export default function NeonForgeHome() {
           {liquidProducts.map((p) => (
             <div
               key={p.id}
-              className="bg-[#12121A] border border-slate-800 rounded-xl p-4 flex flex-col justify-between hover:border-cyan-500/40 transition-colors"
+              className="bg-[#12121A] border border-slate-800 rounded-xl p-4 flex flex-col justify-between hover:border-cyan-500/40 transition-colors group"
             >
               <div>
-                <div className="w-full h-36 bg-[#0A0A0F] rounded-lg p-2 flex items-center justify-center mb-3">
-                  <img src={p.image} alt={p.name} className="max-h-full object-contain" />
+                <div className="w-full h-44 bg-[#0A0A0F] rounded-lg overflow-hidden mb-3 border border-white/5">
+                  <img
+                    src={p.image}
+                    alt={p.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
                 </div>
                 <span className="font-mono text-[9px] px-1.5 py-0.5 rounded bg-cyan-950/60 border border-cyan-500/30 text-cyan-300 uppercase font-bold">
                   {p.brand} • {p.sku}

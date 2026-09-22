@@ -19,7 +19,6 @@ export default function OmniPulsePDP({ product }: OmniPulsePDPProps) {
   const { setSlot } = useBuilderStore();
 
   const [quantity, setQuantity] = useState<number>(1);
-  const [activeMediaTab, setActiveMediaTab] = useState<"3d" | "photo">("3d");
   const [isAddedToCart, setIsAddedToCart] = useState<boolean>(false);
   const [selectedEmiTenure, setSelectedEmiTenure] = useState<number>(12);
 
@@ -110,55 +109,25 @@ export default function OmniPulsePDP({ product }: OmniPulsePDPProps) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 bg-white p-5 sm:p-8 rounded-2xl border border-slate-200 shadow-sm">
           {/* Left Column: 3D WebGL Viewer & Media Switcher (7 cols) */}
           <div className="lg:col-span-7 space-y-4">
-            {/* Media View Tab Switcher */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 bg-slate-100 p-1 rounded-xl">
-                <button
-                  onClick={() => setActiveMediaTab("3d")}
-                  className={`px-4 py-1.5 rounded-lg text-xs font-bold font-sans transition-all flex items-center gap-1.5 ${
-                    activeMediaTab === "3d"
-                      ? "bg-[#0D47A1] text-white shadow-sm"
-                      : "text-slate-600 hover:text-slate-900"
-                  }`}
-                >
-                  <span className="material-symbols-outlined text-sm">view_in_ar</span>
-                  <span>Interactive 3D Inspection</span>
-                </button>
+            {/* Header: Pure 3D Engine Inspection Bay */}
+            <div className="flex items-center justify-between pb-1">
+              <span className="px-3 py-1.5 rounded-xl bg-[#0D47A1] text-white text-xs font-bold font-sans flex items-center gap-1.5 shadow-sm">
+                <span className="w-2 h-2 rounded-full bg-[#FFB300] animate-ping" />
+                <span className="material-symbols-outlined text-sm">view_in_ar</span>
+                <span>Interactive 3D Hardware Inspection</span>
+              </span>
 
-                <button
-                  onClick={() => setActiveMediaTab("photo")}
-                  className={`px-4 py-1.5 rounded-lg text-xs font-bold font-sans transition-all flex items-center gap-1.5 ${
-                    activeMediaTab === "photo"
-                      ? "bg-[#0D47A1] text-white shadow-sm"
-                      : "text-slate-600 hover:text-slate-900"
-                  }`}
-                >
-                  <span className="material-symbols-outlined text-sm">photo</span>
-                  <span>High-Res Photo Gallery</span>
-                </button>
-              </div>
-
-              <span className="text-xs text-slate-400 font-mono hidden sm:inline">
-                Three.js WebGL Engine
+              <span className="text-xs text-slate-500 font-mono hidden sm:inline">
+                Three.js WebGL Engine // 60 FPS PBR
               </span>
             </div>
 
-            {/* Media Display Window */}
-            {activeMediaTab === "3d" ? (
-              <OmniPulse3DViewer
-                productName={product.name}
-                category={product.category}
-                brand={product.brand}
-              />
-            ) : (
-              <div className="w-full h-[400px] sm:h-[460px] rounded-2xl border border-slate-200 overflow-hidden bg-slate-50 flex items-center justify-center p-4">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="max-h-full max-w-full object-contain drop-shadow-md"
-                />
-              </div>
-            )}
+            {/* Media Display Window - Pure 3D Always Loaded */}
+            <OmniPulse3DViewer
+              productName={product.name}
+              category={product.category}
+              brand={product.brand}
+            />
 
             {/* Feature Badges below Viewer */}
             <div className="grid grid-cols-3 gap-3 text-center text-xs">

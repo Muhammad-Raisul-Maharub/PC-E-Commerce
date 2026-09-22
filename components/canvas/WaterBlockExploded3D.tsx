@@ -58,17 +58,25 @@ export default function WaterBlockExploded3D() {
     controls.maxDistance = 10.0;
     controlsRef.current = controls;
 
-    // 5. Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
+    // 5. Studio-Grade Enhanced HDR Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 2.2);
     scene.add(ambientLight);
 
-    const dirLight1 = new THREE.DirectionalLight(0xffffff, 2.2);
+    const dirLight1 = new THREE.DirectionalLight(0xffffff, 3.8);
     dirLight1.position.set(5, 8, 5);
     scene.add(dirLight1);
 
-    const cyanRim = new THREE.DirectionalLight(0x00f0ff, 2.0);
+    const fillLight = new THREE.DirectionalLight(0xffffff, 2.0);
+    fillLight.position.set(-5, 4, -4);
+    scene.add(fillLight);
+
+    const cyanRim = new THREE.DirectionalLight(0x00f0ff, 2.8);
     cyanRim.position.set(-6, -2, -4);
     scene.add(cyanRim);
+
+    const frontLight = new THREE.PointLight(0xffffff, 1.8, 25);
+    frontLight.position.set(0, 3, 5);
+    scene.add(frontLight);
 
     // 6. Master Assembly Group
     const blockGroup = new THREE.Group();
@@ -251,7 +259,7 @@ export default function WaterBlockExploded3D() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-80 sm:h-96 bg-[#0A0A0F] rounded-xl overflow-hidden border border-cyan-500/30 shadow-2xl"
+      className="relative w-full h-[460px] sm:h-[520px] lg:h-[580px] bg-[#0A0A0F] rounded-2xl overflow-hidden border border-cyan-500/30 shadow-2xl"
     >
       <canvas ref={canvasRef} className="w-full h-full block cursor-grab active:cursor-grabbing" />
 

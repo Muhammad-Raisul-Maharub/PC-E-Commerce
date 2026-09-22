@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { HardwareProduct } from "@/data/hardwareDatabase";
 import { KRYPTON_MAKER_PRODUCTS, KryptonMakerProduct, toHardwareProduct } from "@/data/mockProducts";
 import { useCartStore } from "@/store/useCartStore";
+import Hardware3DViewer from "@/components/canvas/Hardware3DViewer";
 
 interface KryptonPDPProps {
   product: HardwareProduct;
@@ -150,31 +151,30 @@ export default function KryptonPDP({ product }: KryptonPDPProps) {
           {/* Left Column: 3D Exploded / Pinout Viewer & Photos (7 cols) */}
           <div className="lg:col-span-7 space-y-6">
             
-            {/* Primary Visual Bay */}
-            <div className="bg-white border-2 border-black p-6 shadow-[6px_6px_0px_#000000]">
-              <div className="flex items-center justify-between pb-3 border-b-2 border-black mb-4">
-                <span className="font-mono text-xs font-bold uppercase text-black">
-                  // OPTICAL INSPECTION BAY
+            {/* Primary Visual Bay - Pure 3D Model Always Loaded */}
+            <div className="bg-white border-2 border-black p-4 sm:p-6 shadow-[6px_6px_0px_#000000]">
+              <div className="flex items-center justify-between pb-3 border-b-2 border-black mb-3">
+                <span className="font-mono text-xs font-bold uppercase text-black flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-[#FACC15] animate-ping" />
+                  // 3D MECHANICAL HARDWARE INSPECTION BAY
                 </span>
-                <span className="font-mono text-[10px] text-slate-500">
-                  MAGNIFICATION: 1:1 REAL COMPONENT
+                <span className="font-mono text-[10px] text-slate-600">
+                  REAL-TIME PBR WebGL 1:1
                 </span>
               </div>
 
-              <div className="w-full h-80 sm:h-96 bg-[#F4F4F0] border-2 border-black relative flex items-center justify-center p-4 overflow-hidden group">
-                <img
-                  src={makerItem.image}
-                  alt={makerItem.name}
-                  className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+              <div className="w-full h-[460px] sm:h-[520px] rounded border-2 border-black overflow-hidden relative">
+                <Hardware3DViewer
+                  modelPath="/models/switch-cherry-mx.glb"
+                  concept="krypton"
+                  accentColor="#FACC15"
+                  className="w-full h-full min-h-[460px]"
                 />
-                <div className="absolute bottom-3 left-3 bg-black text-[#FACC15] font-mono text-xs font-bold px-2.5 py-1">
-                  TAG: {makerItem.sku}
-                </div>
               </div>
 
-              <div className="mt-4 flex items-center justify-between font-mono text-xs text-slate-600">
+              <div className="mt-3 flex items-center justify-between font-mono text-xs text-slate-700">
                 <span>MANUFACTURER: {makerItem.brand.toUpperCase()}</span>
-                <span className="text-[#EA580C] font-bold">MIL-SPEC TOLERANCES</span>
+                <span className="text-[#EA580C] font-bold">MIL-SPEC 3D TOLERANCE ±0.01mm</span>
               </div>
             </div>
 

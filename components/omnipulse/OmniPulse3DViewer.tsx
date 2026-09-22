@@ -48,9 +48,9 @@ export default function OmniPulse3DViewer({
 
     // 2. Camera Setup
     const width = container.clientWidth || 600;
-    const height = container.clientHeight || 420;
-    const camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 100);
-    camera.position.set(0, 2.2, 4.0);
+    const height = container.clientHeight || 520;
+    const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
+    camera.position.set(0, 1.8, 3.4);
     cameraRef.current = camera;
 
     // 3. Renderer Setup
@@ -75,22 +75,26 @@ export default function OmniPulse3DViewer({
     controls.minPolarAngle = Math.PI / 6;
     controlsRef.current = controls;
 
-    // 5. Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
+    // 5. Studio-Grade Enhanced HDR Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 2.2);
     scene.add(ambientLight);
 
-    const dirLight1 = new THREE.DirectionalLight(0xffffff, 2.5);
+    const dirLight1 = new THREE.DirectionalLight(0xffffff, 3.8);
     dirLight1.position.set(5, 8, 5);
     dirLight1.castShadow = true;
     scene.add(dirLight1);
 
-    const dirLight2 = new THREE.DirectionalLight(0x0d47a1, 1.2); // Royal Navy tint
+    const dirLight2 = new THREE.DirectionalLight(0x0d47a1, 1.8); // Royal Navy tint
     dirLight2.position.set(-5, -3, -4);
     scene.add(dirLight2);
 
-    const dirLight3 = new THREE.DirectionalLight(0xffb300, 0.8); // Amber rim light
+    const dirLight3 = new THREE.DirectionalLight(0xffb300, 1.8); // Amber rim light
     dirLight3.position.set(4, -2, -3);
     scene.add(dirLight3);
+
+    const frontLight = new THREE.PointLight(0xffffff, 2.0, 20);
+    frontLight.position.set(0, 2, 4);
+    scene.add(frontLight);
 
     // 6. Pedestal Floor Grid
     const floorGeo = new THREE.CylinderGeometry(2.4, 2.4, 0.08, 48);
@@ -360,7 +364,7 @@ export default function OmniPulse3DViewer({
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-[400px] sm:h-[460px] bg-gradient-to-b from-[#0A2558] via-[#0D47A1] to-[#081B3D] rounded-2xl border border-[#0D47A1] overflow-hidden shadow-xl"
+      className="relative w-full h-[480px] sm:h-[540px] lg:h-[580px] bg-gradient-to-b from-[#0A2558] via-[#0D47A1] to-[#081B3D] rounded-2xl border border-[#0D47A1] overflow-hidden shadow-xl"
     >
       {/* 3D WebGL Canvas */}
       <canvas ref={canvasRef} className="w-full h-full block cursor-grab active:cursor-grabbing" />

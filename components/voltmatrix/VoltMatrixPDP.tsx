@@ -112,10 +112,8 @@ export default function VoltMatrixPDP({ product: propProduct }: { product?: Hard
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
           {/* ================= LEFT 6 COLS: 3D CAD ORBIT & MEDIA GALLERY ================= */}
           <div className="xl:col-span-6 space-y-4">
-            {/* Viewport Display (3D Scene or Selected Photo) */}
-            {selectedGalleryThumb === 0 ? (
-              <ComponentViewer3D />
-            ) : selectedGalleryThumb === 1 ? (
+            {/* Primary Viewport Display: Pure 3D Hardware Model Viewport (Full-bleed, Always Loaded) */}
+            <div className="w-full h-[460px] sm:h-[520px] rounded-2xl overflow-hidden border border-slate-800 shadow-xl">
               <Hardware3DViewer
                 concept="voltmatrix"
                 modelPath={
@@ -123,26 +121,16 @@ export default function VoltMatrixPDP({ product: propProduct }: { product?: Hard
                     ? "/models/gpu-rtx4090.glb"
                     : product.category === "ram"
                       ? "/models/ram-corsair.glb"
-                      : "/models/cpu-threadripper.glb"
+                      : product.category === "chassis"
+                        ? "/models/chassis-gaming.glb"
+                        : product.category === "motherboard"
+                          ? "/models/motherboard-atx.glb"
+                          : "/models/cpu-threadripper.glb"
                 }
-                className="w-full h-80 sm:h-96"
+                accentColor="#EF4444"
+                className="w-full h-full"
               />
-            ) : (
-              <div className="w-full h-80 sm:h-96 bg-white rounded border border-slate-200 p-4 flex items-center justify-center relative shadow-sm">
-                <img
-                  src={galleryImages[selectedGalleryThumb]?.img || product.image}
-                  alt={galleryImages[selectedGalleryThumb]?.label || product.name}
-                  className="w-full h-full object-contain"
-                />
-                <button
-                  onClick={() => setSelectedGalleryThumb(1)}
-                  className="absolute top-3 right-3 px-3 py-1 bg-slate-900 text-white rounded font-mono text-[10.5px] uppercase font-bold shadow flex items-center gap-1 cursor-pointer"
-                >
-                  <span className="material-symbols-outlined text-[14px]">view_in_ar</span>
-                  <span>View 3D Model</span>
-                </button>
-              </div>
-            )}
+            </div>
 
             {/* Thumbnail & CAD Geometry Selectors */}
             <div className="grid grid-cols-5 gap-2">

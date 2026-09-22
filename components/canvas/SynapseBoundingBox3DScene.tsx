@@ -69,6 +69,16 @@ export default function SynapseBoundingBox3DScene({
     controls.minDistance = 2;
     controlsRef.current = controls;
 
+    // Enhanced Studio Lights
+    const ambientLight = new THREE.AmbientLight(0xffffff, 2.4);
+    scene.add(ambientLight);
+    const dirLight = new THREE.DirectionalLight(0x06b6d4, 3.2);
+    dirLight.position.set(6, 9, 6);
+    scene.add(dirLight);
+    const rimLight = new THREE.DirectionalLight(0x84cc16, 2.2);
+    rimLight.position.set(-6, -4, -6);
+    scene.add(rimLight);
+
     // Master CAD Assembly Group
     const rootGroup = new THREE.Group();
     scene.add(rootGroup);
@@ -349,11 +359,11 @@ export default function SynapseBoundingBox3DScene({
           </div>
         )}
 
-        {/* View Angle Preset Floating Buttons */}
+        {/* View Angle Preset Floating Buttons & Zoom Controls */}
         <div className="absolute bottom-3 left-3 flex items-center gap-1 bg-[#171F33]/90 border border-[#334155] p-1 font-mono text-[10px]">
           <button
             onClick={() => setCameraAngle("iso")}
-            className={`px-2 py-0.5 transition-colors ${
+            className={`px-2 py-0.5 transition-colors cursor-pointer ${
               cameraMode === "iso"
                 ? "bg-[#06B6D4] text-[#0F172A] font-bold"
                 : "text-[#94A3B8] hover:text-[#F8FAFC]"
@@ -363,7 +373,7 @@ export default function SynapseBoundingBox3DScene({
           </button>
           <button
             onClick={() => setCameraAngle("front")}
-            className={`px-2 py-0.5 transition-colors ${
+            className={`px-2 py-0.5 transition-colors cursor-pointer ${
               cameraMode === "front"
                 ? "bg-[#06B6D4] text-[#0F172A] font-bold"
                 : "text-[#94A3B8] hover:text-[#F8FAFC]"
@@ -373,7 +383,7 @@ export default function SynapseBoundingBox3DScene({
           </button>
           <button
             onClick={() => setCameraAngle("side")}
-            className={`px-2 py-0.5 transition-colors ${
+            className={`px-2 py-0.5 transition-colors cursor-pointer ${
               cameraMode === "side"
                 ? "bg-[#06B6D4] text-[#0F172A] font-bold"
                 : "text-[#94A3B8] hover:text-[#F8FAFC]"
@@ -383,7 +393,7 @@ export default function SynapseBoundingBox3DScene({
           </button>
           <button
             onClick={() => setCameraAngle("top")}
-            className={`px-2 py-0.5 transition-colors ${
+            className={`px-2 py-0.5 transition-colors cursor-pointer ${
               cameraMode === "top"
                 ? "bg-[#06B6D4] text-[#0F172A] font-bold"
                 : "text-[#94A3B8] hover:text-[#F8FAFC]"
@@ -391,13 +401,46 @@ export default function SynapseBoundingBox3DScene({
           >
             TOP
           </button>
+          <div className="border-l border-[#334155] h-3 mx-0.5" />
+          <button
+            onClick={() => {
+              if (cameraRef.current && controlsRef.current) {
+                const camera = cameraRef.current;
+                const controls = controlsRef.current;
+                const offset = new THREE.Vector3().subVectors(camera.position, controls.target);
+                offset.multiplyScalar(0.8);
+                camera.position.addVectors(controls.target, offset);
+                controls.update();
+              }
+            }}
+            className="px-1.5 py-0.5 text-[#06B6D4] hover:bg-[#06B6D4]/20 font-bold transition-colors cursor-pointer"
+            title="Zoom In"
+          >
+            +
+          </button>
+          <button
+            onClick={() => {
+              if (cameraRef.current && controlsRef.current) {
+                const camera = cameraRef.current;
+                const controls = controlsRef.current;
+                const offset = new THREE.Vector3().subVectors(camera.position, controls.target);
+                offset.multiplyScalar(1.25);
+                camera.position.addVectors(controls.target, offset);
+                controls.update();
+              }
+            }}
+            className="px-1.5 py-0.5 text-[#06B6D4] hover:bg-[#06B6D4]/20 font-bold transition-colors cursor-pointer"
+            title="Zoom Out"
+          >
+            -
+          </button>
         </div>
 
         {/* Orbit Auto-Rotate & Orbit Control Toggle */}
         <div className="absolute bottom-3 right-3 flex items-center gap-1 bg-[#171F33]/90 border border-[#334155] p-1 font-mono text-[10px]">
           <button
             onClick={() => setIsRotating(!isRotating)}
-            className={`px-2 py-0.5 transition-colors flex items-center gap-1 ${
+            className={`px-2 py-0.5 transition-colors flex items-center gap-1 cursor-pointer ${
               isRotating
                 ? "bg-[#84CC16] text-[#0F172A] font-bold"
                 : "text-[#94A3B8] hover:text-[#F8FAFC]"

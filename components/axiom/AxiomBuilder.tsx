@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useBuilderStore, BuilderSlotKey } from "@/store/useBuilderStore";
 import { useCartStore } from "@/store/useCartStore";
 import { HARDWARE_PRODUCTS, HardwareProduct } from "@/data/hardwareDatabase";
+import WorkstationClay3DScene from "@/components/canvas/WorkstationClay3DScene";
 import jsPDF from "jspdf";
 
 export default function AxiomBuilder() {
@@ -325,6 +326,11 @@ export default function AxiomBuilder() {
                 </div>
               </div>
             )}
+
+            {/* 3D Workstation Architecture CAD Viewport - Pure 3D Always Loaded */}
+            <div className="w-full rounded-xl overflow-hidden border border-[#E4E4E7] shadow-md bg-[#090D16]">
+              <WorkstationClay3DScene heightClass="h-[360px] sm:h-[420px]" showCameraToggle={true} />
+            </div>
 
             {/* Subsystem Slot Cards */}
             <div className="space-y-3">

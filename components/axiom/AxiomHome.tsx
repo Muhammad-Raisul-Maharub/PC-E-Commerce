@@ -128,8 +128,8 @@ export default function AxiomHome() {
             </div>
 
             {/* Right 45% Column: 3D CAD Clay Workstation Viewer */}
-            <div className="lg:col-span-5">
-              <WorkstationClay3DScene heightClass="h-[420px] sm:h-[480px]" showCameraToggle={true} />
+            <div className="lg:col-span-5 w-full h-[520px] sm:h-[580px]">
+              <WorkstationClay3DScene heightClass="h-full w-full" showCameraToggle={true} />
             </div>
           </div>
         </div>

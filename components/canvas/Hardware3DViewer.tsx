@@ -80,7 +80,7 @@ export default function Hardware3DViewer({
   concept = "voltmatrix",
   accentColor,
   autoRotate = true,
-  className = "w-full h-80 sm:h-96",
+  className = "w-full h-full min-h-[480px]",
   interactiveSwitch = false,
   onSwitchPress,
 }: Hardware3DViewerProps) {
@@ -127,16 +127,16 @@ export default function Hardware3DViewer({
     const canvas = canvasRef.current;
     if (!container || !canvas) return;
 
-    const width = container.clientWidth || 600;
-    const height = container.clientHeight || 400;
+    const width = container.clientWidth || 700;
+    const height = container.clientHeight || 520;
 
     // 1. Scene
     const scene = new THREE.Scene();
     sceneRef.current = scene;
 
-    // 2. Camera
-    const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
-    camera.position.set(3.5, 2.5, 4.0);
+    // 2. Camera - Positioned tighter to eliminate dead marginal space
+    const camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 100);
+    camera.position.set(2.8, 2.0, 3.2);
     cameraRef.current = camera;
 
     // 3. Renderer
@@ -155,35 +155,47 @@ export default function Hardware3DViewer({
     // 4. Controls
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
-    controls.dampingFactor = 0.05;
-    controls.maxDistance = 15.0;
-    controls.minDistance = 1.0;
+    controls.dampingFactor = 0.06;
+    controls.maxDistance = 14.0;
+    controls.minDistance = 0.8;
     controls.autoRotate = isRotating;
-    controls.autoRotateSpeed = 1.2;
+    controls.autoRotateSpeed = 1.3;
     controlsRef.current = controls;
 
-    // 5. Lights
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.4);
+    // 5. Studio-Grade Enhanced HDR Lighting
+    // Global Ambient Fill - Brightens all shadowed areas
+    const ambientLight = new THREE.AmbientLight(0xffffff, 2.4);
     scene.add(ambientLight);
 
-    const keyLight = new THREE.DirectionalLight(0xffffff, 2.6);
-    keyLight.position.set(5, 8, 5);
+    // Primary Key Light - Crisp highlights & soft directional shadows
+    const keyLight = new THREE.DirectionalLight(0xffffff, 4.0);
+    keyLight.position.set(6, 9, 6);
     keyLight.castShadow = true;
+    keyLight.shadow.bias = -0.0001;
+    keyLight.shadow.mapSize.width = 1024;
+    keyLight.shadow.mapSize.height = 1024;
     scene.add(keyLight);
 
-    const fillLight = new THREE.PointLight(0xffffff, 1.2, 20);
-    fillLight.position.set(-5, 3, -4);
+    // Opposing Fill Light - Soft secondary fill for depth
+    const fillLight = new THREE.DirectionalLight(0xffffff, 2.2);
+    fillLight.position.set(-6, 4, -4);
     scene.add(fillLight);
 
-    const rimLight = new THREE.DirectionalLight(themeColors.rim, 2.0);
-    rimLight.position.set(0, -4, -5);
+    // Front Camera Center Light - Eliminates dark fronts on complex shrouds
+    const frontLight = new THREE.PointLight(0xffffff, 1.8, 30);
+    frontLight.position.set(0, 3, 5);
+    scene.add(frontLight);
+
+    // Vibrant Concept Rim Light - Creates high-contrast edges matching theme
+    const rimLight = new THREE.DirectionalLight(themeColors.rim, 3.0);
+    rimLight.position.set(0, -3, -6);
     scene.add(rimLight);
 
-    // 6. Ground Grid
-    const grid = new THREE.GridHelper(10, 20, themeColors.rim, themeColors.grid);
-    grid.position.y = -1.2;
+    // 6. Ground Perspective Grid
+    const grid = new THREE.GridHelper(12, 24, themeColors.rim, themeColors.grid);
+    grid.position.y = -1.4;
     (grid.material as THREE.Material).transparent = true;
-    (grid.material as THREE.Material).opacity = 0.35;
+    (grid.material as THREE.Material).opacity = 0.4;
     scene.add(grid);
 
     // 7. Resize handler
@@ -251,41 +263,41 @@ export default function Hardware3DViewer({
 
       if (concept === "voltmatrix" || selectedItem.id === "gpu") {
         // High-precision GPU Block
-        const pcbGeo = new THREE.BoxGeometry(2.8, 0.08, 1.2);
+        const pcbGeo = new THREE.BoxGeometry(3.2, 0.09, 1.4);
         const pcbMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.6, roughness: 0.3 });
         const pcb = new THREE.Mesh(pcbGeo, pcbMat);
         group.add(pcb);
 
-        const finGeo = new THREE.BoxGeometry(2.6, 0.5, 1.1);
-        const finMat = new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.8, roughness: 0.2 });
+        const finGeo = new THREE.BoxGeometry(3.0, 0.6, 1.3);
+        const finMat = new THREE.MeshStandardMaterial({ color: 0x475569, metalness: 0.85, roughness: 0.15 });
         const fins = new THREE.Mesh(finGeo, finMat);
-        fins.position.y = 0.3;
+        fins.position.y = 0.35;
         group.add(fins);
 
-        [-0.7, 0.7].map((x) => {
-          const fanGeo = new THREE.CylinderGeometry(0.42, 0.42, 0.08, 24);
-          const fanMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.5 });
+        [-0.8, 0.8].map((x) => {
+          const fanGeo = new THREE.CylinderGeometry(0.5, 0.5, 0.09, 24);
+          const fanMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.4 });
           const fan = new THREE.Mesh(fanGeo, fanMat);
           fan.rotation.x = Math.PI / 2;
-          fan.position.set(x, 0.6, 0);
+          fan.position.set(x, 0.7, 0);
           group.add(fan);
         });
       } else if (concept === "krypton" || selectedItem.id === "switch") {
         // Mechanical Switch Block
-        const baseGeo = new THREE.BoxGeometry(1.6, 0.8, 1.6);
-        const baseMat = new THREE.MeshStandardMaterial({ color: 0x27272a, roughness: 0.5 });
+        const baseGeo = new THREE.BoxGeometry(2.0, 0.9, 2.0);
+        const baseMat = new THREE.MeshStandardMaterial({ color: 0x27272a, roughness: 0.4 });
         const base = new THREE.Mesh(baseGeo, baseMat);
         group.add(base);
 
-        const stemGeo = new THREE.BoxGeometry(0.6, 0.7, 0.6);
-        const stemMat = new THREE.MeshStandardMaterial({ color: 0xef4444, roughness: 0.3 });
+        const stemGeo = new THREE.BoxGeometry(0.8, 0.8, 0.8);
+        const stemMat = new THREE.MeshStandardMaterial({ color: 0xef4444, roughness: 0.25 });
         const stem = new THREE.Mesh(stemGeo, stemMat);
-        stem.position.y = 0.6;
+        stem.position.y = 0.75;
         group.add(stem);
       } else {
         // Futuristic Hardware Substrate
-        const boxGeo = new THREE.BoxGeometry(1.8, 1.8, 1.8);
-        const boxMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.7, roughness: 0.2 });
+        const boxGeo = new THREE.BoxGeometry(2.2, 2.2, 2.2);
+        const boxMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.75, roughness: 0.2 });
         const box = new THREE.Mesh(boxGeo, boxMat);
         group.add(box);
       }
@@ -312,13 +324,13 @@ export default function Hardware3DViewer({
       (gltf) => {
         const root = gltf.scene;
 
-        // Auto-center and normalize scale
+        // Auto-center and normalize scale to fill viewport (3.2 units)
         const box = new THREE.Box3().setFromObject(root);
         const size = new THREE.Vector3();
         box.getSize(size);
         const maxDim = Math.max(size.x, size.y, size.z);
 
-        const targetSize = 2.4;
+        const targetSize = 3.2; // Optimized size to eliminate marginal gaps
         const scale = maxDim > 0 ? targetSize / maxDim : 1;
         root.scale.set(scale, scale, scale);
 
@@ -328,12 +340,21 @@ export default function Hardware3DViewer({
         root.position.y = -center.y * scale;
         root.position.z = -center.z * scale;
 
-        // Enable shadows and enhance materials
+        // Enable shadows and enhance material responsiveness to light
         root.traverse((child) => {
           if ((child as THREE.Mesh).isMesh) {
             const mesh = child as THREE.Mesh;
             mesh.castShadow = true;
             mesh.receiveShadow = true;
+            if (mesh.material) {
+              const mat = mesh.material as THREE.MeshStandardMaterial;
+              if (mat.roughness !== undefined) {
+                mat.roughness = Math.max(0.15, mat.roughness * 0.9);
+              }
+              if (mat.metalness !== undefined) {
+                mat.metalness = Math.min(1.0, mat.metalness * 1.05);
+              }
+            }
           }
         });
 
@@ -356,9 +377,37 @@ export default function Hardware3DViewer({
   // Reset Camera View
   const handleResetCamera = useCallback(() => {
     if (cameraRef.current && controlsRef.current) {
-      cameraRef.current.position.set(3.5, 2.5, 4.0);
+      cameraRef.current.position.set(2.8, 2.0, 3.2);
       controlsRef.current.target.set(0, 0, 0);
       controlsRef.current.update();
+    }
+  }, []);
+
+  // Zoom In Handler (moves camera 20% closer)
+  const handleZoomIn = useCallback(() => {
+    if (cameraRef.current && controlsRef.current) {
+      const camera = cameraRef.current;
+      const controls = controlsRef.current;
+      const offset = new THREE.Vector3().subVectors(camera.position, controls.target);
+      if (offset.length() > controls.minDistance + 0.3) {
+        offset.multiplyScalar(0.8);
+        camera.position.addVectors(controls.target, offset);
+        controls.update();
+      }
+    }
+  }, []);
+
+  // Zoom Out Handler (moves camera 25% further)
+  const handleZoomOut = useCallback(() => {
+    if (cameraRef.current && controlsRef.current) {
+      const camera = cameraRef.current;
+      const controls = controlsRef.current;
+      const offset = new THREE.Vector3().subVectors(camera.position, controls.target);
+      if (offset.length() < controls.maxDistance - 0.8) {
+        offset.multiplyScalar(1.25);
+        camera.position.addVectors(controls.target, offset);
+        controls.update();
+      }
     }
   }, []);
 
@@ -367,10 +416,10 @@ export default function Hardware3DViewer({
   return (
     <div
       ref={containerRef}
-      className={`relative rounded-xl overflow-hidden border border-white/10 shadow-2xl ${className}`}
+      className={`relative w-full h-full rounded-2xl overflow-hidden border border-white/10 shadow-2xl ${className}`}
       style={{ backgroundColor: themeColors.bg }}
     >
-      {/* Native WebGL Canvas (Pure Three.js - 0 React internals dependencies) */}
+      {/* Native WebGL Canvas - 100% full-bleed, no margin gaps */}
       <canvas
         ref={canvasRef}
         className="w-full h-full block cursor-grab active:cursor-grabbing"
@@ -378,27 +427,47 @@ export default function Hardware3DViewer({
 
       {/* Top HUD: Hardware Details & Controls */}
       <div className="absolute top-3 left-3 right-3 flex items-center justify-between pointer-events-none z-10">
-        <div className="bg-black/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10 flex items-center space-x-2">
+        <div className="bg-black/85 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-white/15 flex items-center space-x-2.5 shadow-lg">
           <span
-            className="w-2 h-2 rounded-full animate-ping"
+            className="w-2.5 h-2.5 rounded-full animate-ping"
             style={{ backgroundColor: activeThemeColor }}
           />
-          <span className="font-mono text-[11px] font-bold text-white uppercase tracking-wider">
+          <span className="font-mono text-xs font-extrabold text-white uppercase tracking-wider">
             {activeModel.label}
           </span>
-          <span className="font-mono text-[10px] text-slate-400 hidden sm:inline">
+          <span className="font-mono text-[10.5px] text-slate-400 hidden sm:inline">
             // {activeModel.category}
           </span>
         </div>
 
         <div className="flex items-center space-x-1.5 pointer-events-auto">
+          {/* Zoom In Button */}
+          <button
+            onClick={handleZoomIn}
+            className="px-2.5 py-1.5 rounded-lg bg-black/80 hover:bg-black text-slate-200 hover:text-white text-xs font-mono font-bold border border-white/15 shadow transition-all flex items-center gap-1 cursor-pointer hover:scale-105 active:scale-95"
+            title="Zoom In (Inspect Closer)"
+          >
+            <span className="material-symbols-outlined text-[15px]">zoom_in</span>
+            <span className="text-[11px] font-bold">+</span>
+          </button>
+
+          {/* Zoom Out Button */}
+          <button
+            onClick={handleZoomOut}
+            className="px-2.5 py-1.5 rounded-lg bg-black/80 hover:bg-black text-slate-200 hover:text-white text-xs font-mono font-bold border border-white/15 shadow transition-all flex items-center gap-1 cursor-pointer hover:scale-105 active:scale-95"
+            title="Zoom Out (Wider View)"
+          >
+            <span className="material-symbols-outlined text-[15px]">zoom_out</span>
+            <span className="text-[11px] font-bold">-</span>
+          </button>
+
           {/* Auto Rotate Toggle */}
           <button
             onClick={() => setIsRotating(!isRotating)}
-            className={`px-2.5 py-1 rounded text-[10.5px] font-mono font-bold uppercase transition-all border cursor-pointer ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold uppercase transition-all border shadow cursor-pointer ${
               isRotating
-                ? "bg-white/20 text-white border-white/30"
-                : "bg-black/60 text-slate-400 border-white/10 hover:text-white"
+                ? "bg-white/25 text-white border-white/40"
+                : "bg-black/80 text-slate-400 border-white/15 hover:text-white"
             }`}
             title="Toggle Continuous 3D Orbit Rotation"
           >
@@ -408,10 +477,10 @@ export default function Hardware3DViewer({
           {/* Reset Camera */}
           <button
             onClick={handleResetCamera}
-            className="px-2 py-1 rounded bg-black/60 hover:bg-black/90 text-slate-300 hover:text-white text-[10.5px] font-mono font-bold uppercase border border-white/10 transition-all flex items-center gap-1 cursor-pointer"
+            className="px-2.5 py-1.5 rounded-lg bg-black/80 hover:bg-black text-slate-200 hover:text-white text-xs font-mono font-bold uppercase border border-white/15 shadow transition-all flex items-center gap-1 cursor-pointer"
             title="Reset Camera Center"
           >
-            <span className="material-symbols-outlined text-[14px]">restart_alt</span>
+            <span className="material-symbols-outlined text-[15px]">restart_alt</span>
             <span className="hidden sm:inline">Reset</span>
           </button>
         </div>
@@ -419,32 +488,32 @@ export default function Hardware3DViewer({
 
       {/* Loading Overlay */}
       {isLoading && (
-        <div className="absolute inset-0 bg-black/70 backdrop-blur-sm flex flex-col items-center justify-center font-mono text-xs z-20 pointer-events-none">
+        <div className="absolute inset-0 bg-black/75 backdrop-blur-sm flex flex-col items-center justify-center font-mono text-xs z-20 pointer-events-none">
           <div
-            className="w-8 h-8 border-2 border-t-transparent rounded-full animate-spin mb-3"
+            className="w-9 h-9 border-2 border-t-transparent rounded-full animate-spin mb-3"
             style={{ borderColor: `${activeThemeColor} transparent transparent transparent` }}
           />
-          <span className="font-bold text-white uppercase tracking-wider">
+          <span className="font-bold text-white uppercase tracking-wider text-sm">
             Streaming {activeModel.label} .GLB...
           </span>
-          <span className="text-[10px] text-slate-400 mt-1">
+          <span className="text-[11px] text-slate-400 mt-1">
             Zero-overhead WebGL PBR Shading
           </span>
         </div>
       )}
 
       {/* Interactive Bottom Hardware Dock Pill Selector */}
-      <div className="absolute bottom-2 left-2 right-2 flex items-center justify-center z-10 pointer-events-auto">
-        <div className="bg-black/85 backdrop-blur-md px-2 py-1.5 rounded-xl border border-white/15 shadow-xl flex items-center gap-1 overflow-x-auto max-w-full">
+      <div className="absolute bottom-3 left-3 right-3 flex items-center justify-center z-10 pointer-events-auto">
+        <div className="bg-black/90 backdrop-blur-md px-2.5 py-2 rounded-2xl border border-white/20 shadow-2xl flex items-center gap-1.5 overflow-x-auto max-w-full">
           {HARDWARE_3D_LIBRARY.map((item, idx) => {
             const isSelected = activeModelIndex === idx;
             return (
               <button
                 key={item.id}
                 onClick={() => setActiveModelIndex(idx)}
-                className={`px-2.5 py-1 rounded-lg font-mono text-[10px] font-bold uppercase whitespace-nowrap transition-all flex items-center gap-1 cursor-pointer ${
+                className={`px-3 py-1.5 rounded-xl font-mono text-[11px] font-bold uppercase whitespace-nowrap transition-all flex items-center gap-1.5 cursor-pointer ${
                   isSelected
-                    ? "text-black shadow-md scale-105"
+                    ? "text-black shadow-lg scale-105"
                     : "text-slate-400 hover:text-white hover:bg-white/10"
                 }`}
                 style={{

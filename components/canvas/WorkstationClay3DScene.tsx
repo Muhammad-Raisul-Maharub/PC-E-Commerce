@@ -75,11 +75,11 @@ export default function WorkstationClay3DScene({
     container.innerHTML = "";
     container.appendChild(renderer.domElement);
 
-    // 4. Studio Lighting (Cleanroom Architectural Studio)
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
+    // 4. Studio Lighting (Cleanroom Architectural Studio - Enhanced Brightness)
+    const ambientLight = new THREE.AmbientLight(0xffffff, 2.2);
     scene.add(ambientLight);
 
-    const keyLight = new THREE.DirectionalLight(0xffffff, 2.0);
+    const keyLight = new THREE.DirectionalLight(0xffffff, 3.6);
     keyLight.position.set(25, 35, 20);
     keyLight.castShadow = true;
     keyLight.shadow.mapSize.width = 2048;
@@ -89,11 +89,11 @@ export default function WorkstationClay3DScene({
     keyLight.shadow.bias = -0.0005;
     scene.add(keyLight);
 
-    const rimLight = new THREE.DirectionalLight(0xe0e7ff, 0.8);
+    const rimLight = new THREE.DirectionalLight(0xe0e7ff, 1.8);
     rimLight.position.set(-20, 20, -20);
     scene.add(rimLight);
 
-    const fillLight = new THREE.DirectionalLight(0xdcfce7, 0.6); // subtle emerald tint fill
+    const fillLight = new THREE.DirectionalLight(0xdcfce7, 1.6); // emerald fill
     fillLight.position.set(0, -10, 20);
     scene.add(fillLight);
 
@@ -428,14 +428,34 @@ export default function WorkstationClay3DScene({
     },
   ];
 
+  const handleZoomIn = () => {
+    if (perspCameraRef.current) {
+      perspCameraRef.current.position.multiplyScalar(0.85);
+    }
+    if (orthoCameraRef.current) {
+      orthoCameraRef.current.zoom = Math.min(3.0, orthoCameraRef.current.zoom * 1.25);
+      orthoCameraRef.current.updateProjectionMatrix();
+    }
+  };
+
+  const handleZoomOut = () => {
+    if (perspCameraRef.current) {
+      perspCameraRef.current.position.multiplyScalar(1.2);
+    }
+    if (orthoCameraRef.current) {
+      orthoCameraRef.current.zoom = Math.max(0.4, orthoCameraRef.current.zoom * 0.8);
+      orthoCameraRef.current.updateProjectionMatrix();
+    }
+  };
+
   return (
-    <div className={`relative w-full ${heightClass} select-none overflow-hidden rounded-xl border border-[#E4E4E7] bg-[#FBFBFD]`}>
+    <div className={`relative w-full ${heightClass} select-none overflow-hidden rounded-2xl border border-[#E4E4E7] bg-[#FBFBFD] shadow-xl`}>
       {/* 3D WebGL Canvas Container */}
       <div ref={mountRef} className="w-full h-full cursor-grab active:cursor-grabbing" />
 
       {/* Architectural Telemetry Header Bar */}
       <div className="absolute top-3 left-3 right-3 flex items-center justify-between pointer-events-none">
-        <div className="flex items-center gap-2 bg-white/95 border border-[#E4E4E7] px-3 py-1.5 rounded shadow-sm backdrop-blur-sm pointer-events-auto">
+        <div className="flex items-center gap-2 bg-white/95 border border-[#E4E4E7] px-3 py-1.5 rounded-lg shadow-sm backdrop-blur-sm pointer-events-auto">
           <span className="w-2 h-2 rounded-full bg-[#004F32] animate-pulse" />
           <span className="font-mono text-[11px] font-bold tracking-wider text-[#18181B] uppercase">
             Axiom R9600-4U // Clay CAD Telemetry
@@ -445,31 +465,53 @@ export default function WorkstationClay3DScene({
           </span>
         </div>
 
-        {/* Orthogonal vs Perspective Camera Switcher */}
-        {showCameraToggle && (
-          <div className="flex items-center gap-1 bg-white/95 border border-[#E4E4E7] p-1 rounded shadow-sm backdrop-blur-sm pointer-events-auto">
+        {/* Orthogonal vs Perspective Camera Switcher & Zoom Controls */}
+        <div className="flex items-center gap-1.5 pointer-events-auto">
+          {/* Zoom Buttons */}
+          <div className="flex items-center gap-1 bg-white/95 border border-[#E4E4E7] p-1 rounded-lg shadow-sm backdrop-blur-sm">
             <button
-              onClick={() => setIsOrthogonal(false)}
-              className={`px-2.5 py-1 rounded font-mono text-[10.5px] font-semibold transition-colors ${
-                !isOrthogonal
-                  ? "bg-[#18181B] text-white"
-                  : "text-[#52525B] hover:text-[#18181B] hover:bg-slate-100"
-              }`}
+              onClick={handleZoomIn}
+              className="px-2 py-1 rounded font-mono text-[10.5px] font-bold text-[#18181B] hover:bg-slate-100 transition-colors flex items-center gap-0.5 cursor-pointer"
+              title="Zoom In"
             >
-              Perspective
+              <span className="material-symbols-outlined text-[14px]">zoom_in</span>
+              <span>+</span>
             </button>
             <button
-              onClick={() => setIsOrthogonal(true)}
-              className={`px-2.5 py-1 rounded font-mono text-[10.5px] font-semibold transition-colors ${
-                isOrthogonal
-                  ? "bg-[#004F32] text-white"
-                  : "text-[#52525B] hover:text-[#18181B] hover:bg-slate-100"
-              }`}
+              onClick={handleZoomOut}
+              className="px-2 py-1 rounded font-mono text-[10.5px] font-bold text-[#18181B] hover:bg-slate-100 transition-colors flex items-center gap-0.5 cursor-pointer"
+              title="Zoom Out"
             >
-              Orthogonal (CAD)
+              <span className="material-symbols-outlined text-[14px]">zoom_out</span>
+              <span>-</span>
             </button>
           </div>
-        )}
+
+          {showCameraToggle && (
+            <div className="flex items-center gap-1 bg-white/95 border border-[#E4E4E7] p-1 rounded-lg shadow-sm backdrop-blur-sm">
+              <button
+                onClick={() => setIsOrthogonal(false)}
+                className={`px-2.5 py-1 rounded font-mono text-[10.5px] font-semibold transition-colors cursor-pointer ${
+                  !isOrthogonal
+                    ? "bg-[#18181B] text-white"
+                    : "text-[#52525B] hover:text-[#18181B] hover:bg-slate-100"
+                }`}
+              >
+                Perspective
+              </button>
+              <button
+                onClick={() => setIsOrthogonal(true)}
+                className={`px-2.5 py-1 rounded font-mono text-[10.5px] font-semibold transition-colors cursor-pointer ${
+                  isOrthogonal
+                    ? "bg-[#004F32] text-white"
+                    : "text-[#52525B] hover:text-[#18181B] hover:bg-slate-100"
+                }`}
+              >
+                Orthogonal (CAD)
+              </button>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Floating Hotspot Telemetry Chips */}

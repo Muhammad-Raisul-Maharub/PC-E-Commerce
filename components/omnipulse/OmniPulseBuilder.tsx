@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { HARDWARE_PRODUCTS, HardwareProduct } from "@/data/hardwareDatabase";
 import { useBuilderStore, BuilderSlotKey } from "@/store/useBuilderStore";
 import { useCartStore } from "@/store/useCartStore";
+import Hardware3DViewer from "@/components/canvas/Hardware3DViewer";
 import jsPDF from "jspdf";
 
 const SLOT_CONFIG: { key: BuilderSlotKey; label: string; icon: string; category: string }[] = [
@@ -427,7 +428,17 @@ export default function OmniPulseBuilder() {
         {/* Main Grid: Left Slots Selection + Right Summary & Validation */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Left: Component Slots (8 cols) */}
-          <div className="lg:col-span-8 space-y-3">
+          <div className="lg:col-span-8 space-y-4">
+            {/* 3D Hardware Digital Twin Viewport - Pure 3D Always Loaded */}
+            <div className="w-full h-[380px] sm:h-[440px] rounded-2xl overflow-hidden border border-slate-300 shadow-md relative bg-[#0B1329]">
+              <Hardware3DViewer
+                modelPath="/models/chassis-gaming.glb"
+                concept="omnipulse"
+                accentColor="#10B981"
+                className="w-full h-full min-h-[380px]"
+              />
+            </div>
+
             <div className="flex items-center justify-between pb-2 border-b border-slate-200">
               <h3 className="font-bold text-sm uppercase tracking-wider text-slate-800 font-sans">
                 Rig Component Slots

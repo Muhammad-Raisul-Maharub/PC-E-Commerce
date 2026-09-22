@@ -631,7 +631,7 @@ export const HARDWARE_PRODUCTS: HardwareProduct[] = [
     category: "waterblock",
     price: 34500,
     regularPrice: 38000,
-    image: "/images/waterblock.png",
+    image: "https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=1200&q=80",
     description: "Full-coverage GPU water block for ASUS ROG Strix / TUF RTX 4090. CNC-machined nickel-plated electrolytic copper cold plate with 11mm cast acrylic top and addressable RGB LEDs.",
     tdp: 450,
     moddingSpecs: {
@@ -661,7 +661,7 @@ export const HARDWARE_PRODUCTS: HardwareProduct[] = [
     category: "waterblock",
     price: 21500,
     regularPrice: 24000,
-    image: "/images/waterblock.png",
+    image: "https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=1200&q=80",
     description: "High-performance Socket AM5 direct die CPU liquid cooling water block with OptiFlow cooling engine.",
     tdp: 250,
     socket: "AM5",
@@ -689,7 +689,7 @@ export const HARDWARE_PRODUCTS: HardwareProduct[] = [
     category: "radiator",
     price: 16500,
     regularPrice: 18500,
-    image: "/images/waterblock.png",
+    image: "https://images.unsplash.com/photo-1624705002806-5d72df19c3ad?auto=format&fit=crop&w=1200&q=80",
     description: "Premium 360mm copper radiator with multi-port modular end-tanks, 44mm high-density core, and 18 FPI copper fins.",
     tdp: 0,
     moddingSpecs: {
@@ -717,7 +717,7 @@ export const HARDWARE_PRODUCTS: HardwareProduct[] = [
     category: "radiator",
     price: 23500,
     regularPrice: 26000,
-    image: "/images/waterblock.png",
+    image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=1200&q=80",
     description: "Massive 420mm custom liquid cooling radiator with 58mm thickness for ultra-low delta-T enthusiast battlestations.",
     tdp: 0,
     moddingSpecs: {
@@ -744,7 +744,7 @@ export const HARDWARE_PRODUCTS: HardwareProduct[] = [
     category: "distro",
     price: 28500,
     regularPrice: 32000,
-    image: "/images/waterblock.png",
+    image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?auto=format&fit=crop&w=1200&q=80",
     description: "Custom waterway distribution reservoir engineered in collaboration with EKWB for Lian Li O11 Dynamic cases with genuine D5 PWM pump.",
     tdp: 25,
     moddingSpecs: {
@@ -771,7 +771,7 @@ export const HARDWARE_PRODUCTS: HardwareProduct[] = [
     category: "fittings",
     price: 8400,
     regularPrice: 9500,
-    image: "/images/waterblock.png",
+    image: "https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?auto=format&fit=crop&w=1200&q=80",
     description: "Revolvable 90-degree adapter with G1/4 thread. CNC machined brass with satin finish and high-grade EPDM O-rings.",
     tdp: 0,
     moddingSpecs: {

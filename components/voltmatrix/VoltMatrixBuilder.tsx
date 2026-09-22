@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useBuilderStore, BuilderSlotKey } from "@/store/useBuilderStore";
 import { useCartStore } from "@/store/useCartStore";
 import { HARDWARE_PRODUCTS, HardwareProduct } from "@/data/hardwareDatabase";
+import Hardware3DViewer from "@/components/canvas/Hardware3DViewer";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
@@ -288,6 +289,16 @@ function PcBuilderContent() {
               <div className="font-mono text-[11px] text-slate-500">
                 EST. BUILD WEIGHT: <strong className="text-slate-900">14.8 KG</strong>
               </div>
+            </div>
+
+            {/* 3D Hardware Digital Twin Viewport - Pure 3D Always Loaded */}
+            <div className="w-full h-[380px] sm:h-[440px] rounded-2xl overflow-hidden border border-slate-300 shadow-md relative bg-[#020617]">
+              <Hardware3DViewer
+                modelPath="/models/chassis-gaming.glb"
+                concept="voltmatrix"
+                accentColor="#EF4444"
+                className="w-full h-full min-h-[380px]"
+              />
             </div>
 
             {/* 8 Core BOM Slot Rows */}

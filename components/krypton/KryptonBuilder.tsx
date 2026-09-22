@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useCartStore } from "@/store/useCartStore";
 import { HARDWARE_PRODUCTS } from "@/data/hardwareDatabase";
 import { KRYPTON_MAKER_PRODUCTS, toHardwareProduct } from "@/data/mockProducts";
+import Hardware3DViewer from "@/components/canvas/Hardware3DViewer";
 import jsPDF from "jspdf";
 
 export default function KryptonBuilder() {
@@ -283,6 +284,15 @@ export default function KryptonBuilder() {
           
           {/* Left Column: Component Slots Configuration Bay (8 cols) */}
           <div className="lg:col-span-8 space-y-6">
+            {/* 3D Mechanical Inspection Bay - Pure 3D Always Loaded */}
+            <div className="w-full h-[360px] sm:h-[420px] rounded border-2 border-black overflow-hidden shadow-[6px_6px_0px_#000000] relative bg-[#121216]">
+              <Hardware3DViewer
+                modelPath={workbenchMode === "keyboard" ? "/models/switch-cherry-mx.glb" : "/models/chassis-gaming.glb"}
+                concept="krypton"
+                accentColor="#FACC15"
+                className="w-full h-full min-h-[360px]"
+              />
+            </div>
             
             {/* WORKBENCH MODE: KEYBOARD FORGE */}
             {workbenchMode === "keyboard" && (

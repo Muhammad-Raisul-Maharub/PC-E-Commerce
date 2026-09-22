@@ -12,7 +12,6 @@ interface AxiomPDPProps {
 }
 
 export default function AxiomPDP({ product }: AxiomPDPProps) {
-  const [activeTab, setActiveTab] = useState<"cad" | "photo">("cad");
   const [quantity, setQuantity] = useState<number>(1);
   const [downloadingPdf, setDownloadingPdf] = useState(false);
 
@@ -180,54 +179,25 @@ export default function AxiomPDP({ product }: AxiomPDPProps) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           {/* Left Column (7 Cols): 3D CAD Clay View & High-Res Gallery */}
           <div className="lg:col-span-7 space-y-4">
-            {/* View Switcher: 3D CAD Clay vs Real Component Photography */}
+            {/* 3D CAD Clay Architectural Viewport - Always Loaded Directly */}
             <div className="flex items-center justify-between pb-2 border-b border-[#E4E4E7]">
               <div className="flex items-center gap-2">
-                <button
-                  onClick={() => setActiveTab("cad")}
-                  className={`px-3 py-1.5 rounded font-mono text-xs font-bold transition-colors flex items-center gap-1.5 ${
-                    activeTab === "cad"
-                      ? "bg-[#004F32] text-white"
-                      : "bg-white border border-[#E4E4E7] text-[#52525B] hover:text-[#18181B]"
-                  }`}
-                >
+                <span className="px-3 py-1.5 rounded bg-[#004F32] text-white font-mono text-xs font-bold flex items-center gap-1.5 shadow-sm">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                   <span className="material-symbols-outlined text-sm">view_in_ar</span>
-                  <span>3D CAD Clay Blueprint</span>
-                </button>
-                <button
-                  onClick={() => setActiveTab("photo")}
-                  className={`px-3 py-1.5 rounded font-mono text-xs font-bold transition-colors flex items-center gap-1.5 ${
-                    activeTab === "photo"
-                      ? "bg-[#004F32] text-white"
-                      : "bg-white border border-[#E4E4E7] text-[#52525B] hover:text-[#18181B]"
-                  }`}
-                >
-                  <span className="material-symbols-outlined text-sm">photo_camera</span>
-                  <span>Component Photography</span>
-                </button>
+                  <span>3D CAD Workstation Architecture Stage</span>
+                </span>
               </div>
 
               <span className="font-mono text-[11px] text-[#71717A] hidden sm:inline">
-                {activeTab === "cad" ? "Orthogonal & Perspective Controls" : "Studio High-Resolution Capture"}
+                Orthogonal &amp; Perspective Studio Shading // ISO/IEC 27001
               </span>
             </div>
 
-            {/* Viewer Display */}
-            {activeTab === "cad" ? (
-              <WorkstationClay3DScene heightClass="h-[480px] sm:h-[540px]" showCameraToggle={true} />
-            ) : (
-              <div className="h-[480px] sm:h-[540px] rounded-xl border border-[#E4E4E7] bg-white p-8 flex items-center justify-center relative overflow-hidden group">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between bg-white/95 border border-[#E4E4E7] p-2.5 rounded text-xs font-mono">
-                  <span className="text-[#52525B]">{product.brand} Hardware Inspection</span>
-                  <span className="text-[#004F32] font-bold">100% Genuine Importer Stock</span>
-                </div>
-              </div>
-            )}
+            {/* Pure 3D Canvas Stage */}
+            <div className="w-full rounded-2xl border border-[#E4E4E7] overflow-hidden shadow-xl bg-[#090D16]">
+              <WorkstationClay3DScene heightClass="h-[520px] sm:h-[580px] lg:h-[620px]" showCameraToggle={true} />
+            </div>
 
             {/* Technical Specifications Table */}
             <div className="rounded-xl border border-[#E4E4E7] bg-white p-6 space-y-4 shadow-sm">

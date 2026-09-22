@@ -57,17 +57,25 @@ export default function LiquidChassis3DScene({ coolantColor = "#00F0FF" }: Liqui
     controls.autoRotateSpeed = 0.8;
     controlsRef.current = controls;
 
-    // 5. Lighting (Moody Cyberpunk Stage)
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    // 5. Studio-Grade Enhanced HDR Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 2.2);
     scene.add(ambientLight);
 
-    const mainSpot = new THREE.DirectionalLight(0xffffff, 2.0);
+    const mainSpot = new THREE.DirectionalLight(0xffffff, 3.8);
     mainSpot.position.set(5, 9, 6);
     scene.add(mainSpot);
 
-    const cyanRimLight = new THREE.DirectionalLight(0x00f0ff, 2.5);
-    cyanRimLight.position.set(-6, 4, -4);
+    const fillLight = new THREE.DirectionalLight(0xffffff, 2.0);
+    fillLight.position.set(-6, 4, -4);
+    scene.add(fillLight);
+
+    const cyanRimLight = new THREE.DirectionalLight(0x00f0ff, 3.0);
+    cyanRimLight.position.set(-6, -2, -4);
     scene.add(cyanRimLight);
+
+    const frontLight = new THREE.PointLight(0xffffff, 1.8, 25);
+    frontLight.position.set(0, 3, 5);
+    scene.add(frontLight);
 
     const orangeUnderGlow = new THREE.PointLight(0xff6b00, 2.0, 10);
     orangeUnderGlow.position.set(0, -0.5, 0);
@@ -322,6 +330,32 @@ export default function LiquidChassis3DScene({ coolantColor = "#00F0FF" }: Liqui
     }
   };
 
+  const handleZoomIn = () => {
+    if (cameraRef.current && controlsRef.current) {
+      const camera = cameraRef.current;
+      const controls = controlsRef.current;
+      const offset = new THREE.Vector3().subVectors(camera.position, controls.target);
+      if (offset.length() > controls.minDistance + 0.5) {
+        offset.multiplyScalar(0.8);
+        camera.position.addVectors(controls.target, offset);
+        controls.update();
+      }
+    }
+  };
+
+  const handleZoomOut = () => {
+    if (cameraRef.current && controlsRef.current) {
+      const camera = cameraRef.current;
+      const controls = controlsRef.current;
+      const offset = new THREE.Vector3().subVectors(camera.position, controls.target);
+      if (offset.length() < controls.maxDistance - 0.5) {
+        offset.multiplyScalar(1.25);
+        camera.position.addVectors(controls.target, offset);
+        controls.update();
+      }
+    }
+  };
+
   return (
     <div
       ref={containerRef}
@@ -361,8 +395,22 @@ export default function LiquidChassis3DScene({ coolantColor = "#00F0FF" }: Liqui
         </div>
       </div>
 
-      {/* Camera Reset Controls */}
+      {/* Camera Reset & Zoom Controls */}
       <div className="absolute bottom-4 right-4 pointer-events-auto flex items-center space-x-2">
+        <button
+          onClick={handleZoomIn}
+          className="w-8 h-8 bg-[#12121A]/90 hover:bg-[#1E1E2D] text-cyan-400 rounded-lg border border-cyan-500/30 font-mono text-sm font-bold flex items-center justify-center backdrop-blur-md transition-all active:scale-95"
+          title="Zoom In"
+        >
+          +
+        </button>
+        <button
+          onClick={handleZoomOut}
+          className="w-8 h-8 bg-[#12121A]/90 hover:bg-[#1E1E2D] text-cyan-400 rounded-lg border border-cyan-500/30 font-mono text-sm font-bold flex items-center justify-center backdrop-blur-md transition-all active:scale-95"
+          title="Zoom Out"
+        >
+          -
+        </button>
         <button
           onClick={handleResetCamera}
           className="px-3 py-1.5 bg-[#12121A]/90 hover:bg-[#1E1E2D] text-slate-300 rounded-lg border border-cyan-500/30 font-mono text-[11px] flex items-center space-x-1.5 backdrop-blur-md transition-colors"
