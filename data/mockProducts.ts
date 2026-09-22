@@ -16,11 +16,11 @@ export const OMNIPULSE_ASSET_URLS = {
   displays: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=1000&q=80",
   gadgets: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=1000&q=80",
   audio: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1000&q=80",
-  chassis: "https://images.unsplash.com/photo-1738202029965-067888ffbd58?auto=format&fit=crop&w=1000&q=80",
+  chassis: "https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=1000&q=80",
   motherboards: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=80",
   gpus: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=1000&q=80",
   processors: "https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=1000&q=80",
-  ram: "https://images.unsplash.com/photo-1714041775791-7667ff259275?auto=format&fit=crop&w=1000&q=80",
+  ram: "https://images.unsplash.com/photo-1562976540-1502c2145186?auto=format&fit=crop&w=1000&q=80",
   storage: "https://images.unsplash.com/photo-1588239034647-25783cbfcfc1?auto=format&fit=crop&w=1000&q=80",
 };
 
@@ -155,14 +155,14 @@ export const MOCK_ENTERPRISE_PRODUCTS: HardwareProduct[] = HARDWARE_PRODUCTS.fil
 
 // Phase 2: Real Component, Maker & Peripheral Asset Bindings for Krypton Brutalist (Concept 6)
 export const KRYPTON_MAKER_ASSET_URLS = {
-  microcontrollers: "https://images.unsplash.com/photo-1649942761614-7ebfcb03b6e8?auto=format&fit=crop&w=1000&q=80",
-  circuitBoards: "https://images.unsplash.com/photo-1765275816999-bb20b60cb9f3?auto=format&fit=crop&w=1000&q=80",
-  switchesPack: "https://images.unsplash.com/photo-1769165684786-faaa49852f50?auto=format&fit=crop&w=1000&q=80",
-  switchBlueStems: "https://images.unsplash.com/photo-1757161821010-f1c2ebc383f9?auto=format&fit=crop&w=1000&q=80",
-  keycaps: "https://images.unsplash.com/photo-1777477610080-60bce2415174?auto=format&fit=crop&w=1000&q=80",
-  moddingKits: "https://images.unsplash.com/photo-1760601614741-6573e04e9089?auto=format&fit=crop&w=1000&q=80",
-  customKeyboards: "https://images.unsplash.com/photo-1762706346294-82a85e88bbbb?auto=format&fit=crop&w=1000&q=80",
-  rgbKeyboards: "https://images.unsplash.com/photo-1763133333333-e99999999999?auto=format&fit=crop&w=1000&q=80",
+  microcontrollers: "https://images.unsplash.com/photo-1553406830-ef2513450d76?auto=format&fit=crop&w=1000&q=80",
+  circuitBoards: "https://images.unsplash.com/photo-1517055729445-fa7d27394b48?auto=format&fit=crop&w=1000&q=80",
+  switchesPack: "https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?auto=format&fit=crop&w=1000&q=80",
+  switchBlueStems: "https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?auto=format&fit=crop&w=1000&q=80",
+  keycaps: "https://images.unsplash.com/photo-1595225476474-87563907a212?auto=format&fit=crop&w=1000&q=80",
+  moddingKits: "https://images.unsplash.com/photo-1601445638532-3c6f6c3aa1d6?auto=format&fit=crop&w=1000&q=80",
+  customKeyboards: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=1000&q=80",
+  rgbKeyboards: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=1000&q=80",
   motherboards: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=80",
   dedicatedGpus: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=1000&q=80",
   pcieNvmeSsds: "https://images.unsplash.com/photo-1588239034647-25783cbfcfc1?auto=format&fit=crop&w=1000&q=80",

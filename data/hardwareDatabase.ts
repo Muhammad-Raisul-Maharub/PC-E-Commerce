@@ -1,12 +1,12 @@
 // Phase 2 Real Component Asset Bindings for SynapseCAD & Platform Ecosystem
 export const REAL_COMPONENT_IMAGES = {
-  cases: "https://images.unsplash.com/photo-1738202029965-067888ffbd58?auto=format&fit=crop&w=1000&q=80",
-  modularCases: "https://images.unsplash.com/photo-1730999557342-a8c67923769c?auto=format&fit=crop&w=1000&q=80",
-  ramDesktop: "https://images.unsplash.com/photo-1714041775791-7667ff259275?auto=format&fit=crop&w=1000&q=80",
-  ramMotherboard: "https://images.unsplash.com/photo-1706173059882-cf8b191c7c98?auto=format&fit=crop&w=1000&q=80",
+  cases: "https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=1000&q=80",
+  modularCases: "https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=1000&q=80",
+  ramDesktop: "https://images.unsplash.com/photo-1562976540-1502c2145186?auto=format&fit=crop&w=1000&q=80",
+  ramMotherboard: "https://images.unsplash.com/photo-1562976540-1502c2145186?auto=format&fit=crop&w=1000&q=80",
   nvmeSsd: "https://images.unsplash.com/photo-1588239034647-25783cbfcfc1?auto=format&fit=crop&w=1000&q=80",
-  airCooler: "https://images.unsplash.com/photo-1723381665494-b2586791e8ea?auto=format&fit=crop&w=1000&q=80",
-  aioCooler: "https://images.unsplash.com/photo-1658661608674-60197479d54e?auto=format&fit=crop&w=1000&q=80",
+  airCooler: "https://images.unsplash.com/photo-1624705002806-5d72df19c3ad?auto=format&fit=crop&w=1000&q=80",
+  aioCooler: "https://images.unsplash.com/photo-1624705002806-5d72df19c3ad?auto=format&fit=crop&w=1000&q=80",
   processors: "https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=1000&q=80",
   motherboards: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=80",
   graphicsCards: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=1000&q=80",
