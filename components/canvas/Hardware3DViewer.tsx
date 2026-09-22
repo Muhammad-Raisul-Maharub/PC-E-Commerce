@@ -1,16 +1,9 @@
 "use client";
 
-import React, { Suspense, useRef, useState } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import {
-  OrbitControls,
-  Stage,
-  useGLTF,
-  Html,
-  OrthographicCamera,
-  PerspectiveCamera,
-} from "@react-three/drei";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 export type ViewerConcept =
   | "voltmatrix"
@@ -20,7 +13,7 @@ export type ViewerConcept =
   | "omnipulse"
   | "krypton";
 
-interface Hardware3DViewerProps {
+export interface Hardware3DViewerProps {
   modelPath?: string;
   concept?: ViewerConcept;
   accentColor?: string;
@@ -30,352 +23,56 @@ interface Hardware3DViewerProps {
   onSwitchPress?: () => void;
 }
 
-// -------------------------------------------------------------
-// 1. External .GLB / .GLTF Loader Model
-// -------------------------------------------------------------
-function ExternalHardwareModel({
-  modelPath,
-  autoRotate = false,
-  scale = 1.5,
-}: {
-  modelPath: string;
-  autoRotate?: boolean;
-  scale?: number;
-}) {
-  const { scene } = useGLTF(modelPath);
-  const groupRef = useRef<THREE.Group>(null);
-
-  useFrame((_, delta) => {
-    if (autoRotate && groupRef.current) {
-      groupRef.current.rotation.y += delta * 0.4;
-    }
-  });
-
-  return <primitive ref={groupRef} object={scene} scale={scale} />;
-}
-
-// -------------------------------------------------------------
-// 2. Procedural Fallback Meshes (Custom Styled Per Concept)
-// -------------------------------------------------------------
-
-// Concept 1: VoltMatrix Clinical Component Inspection
-function VoltMatrixProceduralGPU({ autoRotate }: { autoRotate?: boolean }) {
-  const ref = useRef<THREE.Group>(null);
-  useFrame((_, delta) => {
-    if (autoRotate && ref.current) ref.current.rotation.y += delta * 0.3;
-  });
-
-  return (
-    <group ref={ref} position={[0, 0, 0]}>
-      {/* GPU PCB */}
-      <mesh position={[0, 0, 0]}>
-        <boxGeometry args={[3.4, 0.08, 1.4]} />
-        <meshStandardMaterial color="#0B132B" roughness={0.3} metalness={0.8} />
-      </mesh>
-      {/* Heavy Heatsink Fin Array */}
-      <mesh position={[0, 0.4, 0]}>
-        <boxGeometry args={[3.2, 0.7, 1.3]} />
-        <meshStandardMaterial color="#334155" roughness={0.2} metalness={0.9} />
-      </mesh>
-      {/* Dual Axial Flow Fans */}
-      {[-0.85, 0.85].map((x, i) => (
-        <group key={i} position={[x, 0.8, 0]}>
-          <mesh rotation={[Math.PI / 2, 0, 0]}>
-            <cylinderGeometry args={[0.5, 0.5, 0.08, 24]} />
-            <meshStandardMaterial color="#0F172A" roughness={0.6} />
-          </mesh>
-          <mesh rotation={[Math.PI / 2, 0, 0]}>
-            <cylinderGeometry args={[0.15, 0.15, 0.1, 16]} />
-            <meshStandardMaterial color="#EF4444" metalness={0.8} />
-          </mesh>
-        </group>
-      ))}
-      {/* PCIe Gold Edge Pins */}
-      <mesh position={[0, -0.15, -0.6]}>
-        <boxGeometry args={[1.8, 0.2, 0.04]} />
-        <meshStandardMaterial color="#F59E0B" metalness={1.0} roughness={0.1} />
-      </mesh>
-    </group>
-  );
-}
-
-// Concept 2: NeonForge Cyberpunk Liquid-Cooled Chassis
-function NeonForgeLiquidChassis({
-  coolantColor = "#00F0FF",
-  autoRotate,
-}: {
-  coolantColor?: string;
-  autoRotate?: boolean;
-}) {
-  const ref = useRef<THREE.Group>(null);
-  useFrame((_, delta) => {
-    if (autoRotate && ref.current) ref.current.rotation.y += delta * 0.35;
-  });
-
-  return (
-    <group ref={ref}>
-      {/* Pointlight inside transparent chassis casting neon illumination */}
-      <pointLight color={coolantColor} intensity={3.0} distance={6} position={[0, 0.5, 0]} />
-      <pointLight color="#FF007A" intensity={1.5} distance={5} position={[0.5, -0.3, 0.5]} />
-
-      {/* Transparent Tempered Glass Chassis Box */}
-      <mesh position={[0, 0, 0]}>
-        <boxGeometry args={[2.4, 2.8, 1.6]} />
-        <meshPhysicalMaterial
-          color="#090D16"
-          transparent
-          opacity={0.25}
-          roughness={0.05}
-          transmission={0.9}
-          thickness={1.2}
-          reflectivity={0.9}
-        />
-      </mesh>
-
-      {/* Internal Motherboard Tray */}
-      <mesh position={[-0.2, 0, -0.6]}>
-        <boxGeometry args={[1.8, 2.2, 0.08]} />
-        <meshStandardMaterial color="#030712" roughness={0.7} metalness={0.5} />
-      </mesh>
-
-      {/* Glowing Liquid Cooling Reservoir */}
-      <mesh position={[0.7, 0, 0.3]}>
-        <cylinderGeometry args={[0.22, 0.22, 1.8, 24]} />
-        <meshStandardMaterial
-          color={coolantColor}
-          emissive={coolantColor}
-          emissiveIntensity={1.4}
-          roughness={0.1}
-          metalness={0.1}
-        />
-      </mesh>
-
-      {/* Radiator Loop Tubing */}
-      <mesh position={[0, 1.1, 0]}>
-        <boxGeometry args={[2.0, 0.25, 0.9]} />
-        <meshStandardMaterial color="#1E293B" metalness={0.8} />
-      </mesh>
-    </group>
-  );
-}
-
-// Concept 3: Axiom Pro CAD Clay Workstation Finish
-function AxiomClayWorkstation({ autoRotate }: { autoRotate?: boolean }) {
-  const ref = useRef<THREE.Group>(null);
-  useFrame((_, delta) => {
-    if (autoRotate && ref.current) ref.current.rotation.y += delta * 0.25;
-  });
-
-  // Strict Uniform Clay CAD Material (roughness: 0.85, metalness: 0.1)
-  const clayMaterial = new THREE.MeshStandardMaterial({
-    color: "#E2E8F0",
-    roughness: 0.85,
-    metalness: 0.1,
-    flatShading: false,
-  });
-
-  return (
-    <group ref={ref}>
-      {/* Studio Workstation Tower Chassis */}
-      <mesh position={[0, 0, 0]} material={clayMaterial}>
-        <boxGeometry args={[1.6, 2.8, 2.4]} />
-      </mesh>
-      {/* Front Minimalist Intake Bezel */}
-      <mesh position={[0, 0, 1.22]} material={clayMaterial}>
-        <boxGeometry args={[1.5, 2.6, 0.05]} />
-      </mesh>
-      {/* Top Studio Carry Handle */}
-      <mesh position={[0, 1.5, 0]} material={clayMaterial}>
-        <boxGeometry args={[0.3, 0.2, 1.4]} />
-      </mesh>
-      {/* Subtle Axiom Accent Strip */}
-      <mesh position={[0.79, 0, 1.1]}>
-        <boxGeometry args={[0.04, 2.2, 0.06]} />
-        <meshStandardMaterial color="#004F32" roughness={0.4} metalness={0.3} />
-      </mesh>
-    </group>
-  );
-}
-
-// Concept 4: SynapseCAD Blueprint Wireframe & Measurement Overlay
-function SynapseWireframeModel({ autoRotate }: { autoRotate?: boolean }) {
-  const ref = useRef<THREE.Group>(null);
-  useFrame((_, delta) => {
-    if (autoRotate && ref.current) ref.current.rotation.y += delta * 0.3;
-  });
-
-  return (
-    <group ref={ref}>
-      {/* Primary CAD Wireframe Geometry */}
-      <mesh position={[0, 0, 0]}>
-        <boxGeometry args={[3.2, 1.4, 2.2]} />
-        <meshStandardMaterial wireframe color="#06B6D4" emissive="#06B6D4" emissiveIntensity={0.6} />
-      </mesh>
-
-      {/* Internal Component Bounding Box Wireframe */}
-      <mesh position={[0, -0.1, 0]}>
-        <boxGeometry args={[2.6, 0.8, 1.6]} />
-        <meshStandardMaterial wireframe color="#84CC16" emissive="#84CC16" emissiveIntensity={0.4} />
-      </mesh>
-
-      {/* Drei HTML Millimeter Rulers / Clearance Callout Badges */}
-      <Html position={[1.7, 0.7, 0]} center>
-        <div className="bg-slate-900/90 border border-cyan-400/80 px-2 py-0.5 rounded font-mono text-[10px] text-cyan-300 font-bold whitespace-nowrap shadow-lg shadow-cyan-950/60 pointer-events-none">
-          L: 320.0 mm (CLEARANCE: OK)
-        </div>
-      </Html>
-
-      <Html position={[0, 1.0, 1.2]} center>
-        <div className="bg-slate-900/90 border border-lime-400/80 px-2 py-0.5 rounded font-mono text-[10px] text-lime-400 font-bold whitespace-nowrap shadow-lg shadow-lime-950/60 pointer-events-none">
-          H: 140.0 mm • 3.2 SLOTS
-        </div>
-      </Html>
-    </group>
-  );
-}
-
-// Concept 5: OmniPulse BD Interactive Regional Depot Map
-function OmniPulseMapPlane({ autoRotate }: { autoRotate?: boolean }) {
-  const ref = useRef<THREE.Group>(null);
-  useFrame((_, delta) => {
-    if (autoRotate && ref.current) ref.current.rotation.y += delta * 0.2;
-  });
-
-  const hubs = [
-    { name: "IDB Bhaban Flagship", pos: [-0.3, 0.2, 0.1], stock: "142 Units", color: "#EF4444" },
-    { name: "Multiplan Center Hub", pos: [0.2, 0.2, 0.4], stock: "98 Units", color: "#3B82F6" },
-    { name: "Chittagong GEC Hub", pos: [0.9, 0.2, 0.8], stock: "44 Units", color: "#10B981" },
-  ];
-
-  return (
-    <group ref={ref} rotation={[-0.2, 0, 0]}>
-      {/* Low-poly Regional Geography Map Plane */}
-      <mesh position={[0, -0.05, 0]}>
-        <boxGeometry args={[4.2, 0.1, 3.2]} />
-        <meshStandardMaterial color="#0A2558" roughness={0.4} metalness={0.3} />
-      </mesh>
-
-      {/* Grid Floor */}
-      <gridHelper args={[4.2, 16, "#1E3A8A", "#172554"]} position={[0, 0.02, 0]} />
-
-      {/* Store Location Beacon Pins with HTML Tooltips */}
-      {hubs.map((hub, idx) => (
-        <group key={idx} position={hub.pos as [number, number, number]}>
-          <mesh position={[0, 0.3, 0]}>
-            <cylinderGeometry args={[0.04, 0.01, 0.6, 12]} />
-            <meshStandardMaterial color={hub.color} emissive={hub.color} emissiveIntensity={0.8} />
-          </mesh>
-          <mesh position={[0, 0.6, 0]}>
-            <sphereGeometry args={[0.12, 16, 16]} />
-            <meshStandardMaterial color={hub.color} emissive={hub.color} emissiveIntensity={1.2} />
-          </mesh>
-          <Html position={[0, 0.9, 0]} center>
-            <div className="bg-slate-900/95 border border-blue-400 px-2 py-1 rounded text-white font-mono text-[9.5px] whitespace-nowrap shadow-xl pointer-events-none">
-              <span className="font-bold text-amber-300 block">{hub.name}</span>
-              <span className="text-emerald-400">{hub.stock} in Stock</span>
-            </div>
-          </Html>
-        </group>
-      ))}
-    </group>
-  );
-}
-
-// Concept 6: Krypton Brutalist Mechanical Switch Interactive Model
-function KryptonMechanicalSwitch({
-  interactive = true,
-  onPress,
-}: {
-  interactive?: boolean;
-  onPress?: () => void;
-}) {
-  const [pressed, setPressed] = useState(false);
-  const stemY = useRef(0.5);
-
-  const handleTrigger = () => {
-    if (!interactive) return;
-    setPressed(true);
-    if (onPress) onPress();
-    // Rebound after 120ms
-    setTimeout(() => setPressed(false), 120);
-  };
-
-  useFrame((_, delta) => {
-    const targetY = pressed ? 0.22 : 0.5;
-    stemY.current = THREE.MathUtils.damp(stemY.current, targetY, 24, delta);
-  });
-
-  return (
-    <group onClick={handleTrigger} onPointerDown={handleTrigger}>
-      {/* Switch Bottom Housing (Black Industrial Plastic) */}
-      <mesh position={[0, -0.3, 0]}>
-        <boxGeometry args={[1.5, 0.6, 1.5]} />
-        <meshStandardMaterial color="#171717" roughness={0.7} metalness={0.2} />
-      </mesh>
-
-      {/* Switch Top Housing (Smoky Transparent Polycarbonate) */}
-      <mesh position={[0, 0.15, 0]}>
-        <boxGeometry args={[1.42, 0.5, 1.42]} />
-        <meshPhysicalMaterial
-          color="#262626"
-          roughness={0.2}
-          transmission={0.65}
-          thickness={0.8}
-          transparent
-          opacity={0.8}
-        />
-      </mesh>
-
-      {/* Depressible MX Cross Stem (Krypton Safety Yellow / Industrial Orange) */}
-      <group position={[0, stemY.current, 0]}>
-        <mesh position={[0, 0, 0]}>
-          <boxGeometry args={[0.42, 0.45, 0.16]} />
-          <meshStandardMaterial color="#FACC15" roughness={0.4} metalness={0.1} />
-        </mesh>
-        <mesh position={[0, 0, 0]}>
-          <boxGeometry args={[0.16, 0.45, 0.42]} />
-          <meshStandardMaterial color="#FACC15" roughness={0.4} metalness={0.1} />
-        </mesh>
-      </group>
-
-      {/* Click Me HUD Callout */}
-      <Html position={[0, 1.1, 0]} center>
-        <div className="bg-[#FACC15] text-black border-2 border-black font-mono font-extrabold text-[10px] px-2 py-0.5 uppercase shadow-[2px_2px_0px_#000000] cursor-pointer active:translate-y-px">
-          {pressed ? "ACTUATED (2.0mm)" : "CLICK / PRESS KEY"}
-        </div>
-      </Html>
-    </group>
-  );
-}
-
-// -------------------------------------------------------------
-// 3. 2D Animated Suspense Skeleton Fallback
-// -------------------------------------------------------------
-function ViewerSkeletonFallback() {
-  return (
-    <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-900/60 backdrop-blur-sm z-10">
-      <div className="relative w-16 h-16 flex items-center justify-center">
-        <div className="absolute inset-0 rounded-full border-2 border-cyan-500/20 border-t-cyan-400 animate-spin" />
-        <div className="w-8 h-8 rounded-full border-2 border-red-500/20 border-b-red-400 animate-spin [animation-direction:reverse]" />
-      </div>
-      <p className="font-mono text-[11px] text-slate-300 mt-4 tracking-wider uppercase animate-pulse">
-        Mounting 3D WebGL Canvas...
-      </p>
-    </div>
-  );
-}
-
-// -------------------------------------------------------------
-// 4. Main Exported Reusable Hardware3DViewer Component
-// -------------------------------------------------------------
 export const HARDWARE_3D_LIBRARY = [
-  { id: "default", label: "Concept View", path: "" },
-  { id: "gpu", label: "RTX 4090 FE", path: "/models/gpu-rtx4090.glb" },
-  { id: "cpu", label: "Threadripper", path: "/models/cpu-threadripper.glb" },
-  { id: "ram", label: "Corsair RAM", path: "/models/ram-corsair.glb" },
-  { id: "switch", label: "Cherry MX", path: "/models/switch-cherry-mx.glb" },
-  { id: "mobo", label: "Motherboard", path: "/models/motherboard-atx.glb" },
-  { id: "case", label: "Gaming Case", path: "/models/chassis-gaming.glb" },
+  {
+    id: "concept",
+    label: "Concept View",
+    category: "Specialized",
+    path: "",
+    desc: "Procedural CAD Viewport",
+  },
+  {
+    id: "gpu",
+    label: "RTX 4090 FE",
+    category: "GPU",
+    path: "/models/gpu-rtx4090.glb",
+    desc: "NVIDIA GeForce RTX 4090 Dual Axial",
+  },
+  {
+    id: "cpu",
+    label: "Threadripper",
+    category: "CPU",
+    path: "/models/cpu-threadripper.glb",
+    desc: "AMD Ryzen Threadripper sTR5 Substrate",
+  },
+  {
+    id: "ram",
+    label: "Corsair RAM",
+    category: "Memory",
+    path: "/models/ram-corsair.glb",
+    desc: "Corsair Vengeance RGB DDR4/DDR5 Module",
+  },
+  {
+    id: "switch",
+    label: "Cherry MX",
+    category: "Switch",
+    path: "/models/switch-cherry-mx.glb",
+    desc: "Cherry MX Mechanical 5-Pin Switch",
+  },
+  {
+    id: "motherboard",
+    label: "Motherboard",
+    category: "Board",
+    path: "/models/motherboard-atx.glb",
+    desc: "Full ATX Reinforced Workstation PCB",
+  },
+  {
+    id: "chassis",
+    label: "Gaming Case",
+    category: "Chassis",
+    path: "/models/chassis-gaming.glb",
+    desc: "High-Airflow Tempered Glass Tower",
+  },
 ];
 
 export default function Hardware3DViewer({
@@ -383,141 +80,385 @@ export default function Hardware3DViewer({
   concept = "voltmatrix",
   accentColor,
   autoRotate = true,
-  className = "w-full h-[450px]",
-  interactiveSwitch = true,
+  className = "w-full h-80 sm:h-96",
+  interactiveSwitch = false,
   onSwitchPress,
 }: Hardware3DViewerProps) {
-  const [activeModelPath, setActiveModelPath] = useState<string>(modelPath || "");
+  const containerRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const isVolt = concept === "voltmatrix";
-  const isNeon = concept === "neonforge";
-  const isAxiom = concept === "axiom";
-  const isSynapse = concept === "synapse";
-  const isOmni = concept === "omnipulse";
-  const isKrypton = concept === "krypton";
+  // Initial model selection based on prop
+  const initialIndex = modelPath
+    ? Math.max(
+        0,
+        HARDWARE_3D_LIBRARY.findIndex((item) => item.path === modelPath)
+      )
+    : 1;
 
-  // Concept-aware container styling
-  const containerStyle = isKrypton
-    ? "bg-[#EBEAE5] border-2 border-black shadow-[6px_6px_0px_#000000]"
-    : isOmni
-      ? "bg-[#061838] border border-blue-800/80 shadow-2xl"
-      : isSynapse
-        ? "bg-[#0B132B] border border-cyan-500/40 shadow-[0_0_30px_rgba(6,182,212,0.15)]"
-        : isNeon
-          ? "bg-[#060810] border border-cyan-500/50 shadow-[0_0_35px_rgba(0,240,255,0.2)]"
-          : isAxiom
-            ? "bg-[#F8FAFC] border border-slate-300 shadow-sm"
-            : "bg-[#090D16] border border-slate-800 shadow-md";
+  const [activeModelIndex, setActiveModelIndex] = useState<number>(
+    initialIndex !== -1 ? initialIndex : 1
+  );
+  const [isRotating, setIsRotating] = useState<boolean>(autoRotate);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
-  const effectivePath = activeModelPath || modelPath || "";
+  // References to Three.js elements
+  const sceneRef = useRef<THREE.Scene | null>(null);
+  const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
+  const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
+  const controlsRef = useRef<OrbitControls | null>(null);
+  const currentModelGroupRef = useRef<THREE.Group | null>(null);
+
+  // Colors per concept theme
+  const themeColors = {
+    voltmatrix: { primary: "#EF4444", bg: "#020617", rim: 0xef4444, grid: 0x334155 },
+    neonforge: { primary: "#00F0FF", bg: "#0A0A0F", rim: 0x00f0ff, grid: 0x1e1e2d },
+    axiom: { primary: "#0EA5E9", bg: "#090D16", rim: 0x38bdf8, grid: 0x1e293b },
+    synapse: { primary: "#06B6D4", bg: "#030712", rim: 0x06b6d4, grid: 0x164e63 },
+    omnipulse: { primary: "#10B981", bg: "#0B1329", rim: 0x10b981, grid: 0x1e293b },
+    krypton: { primary: "#FACC15", bg: "#121216", rim: 0xfacc15, grid: 0x27272a },
+  }[concept] || { primary: "#EF4444", bg: "#020617", rim: 0xef4444, grid: 0x334155 };
+
+  const activeThemeColor = accentColor || themeColors.primary;
+
+  // Initialize Three.js scene once
+  useEffect(() => {
+    const container = containerRef.current;
+    const canvas = canvasRef.current;
+    if (!container || !canvas) return;
+
+    const width = container.clientWidth || 600;
+    const height = container.clientHeight || 400;
+
+    // 1. Scene
+    const scene = new THREE.Scene();
+    sceneRef.current = scene;
+
+    // 2. Camera
+    const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
+    camera.position.set(3.5, 2.5, 4.0);
+    cameraRef.current = camera;
+
+    // 3. Renderer
+    const renderer = new THREE.WebGLRenderer({
+      canvas,
+      antialias: true,
+      alpha: true,
+      powerPreference: "high-performance",
+    });
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    rendererRef.current = renderer;
+
+    // 4. Controls
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.maxDistance = 15.0;
+    controls.minDistance = 1.0;
+    controls.autoRotate = isRotating;
+    controls.autoRotateSpeed = 1.2;
+    controlsRef.current = controls;
+
+    // 5. Lights
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.4);
+    scene.add(ambientLight);
+
+    const keyLight = new THREE.DirectionalLight(0xffffff, 2.6);
+    keyLight.position.set(5, 8, 5);
+    keyLight.castShadow = true;
+    scene.add(keyLight);
+
+    const fillLight = new THREE.PointLight(0xffffff, 1.2, 20);
+    fillLight.position.set(-5, 3, -4);
+    scene.add(fillLight);
+
+    const rimLight = new THREE.DirectionalLight(themeColors.rim, 2.0);
+    rimLight.position.set(0, -4, -5);
+    scene.add(rimLight);
+
+    // 6. Ground Grid
+    const grid = new THREE.GridHelper(10, 20, themeColors.rim, themeColors.grid);
+    grid.position.y = -1.2;
+    (grid.material as THREE.Material).transparent = true;
+    (grid.material as THREE.Material).opacity = 0.35;
+    scene.add(grid);
+
+    // 7. Resize handler
+    const handleResize = () => {
+      if (!container || !renderer || !camera) return;
+      const w = container.clientWidth;
+      const h = container.clientHeight;
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+    };
+    window.addEventListener("resize", handleResize);
+
+    // 8. Animation Loop
+    let animationFrameId: number;
+    const animate = () => {
+      animationFrameId = requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    };
+    animate();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      cancelAnimationFrame(animationFrameId);
+      controls.dispose();
+      renderer.dispose();
+    };
+  }, []);
+
+  // Update autoRotate when state toggles
+  useEffect(() => {
+    if (controlsRef.current) {
+      controlsRef.current.autoRotate = isRotating;
+    }
+  }, [isRotating]);
+
+  // Load Model or Procedural Fallback whenever activeModelIndex changes
+  useEffect(() => {
+    const scene = sceneRef.current;
+    if (!scene) return;
+
+    // Clear previous model group
+    if (currentModelGroupRef.current) {
+      scene.remove(currentModelGroupRef.current);
+      currentModelGroupRef.current.traverse((child) => {
+        if ((child as THREE.Mesh).isMesh) {
+          const mesh = child as THREE.Mesh;
+          mesh.geometry?.dispose();
+          if (Array.isArray(mesh.material)) {
+            mesh.material.forEach((m) => m.dispose());
+          } else {
+            mesh.material?.dispose();
+          }
+        }
+      });
+      currentModelGroupRef.current = null;
+    }
+
+    const selectedItem = HARDWARE_3D_LIBRARY[activeModelIndex] || HARDWARE_3D_LIBRARY[1];
+
+    // Helper: Create Concept Procedural Mesh
+    const mountProceduralMesh = () => {
+      const group = new THREE.Group();
+
+      if (concept === "voltmatrix" || selectedItem.id === "gpu") {
+        // High-precision GPU Block
+        const pcbGeo = new THREE.BoxGeometry(2.8, 0.08, 1.2);
+        const pcbMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.6, roughness: 0.3 });
+        const pcb = new THREE.Mesh(pcbGeo, pcbMat);
+        group.add(pcb);
+
+        const finGeo = new THREE.BoxGeometry(2.6, 0.5, 1.1);
+        const finMat = new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.8, roughness: 0.2 });
+        const fins = new THREE.Mesh(finGeo, finMat);
+        fins.position.y = 0.3;
+        group.add(fins);
+
+        [-0.7, 0.7].map((x) => {
+          const fanGeo = new THREE.CylinderGeometry(0.42, 0.42, 0.08, 24);
+          const fanMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.5 });
+          const fan = new THREE.Mesh(fanGeo, fanMat);
+          fan.rotation.x = Math.PI / 2;
+          fan.position.set(x, 0.6, 0);
+          group.add(fan);
+        });
+      } else if (concept === "krypton" || selectedItem.id === "switch") {
+        // Mechanical Switch Block
+        const baseGeo = new THREE.BoxGeometry(1.6, 0.8, 1.6);
+        const baseMat = new THREE.MeshStandardMaterial({ color: 0x27272a, roughness: 0.5 });
+        const base = new THREE.Mesh(baseGeo, baseMat);
+        group.add(base);
+
+        const stemGeo = new THREE.BoxGeometry(0.6, 0.7, 0.6);
+        const stemMat = new THREE.MeshStandardMaterial({ color: 0xef4444, roughness: 0.3 });
+        const stem = new THREE.Mesh(stemGeo, stemMat);
+        stem.position.y = 0.6;
+        group.add(stem);
+      } else {
+        // Futuristic Hardware Substrate
+        const boxGeo = new THREE.BoxGeometry(1.8, 1.8, 1.8);
+        const boxMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.7, roughness: 0.2 });
+        const box = new THREE.Mesh(boxGeo, boxMat);
+        group.add(box);
+      }
+
+      currentModelGroupRef.current = group;
+      scene.add(group);
+      setIsLoading(false);
+      setLoadError(null);
+    };
+
+    // If "Concept View" (empty path), use procedural mesh
+    if (!selectedItem.path) {
+      mountProceduralMesh();
+      return;
+    }
+
+    // Load .GLB Model asynchronously
+    setIsLoading(true);
+    setLoadError(null);
+
+    const loader = new GLTFLoader();
+    loader.load(
+      selectedItem.path,
+      (gltf) => {
+        const root = gltf.scene;
+
+        // Auto-center and normalize scale
+        const box = new THREE.Box3().setFromObject(root);
+        const size = new THREE.Vector3();
+        box.getSize(size);
+        const maxDim = Math.max(size.x, size.y, size.z);
+
+        const targetSize = 2.4;
+        const scale = maxDim > 0 ? targetSize / maxDim : 1;
+        root.scale.set(scale, scale, scale);
+
+        const center = new THREE.Vector3();
+        box.getCenter(center);
+        root.position.x = -center.x * scale;
+        root.position.y = -center.y * scale;
+        root.position.z = -center.z * scale;
+
+        // Enable shadows and enhance materials
+        root.traverse((child) => {
+          if ((child as THREE.Mesh).isMesh) {
+            const mesh = child as THREE.Mesh;
+            mesh.castShadow = true;
+            mesh.receiveShadow = true;
+          }
+        });
+
+        const group = new THREE.Group();
+        group.add(root);
+        currentModelGroupRef.current = group;
+        scene.add(group);
+
+        setIsLoading(false);
+        setLoadError(null);
+      },
+      undefined,
+      (error) => {
+        console.warn(`[Hardware3DViewer] Failed to load ${selectedItem.path}, falling back to CAD mesh:`, error);
+        mountProceduralMesh();
+      }
+    );
+  }, [activeModelIndex, concept]);
+
+  // Reset Camera View
+  const handleResetCamera = useCallback(() => {
+    if (cameraRef.current && controlsRef.current) {
+      cameraRef.current.position.set(3.5, 2.5, 4.0);
+      controlsRef.current.target.set(0, 0, 0);
+      controlsRef.current.update();
+    }
+  }, []);
+
+  const activeModel = HARDWARE_3D_LIBRARY[activeModelIndex] || HARDWARE_3D_LIBRARY[1];
 
   return (
-    <div className={`relative overflow-hidden rounded-xl ${containerStyle} ${className}`}>
-      {/* 2D Suspense Skeleton Placeholder */}
-      <Suspense fallback={<ViewerSkeletonFallback />}>
-        <Canvas
-          frameloop="demand" // Performance optimization: only renders when state or camera changes
-          gl={{
-            antialias: true,
-            powerPreference: "high-performance",
-            alpha: true,
-          }}
-          className="w-full h-full"
-        >
-          {/* Concept 1 uses Orthographic Camera; Others use Perspective */}
-          {isVolt ? (
-            <OrthographicCamera makeDefault position={[3, 3, 3]} zoom={85} />
-          ) : (
-            <PerspectiveCamera makeDefault position={[0, 1.8, 4.2]} fov={45} />
-          )}
+    <div
+      ref={containerRef}
+      className={`relative rounded-xl overflow-hidden border border-white/10 shadow-2xl ${className}`}
+      style={{ backgroundColor: themeColors.bg }}
+    >
+      {/* Native WebGL Canvas (Pure Three.js - 0 React internals dependencies) */}
+      <canvas
+        ref={canvasRef}
+        className="w-full h-full block cursor-grab active:cursor-grabbing"
+      />
 
-          <Suspense fallback={null}>
-            {/* Stage wrapper for lighting and soft ground shadows */}
-            <Stage
-              intensity={isVolt ? 0.8 : isNeon ? 0.4 : isAxiom ? 0.7 : 0.6}
-              environment={isNeon ? "night" : "city"}
-              adjustCamera={false}
-            >
-              {/* Load External .GLB if provided; otherwise render concept procedural model */}
-              {effectivePath ? (
-                <ExternalHardwareModel
-                  modelPath={effectivePath}
-                  autoRotate={autoRotate}
-                />
-              ) : (
-                <>
-                  {isVolt && <VoltMatrixProceduralGPU autoRotate={autoRotate} />}
-                  {isNeon && (
-                    <NeonForgeLiquidChassis
-                      coolantColor={accentColor || "#00F0FF"}
-                      autoRotate={autoRotate}
-                    />
-                  )}
-                  {isAxiom && <AxiomClayWorkstation autoRotate={autoRotate} />}
-                  {isSynapse && <SynapseWireframeModel autoRotate={autoRotate} />}
-                  {isOmni && <OmniPulseMapPlane autoRotate={autoRotate} />}
-                  {isKrypton && (
-                    <KryptonMechanicalSwitch
-                      interactive={interactiveSwitch}
-                      onPress={onSwitchPress}
-                    />
-                  )}
-                </>
-              )}
-            </Stage>
+      {/* Top HUD: Hardware Details & Controls */}
+      <div className="absolute top-3 left-3 right-3 flex items-center justify-between pointer-events-none z-10">
+        <div className="bg-black/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10 flex items-center space-x-2">
+          <span
+            className="w-2 h-2 rounded-full animate-ping"
+            style={{ backgroundColor: activeThemeColor }}
+          />
+          <span className="font-mono text-[11px] font-bold text-white uppercase tracking-wider">
+            {activeModel.label}
+          </span>
+          <span className="font-mono text-[10px] text-slate-400 hidden sm:inline">
+            // {activeModel.category}
+          </span>
+        </div>
 
-            {/* OrbitControls with angle limits to prevent clipping through floor */}
-            <OrbitControls
-              enableZoom={true}
-              minDistance={2}
-              maxDistance={8}
-              maxPolarAngle={Math.PI / 2 - 0.05}
-              makeDefault
-            />
-          </Suspense>
-        </Canvas>
-      </Suspense>
+        <div className="flex items-center space-x-1.5 pointer-events-auto">
+          {/* Auto Rotate Toggle */}
+          <button
+            onClick={() => setIsRotating(!isRotating)}
+            className={`px-2.5 py-1 rounded text-[10.5px] font-mono font-bold uppercase transition-all border cursor-pointer ${
+              isRotating
+                ? "bg-white/20 text-white border-white/30"
+                : "bg-black/60 text-slate-400 border-white/10 hover:text-white"
+            }`}
+            title="Toggle Continuous 3D Orbit Rotation"
+          >
+            {isRotating ? "Orbiting" : "Paused"}
+          </button>
 
-      {/* Telemetry Status Ribbon */}
-      <div className="absolute top-3 left-3 z-10 flex items-center gap-2 pointer-events-none">
-        <span
-          className={`w-2 h-2 rounded-full animate-pulse ${
-            isKrypton
-              ? "bg-[#EA580C]"
-              : isNeon
-                ? "bg-[#00F0FF] shadow-[0_0_8px_#00F0FF]"
-                : isSynapse
-                  ? "bg-[#06B6D4]"
-                  : isAxiom
-                    ? "bg-[#004F32]"
-                    : isOmni
-                      ? "bg-[#3B82F6]"
-                      : "bg-[#EF4444]"
-          }`}
-        />
-        <span className="font-mono text-[10px] tracking-wider uppercase font-bold text-slate-400">
-          R3F WebGL 3D // {concept.toUpperCase()}
-        </span>
+          {/* Reset Camera */}
+          <button
+            onClick={handleResetCamera}
+            className="px-2 py-1 rounded bg-black/60 hover:bg-black/90 text-slate-300 hover:text-white text-[10.5px] font-mono font-bold uppercase border border-white/10 transition-all flex items-center gap-1 cursor-pointer"
+            title="Reset Camera Center"
+          >
+            <span className="material-symbols-outlined text-[14px]">restart_alt</span>
+            <span className="hidden sm:inline">Reset</span>
+          </button>
+        </div>
       </div>
 
-      {/* 3D Hardware Model Switcher Dock */}
-      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 flex items-center gap-1.5 p-1 bg-black/75 backdrop-blur-md rounded-full border border-white/10 max-w-[95%] overflow-x-auto no-scrollbar shadow-xl">
-        {HARDWARE_3D_LIBRARY.map((item) => {
-          const isActive = effectivePath === item.path;
-          return (
-            <button
-              key={item.id}
-              onClick={() => setActiveModelPath(item.path)}
-              className={`px-2.5 py-1 rounded-full font-mono text-[9.5px] font-bold uppercase transition-all whitespace-nowrap cursor-pointer active:scale-95 ${
-                isActive
-                  ? "bg-white text-black shadow-md"
-                  : "text-slate-300 hover:text-white hover:bg-white/10"
-              }`}
-            >
-              {item.label}
-            </button>
-          );
-        })}
+      {/* Loading Overlay */}
+      {isLoading && (
+        <div className="absolute inset-0 bg-black/70 backdrop-blur-sm flex flex-col items-center justify-center font-mono text-xs z-20 pointer-events-none">
+          <div
+            className="w-8 h-8 border-2 border-t-transparent rounded-full animate-spin mb-3"
+            style={{ borderColor: `${activeThemeColor} transparent transparent transparent` }}
+          />
+          <span className="font-bold text-white uppercase tracking-wider">
+            Streaming {activeModel.label} .GLB...
+          </span>
+          <span className="text-[10px] text-slate-400 mt-1">
+            Zero-overhead WebGL PBR Shading
+          </span>
+        </div>
+      )}
+
+      {/* Interactive Bottom Hardware Dock Pill Selector */}
+      <div className="absolute bottom-2 left-2 right-2 flex items-center justify-center z-10 pointer-events-auto">
+        <div className="bg-black/85 backdrop-blur-md px-2 py-1.5 rounded-xl border border-white/15 shadow-xl flex items-center gap-1 overflow-x-auto max-w-full">
+          {HARDWARE_3D_LIBRARY.map((item, idx) => {
+            const isSelected = activeModelIndex === idx;
+            return (
+              <button
+                key={item.id}
+                onClick={() => setActiveModelIndex(idx)}
+                className={`px-2.5 py-1 rounded-lg font-mono text-[10px] font-bold uppercase whitespace-nowrap transition-all flex items-center gap-1 cursor-pointer ${
+                  isSelected
+                    ? "text-black shadow-md scale-105"
+                    : "text-slate-400 hover:text-white hover:bg-white/10"
+                }`}
+                style={{
+                  backgroundColor: isSelected ? activeThemeColor : "transparent",
+                }}
+              >
+                <span>{item.label}</span>
+                {isSelected && (
+                  <span className="w-1.5 h-1.5 rounded-full bg-black animate-pulse" />
+                )}
+              </button>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
