@@ -368,6 +368,16 @@ function ViewerSkeletonFallback() {
 // -------------------------------------------------------------
 // 4. Main Exported Reusable Hardware3DViewer Component
 // -------------------------------------------------------------
+export const HARDWARE_3D_LIBRARY = [
+  { id: "default", label: "Concept View", path: "" },
+  { id: "gpu", label: "RTX 4090 FE", path: "/models/gpu-rtx4090.glb" },
+  { id: "cpu", label: "Threadripper", path: "/models/cpu-threadripper.glb" },
+  { id: "ram", label: "Corsair RAM", path: "/models/ram-corsair.glb" },
+  { id: "switch", label: "Cherry MX", path: "/models/switch-cherry-mx.glb" },
+  { id: "mobo", label: "Motherboard", path: "/models/motherboard-atx.glb" },
+  { id: "case", label: "Gaming Case", path: "/models/chassis-gaming.glb" },
+];
+
 export default function Hardware3DViewer({
   modelPath,
   concept = "voltmatrix",
@@ -377,6 +387,8 @@ export default function Hardware3DViewer({
   interactiveSwitch = true,
   onSwitchPress,
 }: Hardware3DViewerProps) {
+  const [activeModelPath, setActiveModelPath] = useState<string>(modelPath || "");
+
   const isVolt = concept === "voltmatrix";
   const isNeon = concept === "neonforge";
   const isAxiom = concept === "axiom";
@@ -396,6 +408,8 @@ export default function Hardware3DViewer({
           : isAxiom
             ? "bg-[#F8FAFC] border border-slate-300 shadow-sm"
             : "bg-[#090D16] border border-slate-800 shadow-md";
+
+  const effectivePath = activeModelPath || modelPath || "";
 
   return (
     <div className={`relative overflow-hidden rounded-xl ${containerStyle} ${className}`}>
@@ -425,9 +439,9 @@ export default function Hardware3DViewer({
               adjustCamera={false}
             >
               {/* Load External .GLB if provided; otherwise render concept procedural model */}
-              {modelPath ? (
+              {effectivePath ? (
                 <ExternalHardwareModel
-                  modelPath={modelPath}
+                  modelPath={effectivePath}
                   autoRotate={autoRotate}
                 />
               ) : (
@@ -484,6 +498,26 @@ export default function Hardware3DViewer({
         <span className="font-mono text-[10px] tracking-wider uppercase font-bold text-slate-400">
           R3F WebGL 3D // {concept.toUpperCase()}
         </span>
+      </div>
+
+      {/* 3D Hardware Model Switcher Dock */}
+      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 flex items-center gap-1.5 p-1 bg-black/75 backdrop-blur-md rounded-full border border-white/10 max-w-[95%] overflow-x-auto no-scrollbar shadow-xl">
+        {HARDWARE_3D_LIBRARY.map((item) => {
+          const isActive = effectivePath === item.path;
+          return (
+            <button
+              key={item.id}
+              onClick={() => setActiveModelPath(item.path)}
+              className={`px-2.5 py-1 rounded-full font-mono text-[9.5px] font-bold uppercase transition-all whitespace-nowrap cursor-pointer active:scale-95 ${
+                isActive
+                  ? "bg-white text-black shadow-md"
+                  : "text-slate-300 hover:text-white hover:bg-white/10"
+              }`}
+            >
+              {item.label}
+            </button>
+          );
+        })}
       </div>
     </div>
   );
