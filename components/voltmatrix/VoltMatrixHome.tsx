@@ -19,6 +19,18 @@ const Motherboard3DScene = dynamic(
   }
 );
 
+const Hardware3DViewer = dynamic(
+  () => import("@/components/canvas/Hardware3DViewer"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-80 sm:h-96 bg-slate-900 rounded flex items-center justify-center text-slate-400 font-mono text-[12px]">
+        Mounting 3D Hardware Canvas...
+      </div>
+    ),
+  }
+);
+
 export default function VoltMatrixHome() {
   const { addStandaloneItem } = useCartStore();
 
@@ -28,6 +40,7 @@ export default function VoltMatrixHome() {
   const [selectedWorkload, setSelectedWorkload] = useState<string>("gaming");
   const [selectedBudget, setSelectedBudget] = useState<string>("150-275");
   const [addedProductId, setAddedProductId] = useState<string | null>(null);
+  const [viewerMode, setViewerMode] = useState<"motherboard" | "models">("motherboard");
 
   const handleAddToCart = (product: (typeof HARDWARE_PRODUCTS)[0]) => {
     addStandaloneItem(product, 1);
@@ -270,9 +283,46 @@ export default function VoltMatrixHome() {
             </div>
           </div>
 
-          {/* Right 40% (5 cols on 12-col desktop): 3D Motherboard Scene */}
-          <div className="lg:col-span-5 flex flex-col justify-between">
-            <Motherboard3DScene />
+          {/* Right 40% (5 cols on 12-col desktop): 3D Viewport with Switcher */}
+          <div className="lg:col-span-5 flex flex-col justify-between space-y-2">
+            <div className="flex items-center justify-between p-1.5 bg-slate-100 rounded border border-slate-200">
+              <span className="font-mono text-[10.5px] text-slate-600 font-bold uppercase pl-1.5">
+                3D Viewport Mode:
+              </span>
+              <div className="flex items-center gap-1">
+                <button
+                  onClick={() => setViewerMode("motherboard")}
+                  className={`px-2.5 py-1 rounded font-mono text-[10.5px] uppercase font-bold transition-all cursor-pointer ${
+                    viewerMode === "motherboard"
+                      ? "bg-[#EF4444] text-white shadow-sm"
+                      : "bg-white text-slate-700 hover:bg-slate-200 border border-slate-200"
+                  }`}
+                >
+                  Motherboard CAD
+                </button>
+                <button
+                  onClick={() => setViewerMode("models")}
+                  className={`px-2.5 py-1 rounded font-mono text-[10.5px] uppercase font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                    viewerMode === "models"
+                      ? "bg-slate-900 text-white shadow-sm"
+                      : "bg-white text-slate-700 hover:bg-slate-200 border border-slate-200"
+                  }`}
+                >
+                  <span>Hardware Models (.GLB)</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                </button>
+              </div>
+            </div>
+
+            {viewerMode === "motherboard" ? (
+              <Motherboard3DScene />
+            ) : (
+              <Hardware3DViewer
+                concept="voltmatrix"
+                modelPath="/models/gpu-rtx4090.glb"
+                className="w-full h-80 sm:h-[480px]"
+              />
+            )}
           </div>
         </div>
       </section>

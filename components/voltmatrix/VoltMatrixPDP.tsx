@@ -21,6 +21,18 @@ const ComponentViewer3D = dynamic(
   }
 );
 
+const Hardware3DViewer = dynamic(
+  () => import("@/components/canvas/Hardware3DViewer"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-80 sm:h-96 bg-slate-950 rounded flex items-center justify-center text-slate-400 font-mono text-[12px]">
+        Loading Interactive 3D Model...
+      </div>
+    ),
+  }
+);
+
 export default function VoltMatrixPDP({ product: propProduct }: { product?: HardwareProduct } = {}) {
   const params = useParams();
   const router = useRouter();
@@ -103,19 +115,31 @@ export default function VoltMatrixPDP({ product: propProduct }: { product?: Hard
             {/* Viewport Display (3D Scene or Selected Photo) */}
             {selectedGalleryThumb === 0 ? (
               <ComponentViewer3D />
+            ) : selectedGalleryThumb === 1 ? (
+              <Hardware3DViewer
+                concept="voltmatrix"
+                modelPath={
+                  product.category === "gpu"
+                    ? "/models/gpu-rtx4090.glb"
+                    : product.category === "ram"
+                      ? "/models/ram-corsair.glb"
+                      : "/models/cpu-threadripper.glb"
+                }
+                className="w-full h-80 sm:h-96"
+              />
             ) : (
               <div className="w-full h-80 sm:h-96 bg-white rounded border border-slate-200 p-4 flex items-center justify-center relative shadow-sm">
                 <img
-                  src={galleryImages[selectedGalleryThumb].img}
-                  alt={galleryImages[selectedGalleryThumb].label}
+                  src={galleryImages[selectedGalleryThumb]?.img || product.image}
+                  alt={galleryImages[selectedGalleryThumb]?.label || product.name}
                   className="w-full h-full object-contain"
                 />
                 <button
-                  onClick={() => setSelectedGalleryThumb(0)}
-                  className="absolute top-3 right-3 px-3 py-1 bg-slate-900 text-white rounded font-mono text-[10.5px] uppercase font-bold shadow flex items-center gap-1"
+                  onClick={() => setSelectedGalleryThumb(1)}
+                  className="absolute top-3 right-3 px-3 py-1 bg-slate-900 text-white rounded font-mono text-[10.5px] uppercase font-bold shadow flex items-center gap-1 cursor-pointer"
                 >
                   <span className="material-symbols-outlined text-[14px]">view_in_ar</span>
-                  <span>Return to 3D Orbit</span>
+                  <span>View 3D Model</span>
                 </button>
               </div>
             )}
@@ -135,8 +159,13 @@ export default function VoltMatrixPDP({ product: propProduct }: { product?: Hard
                   <div className="aspect-square bg-slate-50 rounded flex items-center justify-center overflow-hidden">
                     {idx === 0 ? (
                       <div className="w-full h-full bg-slate-900 flex flex-col items-center justify-center text-white p-1">
-                        <span className="material-symbols-outlined text-[20px] text-[#EF4444]">360</span>
-                        <span className="font-mono text-[8px]">3D CAD</span>
+                        <span className="material-symbols-outlined text-[18px] text-[#EF4444]">360</span>
+                        <span className="font-mono text-[7.5px]">3D CAD</span>
+                      </div>
+                    ) : idx === 1 ? (
+                      <div className="w-full h-full bg-slate-950 flex flex-col items-center justify-center text-white p-1">
+                        <span className="material-symbols-outlined text-[18px] text-emerald-400 animate-pulse">view_in_ar</span>
+                        <span className="font-mono text-[7.5px] text-emerald-400">.GLB 3D</span>
                       </div>
                     ) : (
                       <img src={thumb.img} alt={thumb.label} className="w-full h-full object-cover" />

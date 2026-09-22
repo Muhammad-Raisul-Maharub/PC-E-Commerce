@@ -21,6 +21,19 @@ const LiquidChassis3DScene = dynamic(
   }
 );
 
+const Hardware3DViewer = dynamic(
+  () => import("@/components/canvas/Hardware3DViewer"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-[500px] lg:h-[600px] bg-[#0A0A0F] rounded-2xl flex flex-col items-center justify-center border border-cyan-500/30 font-mono text-cyan-400 text-xs">
+        <span className="w-6 h-6 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin mb-2"></span>
+        INITIALIZING 3D HARDWARE MODEL (.GLB)...
+      </div>
+    ),
+  }
+);
+
 interface CoolantPreset {
   id: string;
   name: string;
@@ -98,6 +111,7 @@ const BATTLESTATION_RIGS = [
 
 export default function NeonForgeHome() {
   const [selectedCoolant, setSelectedCoolant] = useState<CoolantPreset>(COOLANT_PRESETS[0]);
+  const [hero3DMode, setHero3DMode] = useState<"liquid" | "hardware">("liquid");
   const { addStandaloneItem } = useCartStore();
 
   const liquidProducts = HARDWARE_PRODUCTS.filter(
@@ -197,9 +211,49 @@ export default function NeonForgeHome() {
             </div>
           </div>
 
-          {/* Right Hero Stage: Interactive 3D WebGL Liquid Chassis Scene */}
-          <div className="lg:col-span-6">
-            <LiquidChassis3DScene coolantColor={selectedCoolant.hex} />
+          {/* Right Hero Stage: Interactive 3D WebGL Liquid Chassis Scene / GLB Hardware Viewer */}
+          <div className="lg:col-span-6 space-y-2">
+            <div className="flex items-center justify-between p-2 rounded-xl bg-[#12121A]/90 border border-cyan-500/30 backdrop-blur-md">
+              <span className="font-mono text-[11px] text-cyan-400 font-bold uppercase tracking-wider flex items-center gap-1.5">
+                <span className="material-symbols-outlined text-sm">view_in_ar</span>
+                <span>3D Canvas Mode:</span>
+              </span>
+              <div className="flex items-center gap-1.5">
+                <button
+                  onClick={() => setHero3DMode("liquid")}
+                  className={`px-3 py-1 rounded text-xs font-mono font-bold uppercase transition-all cursor-pointer ${
+                    hero3DMode === "liquid"
+                      ? "bg-cyan-500 text-black shadow-[0_0_12px_rgba(0,240,255,0.4)]"
+                      : "bg-[#0A0A0F] text-slate-400 hover:text-white border border-slate-800"
+                  }`}
+                >
+                  Fluid Chassis
+                </button>
+                <button
+                  onClick={() => setHero3DMode("hardware")}
+                  className={`px-3 py-1 rounded text-xs font-mono font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer ${
+                    hero3DMode === "hardware"
+                      ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-[0_0_15px_rgba(236,72,153,0.4)]"
+                      : "bg-[#0A0A0F] text-slate-400 hover:text-white border border-slate-800"
+                  }`}
+                >
+                  <span>Hardware Models (.GLB)</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-pink-400 animate-pulse" />
+                </button>
+              </div>
+            </div>
+
+            {hero3DMode === "liquid" ? (
+              <LiquidChassis3DScene coolantColor={selectedCoolant.hex} />
+            ) : (
+              <div className="rounded-2xl overflow-hidden border border-cyan-500/30">
+                <Hardware3DViewer
+                  concept="neonforge"
+                  modelPath="/models/chassis-gaming.glb"
+                  className="w-full h-[500px] lg:h-[550px]"
+                />
+              </div>
+            )}
           </div>
         </div>
       </section>

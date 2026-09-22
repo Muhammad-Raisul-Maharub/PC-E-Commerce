@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { 
   KRYPTON_MAKER_ASSET_URLS, 
   KRYPTON_MAKER_PRODUCTS, 
@@ -10,10 +11,23 @@ import {
 } from "@/data/mockProducts";
 import { useCartStore } from "@/store/useCartStore";
 
+const Hardware3DViewer = dynamic(
+  () => import("@/components/canvas/Hardware3DViewer"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-72 bg-black border-2 border-black flex items-center justify-center font-mono text-[#FACC15] text-xs">
+        INITIALIZING 3D HARDWARE MODEL (.GLB)...
+      </div>
+    ),
+  }
+);
+
 export default function KryptonHome() {
   const { addStandaloneItem } = useCartStore();
   const [activeLabMode, setActiveLabMode] = useState<"pc" | "keyboard" | "iot">("keyboard");
   const [switchType, setSwitchType] = useState<"clicky" | "tactile" | "linear">("clicky");
+  const [rigViewMode, setRigViewMode] = useState<"2d" | "3d">("2d");
   const [isDepressed, setIsDepressed] = useState(false);
   const [actuationCount, setActuationCount] = useState(0);
   const [addedToast, setAddedToast] = useState<string | null>(null);
@@ -197,83 +211,115 @@ export default function KryptonHome() {
                 <div className="flex items-center gap-2">
                   <span className="w-2.5 h-2.5 bg-[#FACC15]"></span>
                   <span className="font-mono text-xs font-bold uppercase text-[#FACC15] tracking-wider">
-                    TEST RIG // 3D SWITCH BENCH
+                    TEST RIG // {rigViewMode === "2d" ? "PHYSICS SWITCH BENCH" : "3D HARDWARE VIEWER"}
                   </span>
                 </div>
-                <span className="font-mono text-[10px] text-slate-400">
-                  ACTUATIONS: {actuationCount}
-                </span>
-              </div>
-
-              {/* Switch Sound / Type Selector */}
-              <div className="grid grid-cols-3 gap-2 mb-6">
-                {(["clicky", "tactile", "linear"] as const).map((type) => (
+                <div className="flex items-center gap-1.5">
                   <button
-                    key={type}
-                    onClick={() => setSwitchType(type)}
-                    className={`py-1.5 border border-white/30 font-mono text-[11px] font-bold uppercase transition-all ${
-                      switchType === type
-                        ? "bg-[#FACC15] text-black border-[#FACC15] font-extrabold"
-                        : "bg-white/10 text-slate-300 hover:bg-white/20"
+                    onClick={() => setRigViewMode("2d")}
+                    className={`px-2 py-0.5 border font-mono text-[10px] font-bold uppercase transition-all cursor-pointer ${
+                      rigViewMode === "2d"
+                        ? "bg-[#FACC15] text-black border-[#FACC15]"
+                        : "bg-black/60 text-slate-400 border-white/20 hover:text-white"
                     }`}
                   >
-                    {type}
+                    2D Rig
                   </button>
-                ))}
-              </div>
-
-              {/* Physical Switch Graphic with Mechanical Depression Physics */}
-              <div className="relative h-64 bg-[#121216] border-2 border-black flex flex-col items-center justify-center p-4 mb-4 select-none">
-                {/* Background Spec Overlay */}
-                <div className="absolute top-2 left-3 font-mono text-[10px] text-slate-500">
-                  PROFILE: MX-5PIN // TRAVEL: 4.0MM
-                </div>
-                <div className="absolute top-2 right-3 font-mono text-[10px] text-[#25D366]">
-                  {switchType === "clicky" ? "60cN SPRING" : switchType === "tactile" ? "62cN PROGRESSIVE" : "55cN LINEAR"}
-                </div>
-
-                {/* The Interactive Switch Button Mechanism */}
-                <div className="flex flex-col items-center">
-                  {/* Stem (Top Moving Part) */}
-                  <div
-                    onClick={handleSwitchClick}
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") handleSwitchClick(); }}
-                    className={`w-28 h-24 border-4 border-black cursor-pointer flex flex-col items-center justify-center transition-all duration-75 select-none ${
-                      switchType === "clicky"
-                        ? "bg-[#0284C7] shadow-[0_8px_0_#0369A1]"
-                        : switchType === "tactile"
-                          ? "bg-[#7C3AED] shadow-[0_8px_0_#5B21B6]"
-                          : "bg-[#DC2626] shadow-[0_8px_0_#991B1B]"
-                    } ${
-                      isDepressed
-                        ? "translate-y-2 shadow-none"
-                        : "hover:brightness-110 active:translate-y-2 active:shadow-none"
+                  <button
+                    onClick={() => setRigViewMode("3d")}
+                    className={`px-2 py-0.5 border font-mono text-[10px] font-bold uppercase transition-all flex items-center gap-1 cursor-pointer ${
+                      rigViewMode === "3d"
+                        ? "bg-[#FACC15] text-black border-[#FACC15]"
+                        : "bg-black/60 text-slate-400 border-white/20 hover:text-white"
                     }`}
-                    title="Click or press Space to test switch depression and acoustic feedback"
                   >
-                    {/* Stem Cross + */}
-                    <div className="relative w-8 h-8 flex items-center justify-center">
-                      <div className="absolute w-7 h-2 bg-white/40 border border-black/40"></div>
-                      <div className="absolute h-7 w-2 bg-white/40 border border-black/40"></div>
-                    </div>
-                    <span className="font-mono text-[10px] font-extrabold text-white mt-1 uppercase tracking-wider">
-                      {isDepressed ? "[ BOTTOMED ]" : "[ CLICK ME ]"}
-                    </span>
-                  </div>
-
-                  {/* Switch Base Housing */}
-                  <div className="w-36 h-10 bg-[#2A2A32] border-4 border-black mt-1 flex items-center justify-between px-3 text-[9px] font-mono text-slate-400">
-                    <span>PA66 BASE</span>
-                    <span className="text-[#FACC15]">5-PIN GOLD LEAF</span>
-                  </div>
-                </div>
-
-                <div className="absolute bottom-2 font-mono text-[10px] text-slate-400 text-center">
-                  CLICK TO TRIGGER AUDIO CLICK TEST (SYNTHESIZED WEB AUDIO API)
+                    <span>3D .GLB</span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  </button>
                 </div>
               </div>
+
+              {rigViewMode === "3d" ? (
+                <div className="mb-4">
+                  <Hardware3DViewer
+                    concept="krypton"
+                    modelPath="/models/switch-cherry-mx.glb"
+                    className="w-full h-80"
+                  />
+                </div>
+              ) : (
+                <>
+                  {/* Switch Sound / Type Selector */}
+                  <div className="grid grid-cols-3 gap-2 mb-6">
+                    {(["clicky", "tactile", "linear"] as const).map((type) => (
+                      <button
+                        key={type}
+                        onClick={() => setSwitchType(type)}
+                        className={`py-1.5 border border-white/30 font-mono text-[11px] font-bold uppercase transition-all ${
+                          switchType === type
+                            ? "bg-[#FACC15] text-black border-[#FACC15] font-extrabold"
+                            : "bg-white/10 text-slate-300 hover:bg-white/20"
+                        }`}
+                      >
+                        {type}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Physical Switch Graphic with Mechanical Depression Physics */}
+                  <div className="relative h-64 bg-[#121216] border-2 border-black flex flex-col items-center justify-center p-4 mb-4 select-none">
+                    {/* Background Spec Overlay */}
+                    <div className="absolute top-2 left-3 font-mono text-[10px] text-slate-500">
+                      PROFILE: MX-5PIN // TRAVEL: 4.0MM
+                    </div>
+                    <div className="absolute top-2 right-3 font-mono text-[10px] text-[#25D366]">
+                      {switchType === "clicky" ? "60cN SPRING" : switchType === "tactile" ? "62cN PROGRESSIVE" : "55cN LINEAR"}
+                    </div>
+
+                    {/* The Interactive Switch Button Mechanism */}
+                    <div className="flex flex-col items-center">
+                      {/* Stem (Top Moving Part) */}
+                      <div
+                        onClick={handleSwitchClick}
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") handleSwitchClick(); }}
+                        className={`w-28 h-24 border-4 border-black cursor-pointer flex flex-col items-center justify-center transition-all duration-75 select-none ${
+                          switchType === "clicky"
+                            ? "bg-[#0284C7] shadow-[0_8px_0_#0369A1]"
+                            : switchType === "tactile"
+                              ? "bg-[#7C3AED] shadow-[0_8px_0_#5B21B6]"
+                              : "bg-[#DC2626] shadow-[0_8px_0_#991B1B]"
+                        } ${
+                          isDepressed
+                            ? "translate-y-2 shadow-none"
+                            : "hover:brightness-110 active:translate-y-2 active:shadow-none"
+                        }`}
+                        title="Click or press Space to test switch depression and acoustic feedback"
+                      >
+                        {/* Stem Cross + */}
+                        <div className="relative w-8 h-8 flex items-center justify-center">
+                          <div className="absolute w-7 h-2 bg-white/40 border border-black/40"></div>
+                          <div className="absolute h-7 w-2 bg-white/40 border border-black/40"></div>
+                        </div>
+                        <span className="font-mono text-[10px] font-extrabold text-white mt-1 uppercase tracking-wider">
+                          {isDepressed ? "[ BOTTOMED ]" : "[ CLICK ME ]"}
+                        </span>
+                      </div>
+
+                      {/* Switch Base Housing */}
+                      <div className="w-36 h-10 bg-[#2A2A32] border-4 border-black mt-1 flex items-center justify-between px-3 text-[9px] font-mono text-slate-400">
+                        <span>PA66 BASE</span>
+                        <span className="text-[#FACC15]">5-PIN GOLD LEAF</span>
+                      </div>
+                    </div>
+
+                    <div className="absolute bottom-2 font-mono text-[10px] text-slate-400 text-center">
+                      CLICK TO TRIGGER AUDIO CLICK TEST (SYNTHESIZED WEB AUDIO API)
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
 
             {/* Telemetry Readout Table */}
