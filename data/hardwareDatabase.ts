@@ -129,7 +129,7 @@ export const HARDWARE_PRODUCTS: HardwareProduct[] = [
     category: "cpu",
     price: 44000,
     regularPrice: 47000,
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuB4FySQ9XAXsHei5inSOLyz8t9fivmiLOwmLzSIhaPcrXU2dN88A_-DFvst5i7ooBmbAQRnC49x2VXMdtUs3PjINlzuxgccPtBt9f7fr3t_4S6UHtQKw9Lg0mdHdz79t4QKb8jFtLOO5Leb8vU-QrGrX520N_RywXTuxdrxBH_IR1z9O_RxzL5kGZ9A1aXF9fPHxqBK-lkEQPWqlNl59DIpM6RhWg7tyNEpwUhfbkR_gi4mB-2yR-1R8g",
+    image: REAL_COMPONENT_IMAGES.processors,
     description: "Intel LGA1700 Socket, 20 Cores (8P + 12E), 28 Threads, up to 5.6 GHz, 33MB Intel Smart Cache, 125W Base / 253W Turbo.",
     tdp: 253,
     socket: "LGA1700",
@@ -156,7 +156,7 @@ export const HARDWARE_PRODUCTS: HardwareProduct[] = [
     category: "cpu",
     price: 46500,
     regularPrice: 49500,
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuB4FySQ9XAXsHei5inSOLyz8t9fivmiLOwmLzSIhaPcrXU2dN88A_-DFvst5i7ooBmbAQRnC49x2VXMdtUs3PjINlzuxgccPtBt9f7fr3t_4S6UHtQKw9Lg0mdHdz79t4QKb8jFtLOO5Leb8vU-QrGrX520N_RywXTuxdrxBH_IR1z9O_RxzL5kGZ9A1aXF9fPHxqBK-lkEQPWqlNl59DIpM6RhWg7tyNEpwUhfbkR_gi4mB-2yR-1R8g",
+    image: REAL_COMPONENT_IMAGES.processors,
     description: "New LGA1851 Socket, 20 Cores (8 Lion Cove P-cores + 12 Skymont E-cores), Intel AI Boost NPU integrated, 250W Max Package Power.",
     tdp: 250,
     socket: "LGA1851",
@@ -221,7 +221,7 @@ export const HARDWARE_PRODUCTS: HardwareProduct[] = [
     category: "motherboard",
     price: 48500,
     regularPrice: 52000,
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCpic0_trIUfh40oo0dXZjaWfeUnX1i61wJaTBCTV0boNWbCxdQZImsCRvV9SE4TUTsXIdIgGSo1S9rSfAukd3AEHauxPikwBVoaa6wGFdi4GFNPueQSed6tQp7JpPvxFnewRlREIlTCoOK246tAEc8YVTOOdIy_WCK0GGibrpjZ0hjOav7e2KU13lLUsxmeTA7mEo6-D2hhiVqLtxctOpAYF_soV8IjIul79t-rpllBDUymstIKEZFfA",
+    image: REAL_COMPONENT_IMAGES.motherboards,
     description: "Intel Z890 Chipset, Socket LGA1851, 18+1+2+2 Power Stages, DDR5 DIMM Fit, PCIe 5.0 x16 SafeSlot, Quad M.2, Wi-Fi 7 and Thunderbolt 4.",
     tdp: 55,
     socket: "LGA1851",
@@ -428,7 +428,7 @@ export const HARDWARE_PRODUCTS: HardwareProduct[] = [
     category: "gpu",
     price: 79500,
     regularPrice: 84000,
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuANlK2iqGXc9367kcQv7Ft4yO8V9bNJcB6p0-CJ0i2ckR8V8Vaih2hQ8uU4yAbKNbnaoJ1lXdwFQmq4JntGqCzvNEgkBYZDN1M40tKhecwQzLkrGjwKyrkMnvBDqznHxV74OLlehpTk1HEcc284opnrVvhcgD4ccq2dQXBhF_VxNDP46_02hwfex3EWkMJAeKqY2vGcyD11hn4FxKkeey3LWiMHgrC6y5Uv5H2-87aqmwOthz0BPDmSDQ",
+    image: REAL_COMPONENT_IMAGES.graphicsCards,
     description: "AMD RDNA 3 Architecture, 5120 Stream Processors, 16GB GDDR6 256-bit bus, Dual-X cooling with Angular Velocity Fan Blade, metal backplate.",
     tdp: 260,
     specs: [
@@ -457,7 +457,7 @@ export const HARDWARE_PRODUCTS: HardwareProduct[] = [
     category: "psu",
     price: 12500,
     regularPrice: 13800,
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBFmEbiEehPoT3SBTFSB6203WCjAmVGN6717cAjU6VZbWjfrw2nS4-ns9DxOwQ6GcAAIBLj0e4_qMTvjicUlitIMaKgQRnBt4F_HCwWyYbAhkySSeqQoVQN-pVfKXiWhbLYmRVXSX7w9s11AFh-8v2RiV544h3K0ICrZhihVwAFUdUUI-k-dWSLCoKMCpgUNn3bFSzuKyjlRfqmvUrVlfNhrRkqwGYg3FE0E2u7_nhnpB7uopgx24zX0w",
+    image: "https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=1000&q=80",
     description: "Compliant with PCIe 5.0 and ATX 3.0 standards, 120mm rifle bearing fan with zero RPM mode, 105°C-rated capacitors, low-profile black modular flat cables.",
     tdp: 750, // Rated output capacity
     specs: [
@@ -482,7 +482,7 @@ export const HARDWARE_PRODUCTS: HardwareProduct[] = [
     category: "psu",
     price: 15500,
     regularPrice: 17000,
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBFmEbiEehPoT3SBTFSB6203WCjAmVGN6717cAjU6VZbWjfrw2nS4-ns9DxOwQ6GcAAIBLj0e4_qMTvjicUlitIMaKgQRnBt4F_HCwWyYbAhkySSeqQoVQN-pVfKXiWhbLYmRVXSX7w9s11AFh-8v2RiV544h3K0ICrZhihVwAFUdUUI-k-dWSLCoKMCpgUNn3bFSzuKyjlRfqmvUrVlfNhrRkqwGYg3FE0E2u7_nhnpB7uopgx24zX0w",
+    image: "https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=1000&q=80",
     description: "Magnetic levitation fan, Japanese 105°C capacitors, EPS12V connectors for high-end motherboards, full 850W rail.",
     tdp: 850,
     specs: [
@@ -579,7 +579,7 @@ export const HARDWARE_PRODUCTS: HardwareProduct[] = [
     category: "peripherals",
     price: 14500,
     regularPrice: 16000,
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDQlDjw0fr__WyvTL2zMGVK8PE7huTgKnKR7zZ-He3qWu0uzlJq0PFeR-0ntSFELWOlv9sXJQ0DOe4Uyn6CoXHxZ1fC0FEXhZr01dImF8F_swl_MgEjwe4BIbl6goxshp_etShGyk6oAE00l5lDek_ymlejovRV-TD2N2D8Tx5iobWFNS83YfMMSwyEFsAiAgDknY64loBkmbKcMn1br2X8LACAhqHVxL9dBwqHKvEu1G-Rq8_nKcBz_Q",
+    image: "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?auto=format&fit=crop&w=1000&q=80",
     description: "60g ultra-lightweight esports icon, HERO 2 Sensor with 32,000 DPI, LIGHTFORCE hybrid optical-mechanical switches, 4000Hz polling rate ready, 95-hour battery.",
     tdp: 0,
     specs: [
@@ -604,7 +604,7 @@ export const HARDWARE_PRODUCTS: HardwareProduct[] = [
     category: "peripherals",
     price: 98000,
     regularPrice: 105000,
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuANlK2iqGXc9367kcQv7Ft4yO8V9bNJcB6p0-CJ0i2ckR8V8Vaih2hQ8uU4yAbKNbnaoJ1lXdwFQmq4JntGqCzvNEgkBYZDN1M40tKhecwQzLkrGjwKyrkMnvBDqznHxV74OLlehpTk1HEcc284opnrVvhcgD4ccq2dQXBhF_VxNDP46_02hwfex3EWkMJAeKqY2vGcyD11hn4FxKkeey3LWiMHgrC6y5Uv5H2-87aqmwOthz0BPDmSDQ",
+    image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=1000&q=80",
     description: "26.5-inch QHD (2560 x 1440) OLED gaming monitor, 240Hz refresh rate, 0.03ms (GTG) response time, custom heatsink, anti-glare micro-texture coating, 99% DCI-P3.",
     tdp: 45,
     specs: [

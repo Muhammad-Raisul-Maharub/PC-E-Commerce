@@ -103,8 +103,8 @@ export default function VoltMatrixCatalog() {
       )}
 
       {/* Sub-Header Breadcrumb & Telemetry Ticker */}
-      <section className="w-full bg-slate-100 border-b border-slate-200 px-3 sm:px-4 py-2">
-        <div className="max-w-[1440px] mx-auto flex flex-wrap items-center justify-between gap-2">
+      <section className="w-full bg-slate-100 border-b border-slate-200 px-4 sm:px-6 lg:px-8 py-2">
+        <div className="w-full max-w-[1536px] mx-auto flex flex-wrap items-center justify-between gap-2">
           <nav className="flex items-center gap-1.5 text-slate-500 text-[12px] font-mono">
             <Link href="/" className="hover:text-[#EF4444] transition-colors">Home</Link>
             <span className="material-symbols-outlined text-[14px]">chevron_right</span>
@@ -127,7 +127,7 @@ export default function VoltMatrixCatalog() {
       </section>
 
       {/* Main Split Architecture */}
-      <div className="w-full max-w-[1440px] mx-auto px-3 sm:px-4 py-6">
+      <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="flex flex-col lg:flex-row gap-6 items-start">
           {/* LEFT PARAMETRIC FILTER SIDEBAR (280px fixed width rail on desktop) */}
           <aside className="w-full lg:w-[280px] lg:shrink-0 flex flex-col gap-4 select-none">
@@ -612,9 +612,9 @@ export default function VoltMatrixCatalog() {
               </div>
             )}
 
-            {/* 3-COL CARD GRID VIEW MODE */}
+            {/* DENSE 4-COL CARD GRID VIEW MODE */}
             {viewMode === "grid" && (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
                 {filteredProducts.map((product) => {
                   const isCompared = comparedProducts.some((p) => p.id === product.id);
                   return (
@@ -694,7 +694,7 @@ export default function VoltMatrixCatalog() {
       {/* DOCKED BOTTOM PERSISTENT COMPARISON DRAWER (Matches Stitch Design) */}
       {comparedProducts.length > 0 && (
         <aside className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t-2 border-slate-900 shadow-2xl py-2 px-3 sm:px-4">
-          <div className="max-w-[1440px] mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
+          <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-3">
             <div className="flex items-center gap-3 w-full md:w-auto">
               <div className="w-8 h-8 rounded bg-slate-900 text-white flex items-center justify-center shrink-0">
                 <span className="material-symbols-outlined text-[18px]">compare_arrows</span>

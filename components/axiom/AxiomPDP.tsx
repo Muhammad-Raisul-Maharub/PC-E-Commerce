@@ -156,7 +156,7 @@ export default function AxiomPDP({ product }: AxiomPDPProps) {
     <div className="min-h-screen bg-[#FBFBFD] text-[#18181B] font-sans pb-16">
       {/* Breadcrumb Header */}
       <div className="bg-white border-b border-[#E4E4E7] py-4 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-[1440px] mx-auto flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
+        <div className="w-full max-w-[1536px] mx-auto flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
           <div className="flex items-center gap-2 text-[#71717A]">
             <Link href="/" className="hover:text-[#18181B]">Axiom Pro</Link>
             <span>/</span>
@@ -175,7 +175,7 @@ export default function AxiomPDP({ product }: AxiomPDPProps) {
       </div>
 
       {/* Main PDP Grid */}
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           {/* Left Column (7 Cols): 3D CAD Clay View & High-Res Gallery */}
           <div className="lg:col-span-7 space-y-4">

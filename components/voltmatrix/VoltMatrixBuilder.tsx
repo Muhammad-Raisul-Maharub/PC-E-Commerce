@@ -134,8 +134,8 @@ function PcBuilderContent() {
   return (
     <div className="w-full bg-[#f8f9ff] min-h-screen">
       {/* Top Banner & Telemetry Bar */}
-      <section className="w-full bg-white border-b border-slate-200 py-6 px-3 sm:px-4">
-        <div className="max-w-[1440px] mx-auto space-y-4">
+      <section className="w-full bg-white border-b border-slate-200 py-6">
+        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
               <div className="flex items-center gap-2">
@@ -272,7 +272,7 @@ function PcBuilderContent() {
       </section>
 
       {/* Main Architecture Canvas */}
-      <div className="max-w-[1440px] mx-auto px-3 sm:px-4 py-8">
+      <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* ================= COMPONENT WORKBENCH LEFT RAIL (8 Cols) ================= */}
           <div className="lg:col-span-8 space-y-4" ref={buildSummaryRef}>
@@ -547,8 +547,8 @@ function PcBuilderContent() {
       </div>
 
       {/* Sticky Bottom Modular Action Dock */}
-      <aside className="sticky bottom-0 w-full bg-white border-t border-slate-200 shadow-2xl z-40 py-3 px-3 sm:px-4">
-        <div className="max-w-[1440px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      <aside className="sticky bottom-0 w-full bg-white border-t border-slate-200 shadow-2xl z-40 py-3">
+        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-4 w-full md:w-auto justify-between md:justify-start">
             <div>
               <div className="font-mono text-[10.5px] text-slate-500 uppercase flex items-center gap-1.5">

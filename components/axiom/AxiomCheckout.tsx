@@ -152,7 +152,7 @@ export default function AxiomCheckout() {
     <div className="min-h-screen bg-[#FBFBFD] text-[#18181B] font-sans pb-16">
       {/* Header Banner */}
       <div className="bg-white border-b border-[#E4E4E7] py-6 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-[1440px] mx-auto flex flex-wrap items-center justify-between gap-4">
+        <div className="w-full max-w-[1536px] mx-auto flex flex-wrap items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
               <span className="w-2 h-2 rounded-full bg-[#004F32]" />
@@ -173,7 +173,7 @@ export default function AxiomCheckout() {
         </div>
       </div>
 
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {standaloneItems.length === 0 ? (
           <div className="max-w-md mx-auto rounded-xl border border-[#E4E4E7] bg-white p-10 text-center space-y-4">
             <span className="material-symbols-outlined text-4xl text-[#A1A1AA]">shopping_bag</span>

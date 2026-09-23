@@ -119,8 +119,8 @@ export default function KryptonPDP({ product }: KryptonPDPProps) {
       )}
 
       {/* Breadcrumb Header */}
-      <section className="bg-white border-b-2 border-black py-4 px-4 sm:px-6">
-        <div className="max-w-[1440px] mx-auto flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
+      <section className="bg-white border-b-2 border-black py-4">
+        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
           <div className="flex items-center gap-2 text-slate-500 uppercase">
             <Link href="/" className="hover:text-black underline">
               Krypton Depot
@@ -145,7 +145,7 @@ export default function KryptonPDP({ product }: KryptonPDPProps) {
       </section>
 
       {/* Main PDP Grid */}
-      <section className="max-w-[1440px] mx-auto px-4 sm:px-6 pt-8">
+      <section className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 pt-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* Left Column: 3D Exploded / Pinout Viewer & Photos (7 cols) */}

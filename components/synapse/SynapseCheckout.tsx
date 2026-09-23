@@ -90,10 +90,10 @@ export default function SynapseCheckout() {
   };
 
   return (
-    <div className="w-full bg-[#0F172A] text-[#F8FAFC] font-sans antialiased min-h-screen pt-28 pb-20">
+    <div className="w-full bg-[#0F172A] text-[#F8FAFC] font-sans antialiased min-h-screen py-6">
       {/* Top Breadcrumb & Waybill Telemetry */}
-      <div className="w-full bg-[#0B1326] border-b border-[#334155] px-4 md:px-8 py-3">
-        <div className="max-w-[1440px] mx-auto flex flex-wrap items-center justify-between gap-3 font-mono text-xs">
+      <div className="w-full bg-[#0B1326] border-b border-[#334155] py-3 mb-6">
+        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center justify-between gap-3 font-mono text-xs">
           <div className="flex items-center gap-2 text-[#94A3B8]">
             <Link href="/" className="hover:text-[#06B6D4]">SYNAPSECAD</Link>
             <span>/</span>
@@ -109,7 +109,7 @@ export default function SynapseCheckout() {
       </div>
 
       {/* Main Two-Column Checkout Grid */}
-      <div className="max-w-[1440px] mx-auto px-4 md:px-8 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* LEFT COLUMN: Staging Ledger, Logistics, Recipient Manifest (8 cols) */}
         <div className="lg:col-span-8 flex flex-col gap-6">
           {/* Section 01: Assembly Staging Ledger */}

@@ -109,7 +109,7 @@ export default function KryptonHome() {
       </div>
 
       {/* Hero Section */}
-      <section className="max-w-[1440px] mx-auto px-4 sm:px-6 pt-8 pb-12">
+      <section className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
           
           {/* Left Column: Industrial Manifesto & Lab Mode Switcher (7 cols) */}
@@ -275,7 +275,7 @@ export default function KryptonHome() {
       </section>
 
       {/* Featured Component Bins & Inventory Strip */}
-      <section className="max-w-[1440px] mx-auto px-4 sm:px-6 py-6">
+      <section className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="flex flex-wrap items-center justify-between gap-4 pb-3 border-b-2 border-black mb-6">
           <div className="flex items-center gap-3">
             <span className="w-4 h-4 bg-[#FACC15] border border-black"></span>
@@ -399,7 +399,7 @@ export default function KryptonHome() {
       </section>
 
       {/* Regional Depot Telemetry Strip */}
-      <section className="max-w-[1440px] mx-auto px-4 sm:px-6 py-8">
+      <section className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="bg-[#1E1E24] text-white border-2 border-black p-6 sm:p-8 shadow-[6px_6px_0px_#000000]">
           <div className="flex flex-wrap items-center justify-between pb-4 border-b-2 border-white/20 mb-6 gap-3">
             <div>

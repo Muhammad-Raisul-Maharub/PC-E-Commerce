@@ -123,7 +123,7 @@ export default function NeonForgeHome() {
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:24px_24px] opacity-20"></div>
 
       {/* 1. Hero Stage: Pure 3D Hardware Model Viewport */}
-      <section className="relative max-w-[1440px] mx-auto px-4 sm:px-6 pt-6 pb-12">
+      <section className="relative w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           {/* Left Hero Narrative & Fluid Controller */}
           <div className="lg:col-span-6 space-y-6 z-10">
@@ -223,12 +223,12 @@ export default function NeonForgeHome() {
       </section>
 
       {/* 2. Interactive Mechanical Switch Soundboard Studio */}
-      <section className="max-w-[1440px] mx-auto px-4 sm:px-6 py-8">
+      <section className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <KeyboardSoundboard />
       </section>
 
       {/* 3. Turnkey Liquid Battlestations (Concept 2 Showroom Rigs) */}
-      <section className="max-w-[1440px] mx-auto px-4 sm:px-6 py-12">
+      <section className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex flex-wrap items-center justify-between gap-3 mb-6 pb-3 border-b border-white/10">
           <div>
             <div className="flex items-center gap-2">
@@ -311,7 +311,7 @@ export default function NeonForgeHome() {
       </section>
 
       {/* 4. Modder's Armory Fast Components Showcase */}
-      <section className="max-w-[1440px] mx-auto px-4 sm:px-6 py-12">
+      <section className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex items-center justify-between mb-6 pb-3 border-b border-white/10">
           <div>
             <h2 className="font-chakra text-xl font-bold uppercase tracking-wide text-white flex items-center gap-2">

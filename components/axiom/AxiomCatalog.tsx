@@ -75,8 +75,8 @@ export default function AxiomCatalog() {
   return (
     <div className="min-h-screen bg-[#FBFBFD] text-[#18181B] font-sans">
       {/* Header Banner */}
-      <div className="bg-white border-b border-[#E4E4E7] py-8 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-[1440px] mx-auto">
+      <div className="bg-white border-b border-[#E4E4E7] py-8">
+        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               <div className="flex items-center gap-2 mb-1">
@@ -126,7 +126,7 @@ export default function AxiomCatalog() {
       </div>
 
       {/* Main Catalog Body */}
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Left Parametric Filter Sidebar (3 Cols) */}
           <aside className="lg:col-span-3 space-y-6">

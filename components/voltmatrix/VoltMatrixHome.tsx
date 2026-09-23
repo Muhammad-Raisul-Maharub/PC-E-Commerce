@@ -60,10 +60,10 @@ export default function VoltMatrixHome() {
   const flashDeals = HARDWARE_PRODUCTS.filter((p) => flashDealIds.includes(p.id));
 
   return (
-    <main className="w-full bg-[#f8f9ff]">
+    <div className="w-full bg-[#FFFFFF]">
       {/* 1. Live Component Stock Ticker */}
-      <section className="w-full bg-slate-100 border-b border-slate-200 py-1.5 px-3 overflow-hidden shadow-sm">
-        <div className="max-w-[1440px] mx-auto flex items-center justify-between gap-3">
+      <section className="w-full bg-slate-100 border-b border-slate-200 py-1.5 overflow-hidden shadow-sm">
+        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-3">
           <div className="flex items-center gap-1.5 bg-[#b61722] px-2 py-0.5 rounded text-white font-mono text-[10.5px] uppercase font-bold shrink-0">
             <span className="material-symbols-outlined text-[13px] animate-pulse">radar</span>
             <span>Telemetry Ticker</span>
@@ -105,9 +105,9 @@ export default function VoltMatrixHome() {
         </div>
       </section>
 
-      {/* 2. Hero Section: 60/40 Split Architecture */}
-      <section className="w-full px-3 sm:px-4 py-8">
-        <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+      {/* 2. Hero Section: 65/35 Split Architecture */}
+      <section className="w-full py-8">
+        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
           {/* Left 60% (7 cols on 12-col desktop) */}
           <div className="lg:col-span-7 bg-white p-6 sm:p-8 rounded border border-slate-200 shadow-sm flex flex-col justify-between">
             <div className="space-y-4">
@@ -296,8 +296,8 @@ export default function VoltMatrixHome() {
       </section>
 
       {/* 3. High-Density Flash Deals: 4-Column Parametric Card Grid */}
-      <section className="w-full px-3 sm:px-4 py-8">
-        <div className="max-w-[1440px] mx-auto space-y-4">
+      <section className="w-full py-8">
+        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
           {/* Section Header */}
           <div className="flex flex-wrap items-end justify-between gap-4 bg-slate-100 p-4 rounded border border-slate-200">
             <div className="space-y-1">
@@ -459,8 +459,8 @@ export default function VoltMatrixHome() {
       </section>
 
       {/* 4. Parametric Category Showcase: Core Hardware, Office Tech & Smart Gadgets */}
-      <section className="w-full px-3 sm:px-4 py-8">
-        <div className="max-w-[1440px] mx-auto space-y-6">
+      <section className="w-full py-8">
+        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
           <div className="flex items-center justify-between">
             <div>
               <span className="font-mono text-[10.5px] text-[#b61722] uppercase font-bold tracking-wider">
@@ -631,8 +631,8 @@ export default function VoltMatrixHome() {
       </section>
 
       {/* 5. Physical Branch Store Locator & Live Click & Collect Hub */}
-      <section className="w-full px-3 sm:px-4 py-8">
-        <div className="max-w-[1440px] mx-auto bg-white p-6 rounded border border-slate-200 shadow-sm">
+      <section className="w-full py-8 pb-12">
+        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 bg-white p-6 rounded border border-slate-200 shadow-sm">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {/* Left: Showrooms List (5 cols) */}
             <div className="lg:col-span-5 space-y-4 flex flex-col justify-between">
@@ -768,6 +768,6 @@ export default function VoltMatrixHome() {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }

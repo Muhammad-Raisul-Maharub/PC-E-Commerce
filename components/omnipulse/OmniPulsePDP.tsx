@@ -85,7 +85,7 @@ export default function OmniPulsePDP({ product }: OmniPulsePDPProps) {
 
   return (
     <div className="w-full bg-[#F4F6F9] text-slate-900 font-sans antialiased min-h-screen py-8">
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+      <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         {/* Breadcrumb Bar */}
         <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-slate-500 font-medium">
           <div className="flex items-center gap-2">

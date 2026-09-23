@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import { useBuilderStore, BuilderSlotKey } from "@/store/useBuilderStore";
 import { useCartStore } from "@/store/useCartStore";
 import { HARDWARE_PRODUCTS, HardwareProduct } from "@/data/hardwareDatabase";
+import jsPDF from "jspdf";
 
 const LiquidChassis3DScene = dynamic(
   () => import("@/components/canvas/LiquidChassis3DScene"),
@@ -77,6 +78,17 @@ export default function NeonForgeBuilder() {
     alert("Bespoke Liquid Battlestation added to Cyber Checkout!");
   };
 
+  const [isExportingPdf, setIsExportingPdf] = useState(false);
+  const [copiedLink, setCopiedLink] = useState(false);
+
+  const handleCopyBuildLink = () => {
+    if (typeof window !== "undefined") {
+      navigator.clipboard.writeText(window.location.href);
+      setCopiedLink(true);
+      setTimeout(() => setCopiedLink(false), 2000);
+    }
+  };
+
   const slotKeys: { key: BuilderSlotKey; label: string; icon: string }[] = [
     { key: "cpu", label: "Processor Unit", icon: "memory" },
     { key: "motherboard", label: "Motherboard Architecture", icon: "developer_board" },
@@ -88,13 +100,111 @@ export default function NeonForgeBuilder() {
     { key: "chassis", label: "Liquid-Ready Enclosure", icon: "dns" },
   ];
 
+  const exportPdfQuotation = () => {
+    setIsExportingPdf(true);
+    try {
+      const doc = new jsPDF({
+        unit: "mm",
+        format: "a4",
+      });
+
+      // Dark header
+      doc.setFillColor(10, 10, 15);
+      doc.rect(0, 0, 210, 38, "F");
+
+      doc.setFont("helvetica", "bold");
+      doc.setTextColor(0, 240, 255);
+      doc.setFontSize(16);
+      doc.text("NEONFORGE // BESPOKE LIQUID RIG SPECIFICATION", 15, 16);
+
+      doc.setFontSize(9);
+      doc.setTextColor(255, 107, 0);
+      doc.text(`CYBER RIG HASH: NF-${Date.now().toString(36).toUpperCase()}`, 15, 24);
+
+      doc.setTextColor(200, 200, 220);
+      doc.setFontSize(8);
+      doc.text(`ISSUED: ${new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })} · DHAKA IDB CYBER LAB`, 15, 30);
+
+      // Table of components
+      let y = 48;
+      doc.setFillColor(240, 240, 245);
+      doc.rect(15, y - 6, 180, 8, "F");
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(9);
+      doc.setTextColor(40, 40, 50);
+      doc.text("SLOT", 18, y - 1);
+      doc.text("COMPONENT / SKU", 60, y - 1);
+      doc.text("PRICE (BDT)", 165, y - 1);
+
+      y += 6;
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(8.5);
+
+      slotKeys.forEach((slot) => {
+        const item = slots[slot.key];
+        doc.setTextColor(60, 60, 70);
+        doc.text(slot.label, 18, y);
+        if (item) {
+          doc.setTextColor(15, 15, 20);
+          doc.text(`${item.name} (${item.sku})`, 60, y);
+          doc.text(`Tk ${item.price.toLocaleString()}`, 165, y);
+        } else {
+          doc.setTextColor(150, 150, 160);
+          doc.text("[Empty Slot]", 60, y);
+          doc.text("-", 165, y);
+        }
+        y += 7;
+      });
+
+      // Modding Services
+      y += 4;
+      doc.setFont("helvetica", "bold");
+      doc.setTextColor(0, 150, 180);
+      doc.text("BESPOKE MODDING SERVICES:", 18, y);
+      y += 6;
+      doc.setFont("helvetica", "normal");
+      if (hardlineBending) {
+        doc.text("Custom Hardline 16mm PETG Heat-Bending", 18, y);
+        doc.text("Tk 3,500", 165, y);
+        y += 6;
+      }
+      if (customSleeving) {
+        doc.text("CableMod Carbon Paracord Custom Sleeving", 18, y);
+        doc.text("Tk 2,000", 165, y);
+        y += 6;
+      }
+      if (pneumaticLeakTest) {
+        doc.text("24h Pneumatic Air-Decay Leak Certification", 18, y);
+        doc.text("Tk 1,500", 165, y);
+        y += 6;
+      }
+
+      // Grand total box
+      y += 6;
+      doc.setFillColor(18, 18, 26);
+      doc.rect(15, y, 180, 16, "F");
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(11);
+      doc.setTextColor(0, 240, 255);
+      doc.text("GRAND TOTAL (WITH BESPOKE SERVICES):", 20, y + 10);
+      doc.setTextColor(255, 255, 255);
+      doc.text(`BDT Tk ${grandTotal.toLocaleString()}`, 150, y + 10);
+
+      doc.save(`NeonForge-Rig-Quote-${Date.now().toString().slice(-4)}.pdf`);
+    } catch (err) {
+      console.error("PDF export error:", err);
+    } finally {
+      setIsExportingPdf(false);
+    }
+  };
+
   const modalCandidates = activeSlotModal
     ? HARDWARE_PRODUCTS.filter((p) => p.category === activeSlotModal)
     : [];
 
   return (
-    <div className="w-full min-h-screen bg-[#0A0A0F] text-slate-100 selection:bg-[#00F0FF] selection:text-[#0A0A0F] py-6 px-4 sm:px-6">
-      <div className="max-w-[1440px] mx-auto space-y-6">
+    <div className="w-full min-h-screen bg-[#0A0A0F] text-slate-100 selection:bg-[#00F0FF] selection:text-[#0A0A0F] py-6">
+      <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         {/* Top Header & Telemetry */}
         <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-white/10">
           <div>
@@ -339,6 +449,24 @@ export default function NeonForgeBuilder() {
                     ৳{grandTotal.toLocaleString()}
                   </span>
                 </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3 pt-2 border-t border-white/10">
+                <button
+                  onClick={exportPdfQuotation}
+                  disabled={isExportingPdf}
+                  className="py-2.5 px-3 rounded-xl bg-[#0A0A0F] hover:bg-[#161622] border border-cyan-500/30 text-cyan-300 font-mono text-xs font-bold uppercase transition-all flex items-center justify-center gap-1.5"
+                >
+                  <span className="material-symbols-outlined text-[16px]">picture_as_pdf</span>
+                  <span>{isExportingPdf ? "Generating PDF..." : "Export PDF Quote"}</span>
+                </button>
+                <button
+                  onClick={handleCopyBuildLink}
+                  className="py-2.5 px-3 rounded-xl bg-[#0A0A0F] hover:bg-[#161622] border border-cyan-500/30 text-cyan-300 font-mono text-xs font-bold uppercase transition-all flex items-center justify-center gap-1.5"
+                >
+                  <span className="material-symbols-outlined text-[16px]">{copiedLink ? "check" : "share"}</span>
+                  <span>{copiedLink ? "Link Copied!" : "Share Build Link"}</span>
+                </button>
               </div>
 
               <div className="flex items-center gap-3">

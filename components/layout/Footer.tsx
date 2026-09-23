@@ -42,7 +42,7 @@ export default function Footer() {
                   : "bg-slate-50/60 border-slate-200"
           }`}
       >
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <span
               className={`font-mono text-[10.5px] uppercase font-bold ${isKrypton ? "text-[#FACC15]" : isOmni ? "text-[#FFB300]" : isNeon ? "text-cyan-400" : isAxiom ? "text-[#004F32]" : isSynapse ? "text-cyan-400" : "text-slate-500"
@@ -126,7 +126,7 @@ export default function Footer() {
 
       {/* Main 4-Column Grid */}
       <div className={`w-full px-4 py-12 ${isKrypton ? "bg-[#1E1E24] text-[#EBEAE5]" : isNeon ? "bg-[#0A0A0F]" : isSynapse ? "bg-[#0F172A]" : "bg-white"}`}>
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Column 1: Physical Branch Network */}
           <div className="space-y-3">
             <div
@@ -322,7 +322,7 @@ export default function Footer() {
               : "bg-slate-50 border-slate-200 text-slate-500"
           }`}
       >
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px]">
+        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px]">
           <div>
             {isKrypton
               ? "© 2026 Krypton Brutalist Depot Ltd. Industrial Computing Hardware & Tactile Keyboard Lab. Mushak-6.3 VAT Registered."

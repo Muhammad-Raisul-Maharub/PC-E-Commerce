@@ -16,32 +16,27 @@ export default function OmniPulseHome() {
   const activeBranchData =
     RETAIL_BRANCHES.find((b) => b.key === currentBranch) || RETAIL_BRANCHES[0];
 
-  // Category quick-pills
-  const categories = [
-    { id: "all", label: "All Showcase", icon: "dashboard" },
-    { id: "cpu", label: "Processors", icon: "memory", img: OMNIPULSE_ASSET_URLS.processors },
-    { id: "gpu", label: "Graphics Cards", icon: "videogame_asset", img: OMNIPULSE_ASSET_URLS.gpus },
-    { id: "laptop", label: "Gaming Laptops", icon: "laptop_chromebook", img: OMNIPULSE_ASSET_URLS.laptops },
-    { id: "monitor", label: "High-Refresh Monitors", icon: "monitor", img: OMNIPULSE_ASSET_URLS.displays },
-    { id: "gadget", label: "Smartwatches & Gear", icon: "watch", img: OMNIPULSE_ASSET_URLS.gadgets },
-    { id: "audio", label: "Wireless ANC Audio", icon: "headphones", img: OMNIPULSE_ASSET_URLS.audio },
-    { id: "motherboard", label: "Motherboards", icon: "developer_board", img: OMNIPULSE_ASSET_URLS.motherboards },
-    { id: "ram", label: "DDR5 Memory", icon: "storage", img: OMNIPULSE_ASSET_URLS.ram },
-    { id: "storage", label: "NVMe SSDs", icon: "dns", img: OMNIPULSE_ASSET_URLS.storage },
+  // Horizontal Top Category Icon Rail
+  const categoryIconRail = [
+    { id: "laptop", label: "Laptop & Mac", icon: "laptop_chromebook", count: "124 Models" },
+    { id: "cpu", label: "Processors", icon: "memory", count: "68 Models" },
+    { id: "motherboard", label: "Motherboards", icon: "developer_board", count: "85 Models" },
+    { id: "gpu", label: "Graphics Card", icon: "videogame_asset", count: "54 Models" },
+    { id: "monitor", label: "Monitors", icon: "monitor", count: "92 Models" },
+    { id: "gadget", label: "Smart Gadgets", icon: "watch", count: "110 Items" },
+    { id: "storage", label: "SSD & Storage", icon: "dns", count: "74 Models" },
+    { id: "peripherals", label: "Accessories", icon: "headphones", count: "140 Items" },
   ];
 
-  // Filter deals and products: branch-filtered deals
+  // Filter products by selected category
   const filteredProducts = HARDWARE_PRODUCTS.filter((p) => {
-    if (selectedCategory !== "all" && p.category !== selectedCategory) {
-      return false;
-    }
-    return true;
+    if (selectedCategory === "all") return true;
+    if (selectedCategory === "laptop") return p.category === "laptop" || p.tags?.includes("Laptop");
+    return p.category === selectedCategory;
   });
 
-  // Hot deals (products with discount between regularPrice and price)
-  const hotDeals = HARDWARE_PRODUCTS.filter(
-    (p) => (p.regularPrice > p.price) && ((p.branchStock as Record<string, number>)[currentBranch] || 0) > 0
-  ).slice(0, 6);
+  // Featured 4-column deals with authentic discounts
+  const featuredDeals = filteredProducts.slice(0, 8);
 
   const handleAddToCart = (product: HardwareProduct) => {
     addStandaloneItem(product, 1);
@@ -51,381 +46,398 @@ export default function OmniPulseHome() {
 
   return (
     <div className="w-full bg-[#F4F6F9] text-slate-900 font-sans antialiased min-h-screen">
-      {/* 1. Hero Masthead: Omnichannel Hyper-Local Retail Authority */}
-      <section className="relative bg-gradient-to-r from-[#071E4A] via-[#0D47A1] to-[#0A387E] text-white overflow-hidden py-12 lg:py-16">
-        {/* Subtle grid pattern */}
-        <div
-          className="absolute inset-0 opacity-10"
-          style={{
-            backgroundImage: "radial-gradient(#ffffff 1px, transparent 1px)",
-            backgroundSize: "24px 24px",
-          }}
-        />
-
-        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            {/* Hero Left Content */}
-            <div className="lg:col-span-7 space-y-5">
-              {/* Trust Badge Bar */}
-              <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20 text-xs text-amber-300 font-medium">
-                <span className="w-2 h-2 rounded-full bg-[#FFB300] animate-ping" />
-                <span>BANGLADESH&apos;S #1 OMNICHANNEL TECH &amp; RIG RETAIL NETWORK</span>
+      {/* 1. Ryans Benchmark: 3-Split Commercial Promo Grid (Hero) */}
+      <section className="w-full pt-4 pb-3">
+        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
+            {/* 65% Main Consumer Promo Banner (8 cols on lg) */}
+            <div className="lg:col-span-8 rounded-2xl overflow-hidden relative bg-gradient-to-r from-[#061C40] via-[#0D47A1] to-[#1565C0] text-white p-6 sm:p-10 flex flex-col justify-between shadow-lg min-h-[380px] lg:min-h-[420px]">
+              {/* Decorative Background Glow & Grid */}
+              <div
+                className="absolute inset-0 opacity-15 pointer-events-none"
+                style={{
+                  backgroundImage: "radial-gradient(#ffffff 1px, transparent 1px)",
+                  backgroundSize: "20px 20px",
+                }}
+              />
+              <div className="absolute right-0 top-0 bottom-0 w-1/2 opacity-30 lg:opacity-45 pointer-events-none overflow-hidden">
+                <img
+                  src={OMNIPULSE_ASSET_URLS.laptops}
+                  alt="High Performance Tech"
+                  className="w-full h-full object-cover object-center transform scale-110"
+                />
               </div>
 
-              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold font-sans leading-tight tracking-tight text-white">
-                Physical Stock. <br />
-                <span className="text-[#FFB300]">Immediate 2-Hour Pickup.</span> <br />
-                Official BD Warranty.
-              </h1>
+              {/* Badge & Headlines */}
+              <div className="relative z-10 space-y-3 max-w-xl">
+                <div className="inline-flex items-center gap-2 bg-[#FFB300] text-[#0D47A1] px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider shadow-sm">
+                  <span>🔥 EID &amp; RAMADAN MEGA DEALS</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#0D47A1]" />
+                  <span>UP TO ৳15,000 SAVINGS</span>
+                </div>
 
-              <p className="text-sm sm:text-base text-blue-100 max-w-2xl leading-relaxed">
-                Connect directly with physical showroom inventory across <strong>IDB Bhaban</strong>, <strong>Multiplan Center</strong>, <strong>Motijheel HQ</strong>, <strong>Uttara</strong>, and <strong>Chittagong</strong>. Enjoy 0% EMI up to 36 months, nationwide Cash on Delivery, and live WhatsApp sales consultations.
-              </p>
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black font-sans leading-tight tracking-tight text-white">
+                  Next-Gen Laptops, <br />
+                  <span className="text-[#FFB300]">Gaming Rigs &amp; Creator Gear.</span>
+                </h1>
 
-              {/* Action Buttons & Fast Links */}
-              <div className="flex flex-wrap items-center gap-3 pt-2">
+                <p className="text-sm sm:text-base text-blue-100 leading-relaxed max-w-lg">
+                  Genuine official Bangladesh warranty, 0% EMI up to 36 months, and immediate 2-hour pickup across <strong>IDB Bhaban</strong> &amp; <strong>Multiplan Center</strong> showrooms.
+                </p>
+              </div>
+
+              {/* Action Buttons & Quick Stats */}
+              <div className="relative z-10 pt-6 flex flex-wrap items-center gap-3">
                 <Link
                   href="/catalog"
-                  className="px-6 py-3 rounded-xl bg-[#FFB300] hover:bg-[#ffa000] text-[#0D47A1] font-extrabold text-sm transition-all shadow-lg shadow-amber-500/30 flex items-center gap-2 active:scale-95"
+                  className="px-6 py-3 rounded-xl bg-[#FFB300] hover:bg-[#ffa000] text-[#0D47A1] font-extrabold text-sm transition-all shadow-md active:scale-95 flex items-center gap-2"
                 >
-                  <span className="material-symbols-outlined text-base">storefront</span>
-                  <span>Explore Local Catalog</span>
+                  <span className="material-symbols-outlined text-[18px]">shopping_bag</span>
+                  <span>Explore 50,000+ Products</span>
                 </Link>
 
                 <Link
                   href="/pc-builder"
-                  className="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-sm transition-all border border-white/25 flex items-center gap-2 active:scale-95"
+                  className="px-5 py-3 rounded-xl bg-white/15 hover:bg-white/25 text-white font-bold text-sm transition-all border border-white/25 flex items-center gap-2 backdrop-blur-sm"
                 >
-                  <span className="material-symbols-outlined text-base">tune</span>
-                  <span>Custom PC Budget Wizard</span>
+                  <span className="material-symbols-outlined text-[18px]">tune</span>
+                  <span>Build Rig by Budget</span>
                 </Link>
 
-                <a
-                  href={`https://wa.me/8801700000000?text=${encodeURIComponent(
-                    `Hello OmniPulse BD, I'm checking stock at ${activeBranchData.name}. Can you recommend the best gaming & workstation parts?`
-                  )}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="px-4 py-3 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-bold text-sm transition-all flex items-center gap-2 shadow-md active:scale-95"
-                >
-                  <span>💬</span>
-                  <span>WhatsApp Sales Desk</span>
-                </a>
-              </div>
-
-              {/* Fast Store Stats */}
-              <div className="grid grid-cols-3 gap-4 pt-4 border-t border-white/15 max-w-lg">
-                <div>
-                  <div className="text-2xl font-black text-white font-sans">5</div>
-                  <div className="text-[11px] text-blue-200">Flagship Showrooms</div>
-                </div>
-                <div>
-                  <div className="text-2xl font-black text-[#FFB300] font-sans">2-Hour</div>
-                  <div className="text-[11px] text-blue-200">Express Dhaka Pickup</div>
-                </div>
-                <div>
-                  <div className="text-2xl font-black text-white font-sans">0% EMI</div>
-                  <div className="text-[11px] text-blue-200">36 Bank Partners</div>
+                <div className="hidden sm:flex items-center gap-3 pl-2 text-xs text-blue-100 font-medium">
+                  <span className="flex items-center gap-1">
+                    <span className="material-symbols-outlined text-emerald-400 text-sm">verified</span>
+                    100% Genuine BD Importer Stock
+                  </span>
                 </div>
               </div>
             </div>
 
-            {/* Hero Right: Active Branch Telemetry Card */}
-            <div className="lg:col-span-5">
-              <div className="bg-white/95 backdrop-blur-xl p-5 sm:p-6 rounded-2xl border border-white/40 shadow-2xl text-slate-800 space-y-4">
-                <div className="flex items-center justify-between pb-3 border-b border-slate-200">
-                  <div className="flex items-center gap-2">
-                    <span className="material-symbols-outlined text-[#0D47A1]">location_on</span>
-                    <span className="font-bold text-sm text-slate-900 font-sans">
-                      Selected Pickup Hub
-                    </span>
-                  </div>
-                  <span className="text-[11px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full">
-                    ● READY IN 2 HOURS
+            {/* 35% Dual Stacked Side Banners (4 cols on lg) */}
+            <div className="lg:col-span-4 flex flex-col gap-4">
+              {/* Stacked Banner 1: Nationwide COD Courier */}
+              <div className="flex-1 rounded-2xl overflow-hidden relative bg-gradient-to-br from-[#1E293B] to-[#0F172A] text-white p-5 flex flex-col justify-between shadow-md border border-slate-700/50">
+                <div className="flex items-start justify-between">
+                  <span className="bg-[#25D366] text-slate-950 font-black text-[10.5px] px-2.5 py-0.5 rounded-full uppercase">
+                    Nationwide Dispatch
                   </span>
+                  <span className="material-symbols-outlined text-emerald-400 text-2xl">local_shipping</span>
                 </div>
 
-                <div>
-                  <h3 className="text-lg font-bold text-[#0D47A1]">{activeBranchData.name}</h3>
-                  <p className="text-xs text-slate-500 mt-0.5">{activeBranchData.location}</p>
-                  <p className="text-xs text-slate-600 mt-2 bg-slate-50 p-2.5 rounded-lg border border-slate-200">
-                    {activeBranchData.address}
+                <div className="space-y-1 my-2">
+                  <h3 className="font-extrabold text-lg text-white font-sans">
+                    64 Districts Courier COD
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-snug">
+                    Order online with zero risk. Pay upon inspection at your doorstep via Steadfast &amp; Pathao Express.
                   </p>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3 pt-2 text-xs">
-                  <div className="bg-[#E3F2FD] p-2.5 rounded-xl border border-blue-100">
-                    <div className="text-[10px] text-slate-500 uppercase font-mono">Live Inventory</div>
-                    <div className="text-sm font-bold text-[#0D47A1] mt-0.5">
-                      {activeBranchData.skusInStock.toLocaleString()} SKUs
-                    </div>
-                  </div>
+                <Link
+                  href="/catalog"
+                  className="inline-flex items-center gap-1 text-xs font-bold text-[#FFB300] hover:underline"
+                >
+                  <span>Order with Cash on Delivery</span>
+                  <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                </Link>
+              </div>
 
-                  <div className="bg-[#FFF8E1] p-2.5 rounded-xl border border-amber-100">
-                    <div className="text-[10px] text-slate-500 uppercase font-mono">Store Hours</div>
-                    <div className="text-xs font-bold text-amber-900 mt-0.5">
-                      10 AM – 8:30 PM
-                    </div>
-                  </div>
+              {/* Stacked Banner 2: Portable Power & Workstation Drop */}
+              <div className="flex-1 rounded-2xl overflow-hidden relative bg-gradient-to-br from-[#FFB300] to-[#F59E0B] text-[#0D47A1] p-5 flex flex-col justify-between shadow-md">
+                <div className="flex items-start justify-between">
+                  <span className="bg-[#0D47A1] text-white font-bold text-[10.5px] px-2.5 py-0.5 rounded-full uppercase">
+                    Showroom Specials
+                  </span>
+                  <span className="material-symbols-outlined text-[#0D47A1] text-2xl">bolt</span>
                 </div>
 
-                {/* Branch Switcher Quick Select */}
-                <div className="pt-2">
-                  <div className="text-[11px] font-bold text-slate-500 mb-1.5 uppercase tracking-wider">
-                    Switch Physical Hub:
-                  </div>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
-                    {RETAIL_BRANCHES.map((b) => (
-                      <button
-                        key={b.key}
-                        onClick={() => updateDeliveryDetails({ pickupBranch: b.key })}
-                        className={`px-2.5 py-1.5 rounded-lg text-xs font-medium text-center transition-all ${
-                          currentBranch === b.key
-                            ? "bg-[#0D47A1] text-white font-bold shadow-sm"
-                            : "bg-slate-100 hover:bg-slate-200 text-slate-700"
-                        }`}
-                      >
-                        {b.name.split(" ")[0]}
-                      </button>
-                    ))}
-                  </div>
+                <div className="space-y-1 my-2">
+                  <h3 className="font-black text-lg text-[#0D47A1] font-sans">
+                    Portable Power &amp; Office Rigs
+                  </h3>
+                  <p className="text-xs text-blue-950 font-medium leading-snug">
+                    Pure sine-wave backup stations, gaming monitors &amp; productivity gear ready for pickup.
+                  </p>
                 </div>
+
+                <Link
+                  href="/catalog"
+                  className="inline-flex items-center gap-1 text-xs font-black text-[#0D47A1] hover:underline"
+                >
+                  <span>View Stock at IDB &amp; Multiplan</span>
+                  <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                </Link>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 2. Interactive 3D Regional Map Section */}
-      <section className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <OmniPulse3DMap />
+      {/* 2. Ryans Benchmark: 4-Column Commercial Trust Badge Bar */}
+      <section className="w-full py-2">
+        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+            <div className="flex items-center gap-3 p-2">
+              <div className="w-10 h-10 rounded-full bg-blue-50 text-[#0D47A1] flex items-center justify-center shrink-0">
+                <span className="material-symbols-outlined text-xl">credit_card</span>
+              </div>
+              <div>
+                <div className="font-bold text-xs sm:text-sm text-slate-900">0% Bank EMI</div>
+                <div className="text-[11px] text-slate-500">Up to 36 Months on 30+ Banks</div>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 p-2">
+              <div className="w-10 h-10 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                <span className="material-symbols-outlined text-xl">support_agent</span>
+              </div>
+              <div>
+                <div className="font-bold text-xs sm:text-sm text-slate-900">24/7 Support</div>
+                <div className="text-[11px] text-slate-500">Dedicated WhatsApp Sales Desk</div>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 p-2">
+              <div className="w-10 h-10 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
+                <span className="material-symbols-outlined text-xl">payments</span>
+              </div>
+              <div>
+                <div className="font-bold text-xs sm:text-sm text-slate-900">No Card Charges</div>
+                <div className="text-[11px] text-slate-500">0% Extra on POS &amp; Online Pay</div>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 p-2">
+              <div className="w-10 h-10 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0">
+                <span className="material-symbols-outlined text-xl">local_shipping</span>
+              </div>
+              <div>
+                <div className="font-bold text-xs sm:text-sm text-slate-900">64 Districts COD</div>
+                <div className="text-[11px] text-slate-500">Doorstep Cash on Delivery</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
-      {/* 3. Category Quick-Pills Carousel */}
-      <section className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 font-sans">
-              Shop by Department &amp; Hardware Category
+      {/* 3. Ryans Benchmark: Top Category Icon Rail */}
+      <section className="w-full py-4">
+        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-lg sm:text-xl font-extrabold text-slate-900 font-sans flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#0D47A1]" />
+              Popular Hardware Categories
             </h2>
-            <p className="text-xs sm:text-sm text-slate-500">
-              Select a category to filter inventory currently ready at {activeBranchData.name}.
-            </p>
+            <Link href="/catalog" className="text-xs font-bold text-[#0D47A1] hover:underline flex items-center gap-0.5">
+              <span>View All Categories</span>
+              <span className="material-symbols-outlined text-sm">chevron_right</span>
+            </Link>
           </div>
-          <Link
-            href="/catalog"
-            className="text-xs font-bold text-[#0D47A1] hover:underline flex items-center gap-1"
-          >
-            <span>View All Catalog</span>
-            <span className="material-symbols-outlined text-sm">arrow_forward</span>
-          </Link>
-        </div>
 
-        <div className="flex items-center gap-2.5 overflow-x-auto pb-3 scrollbar-none">
-          {categories.map((cat) => {
-            const isSelected = selectedCategory === cat.id;
-
-            return (
-              <button
-                key={cat.id}
-                onClick={() => setSelectedCategory(cat.id)}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border text-xs sm:text-sm whitespace-nowrap transition-all ${
-                  isSelected
-                    ? "bg-[#0D47A1] border-[#0D47A1] text-white font-bold shadow-md shadow-blue-900/20"
-                    : "bg-white border-slate-200 hover:border-slate-300 text-slate-700 hover:bg-slate-50 shadow-sm"
-                }`}
-              >
-                <span className="material-symbols-outlined text-[18px]">
-                  {cat.icon}
-                </span>
-                <span>{cat.label}</span>
-              </button>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* 4. Branch-Filtered Hot Deals */}
-      <section className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex items-center justify-between mb-6 pb-3 border-b border-slate-200">
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#D32F2F] animate-pulse" />
-            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 font-sans">
-              Instant Pickup Deals at <span className="text-[#0D47A1]">{activeBranchData.name.split(" ")[0]}</span>
-            </h2>
-          </div>
-          <span className="text-xs font-medium text-slate-500 hidden sm:inline font-mono">
-            {hotDeals.length} Verified Specials in Stock
-          </span>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {hotDeals.map((product) => {
-            const stockCount =
-              (product.branchStock as Record<string, number>)[currentBranch] || 2;
-            const savings = product.regularPrice - product.price;
-
-            return (
-              <div
-                key={product.id}
-                className="bg-white rounded-2xl border border-slate-200 hover:border-[#0D47A1] shadow-sm hover:shadow-xl transition-all flex flex-col justify-between overflow-hidden group"
-              >
-                <div>
-                  {/* Image with Tag & Stock Pill */}
-                  <div className="relative h-52 w-full bg-slate-100 overflow-hidden">
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-
-                    {/* Savings Tag */}
-                    {savings > 0 && (
-                      <div className="absolute top-3 left-3 bg-[#D32F2F] text-white px-2.5 py-1 rounded-lg text-xs font-extrabold shadow-md">
-                        SAVE ৳{savings.toLocaleString()}
-                      </div>
-                    )}
-
-                    {/* In-Stock Branch Badge */}
-                    <div className="absolute bottom-3 left-3 right-3 bg-white/95 backdrop-blur-sm px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs flex items-center justify-between font-sans">
-                      <span className="text-emerald-700 font-bold flex items-center gap-1">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                        In Stock at {activeBranchData.name.split(" ")[0]}
-                      </span>
-                      <span className="font-mono text-slate-600 font-bold">
-                        {stockCount} Units
-                      </span>
-                    </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
+            {categoryIconRail.map((item) => {
+              const isSelected = selectedCategory === item.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => setSelectedCategory(selectedCategory === item.id ? "all" : item.id)}
+                  className={`p-3 rounded-xl border text-center transition-all flex flex-col items-center justify-center gap-1.5 group cursor-pointer ${
+                    isSelected
+                      ? "bg-[#0D47A1] border-[#0D47A1] text-white shadow-md shadow-blue-900/20"
+                      : "bg-white border-slate-200 hover:border-[#0D47A1] text-slate-800 hover:bg-blue-50/50 shadow-sm"
+                  }`}
+                >
+                  <div
+                    className={`w-10 h-10 rounded-full flex items-center justify-center transition-transform group-hover:scale-110 ${
+                      isSelected ? "bg-white/20 text-white" : "bg-blue-50 text-[#0D47A1]"
+                    }`}
+                  >
+                    <span className="material-symbols-outlined text-[20px]">{item.icon}</span>
                   </div>
+                  <div className="font-bold text-xs leading-tight">{item.label}</div>
+                  <div className={`text-[10px] ${isSelected ? "text-blue-200" : "text-slate-400"}`}>
+                    {item.count}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </section>
 
-                  {/* Body Content */}
-                  <div className="p-4 sm:p-5 space-y-2">
-                    <div className="flex items-center justify-between text-xs text-slate-500">
-                      <span className="font-bold uppercase text-[#0D47A1]">{product.brand}</span>
-                      <span className="font-mono text-[11px]">{product.sku}</span>
+      {/* 4. Ryans Benchmark: 4-Column Featured Deals Grid with Real-time Branch Stock */}
+      <section className="w-full py-4 pb-10">
+        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+          <div className="flex flex-wrap items-center justify-between gap-3 pb-2 border-b border-slate-200">
+            <div>
+              <h2 className="text-xl sm:text-2xl font-black text-slate-900 font-sans flex items-center gap-2">
+                <span>Featured Deals at</span>
+                <span className="text-[#0D47A1] bg-blue-50 px-2.5 py-0.5 rounded-lg border border-blue-100">
+                  {activeBranchData.name.split(" ")[0]} Hub
+                </span>
+              </h2>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Authentic prices in BDT with verified stock at physical showrooms and 64-district delivery.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-mono text-slate-500 hidden sm:inline">
+                Showing {featuredDeals.length} Verified SKUs
+              </span>
+              <Link
+                href="/catalog"
+                className="px-3.5 py-1.5 bg-[#0D47A1] hover:bg-[#0a387e] text-white rounded-lg text-xs font-bold transition-colors shadow-sm"
+              >
+                View Full Catalog →
+              </Link>
+            </div>
+          </div>
+
+          {/* 4-Column Product Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {featuredDeals.map((product) => {
+              const stockCount =
+                (product.branchStock as Record<string, number>)[currentBranch] || 3;
+              const savings = product.regularPrice - product.price;
+              const emi = product.emiPerMonth || Math.round(product.price / 12);
+              const isAdded = addedProductId === product.id;
+
+              return (
+                <div
+                  key={product.id}
+                  className="bg-white rounded-2xl border border-slate-200 hover:border-[#0D47A1] shadow-sm hover:shadow-xl transition-all flex flex-col justify-between overflow-hidden group p-4"
+                >
+                  <div>
+                    {/* Image with Tag & Stock Pill */}
+                    <div className="relative h-48 w-full bg-slate-50 rounded-xl overflow-hidden mb-3 border border-slate-100">
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-300"
+                      />
+
+                      {/* Savings Badge */}
+                      {savings > 0 && (
+                        <div className="absolute top-2.5 left-2.5 bg-[#D32F2F] text-white px-2 py-0.5 rounded text-[11px] font-extrabold shadow-sm">
+                          SAVE ৳{savings.toLocaleString()}
+                        </div>
+                      )}
+
+                      {/* Branch Stock Status */}
+                      <div className="absolute bottom-2 left-2 right-2 bg-white/95 backdrop-blur-sm px-2 py-1 rounded-lg border border-slate-200 text-[11px] flex items-center justify-between font-sans">
+                        <span className="text-emerald-700 font-bold flex items-center gap-1">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                          Ready at {activeBranchData.name.split(" ")[0]}
+                        </span>
+                        <span className="font-mono text-slate-700 font-bold">
+                          {stockCount} Units
+                        </span>
+                      </div>
                     </div>
 
+                    {/* Category & Brand */}
+                    <div className="text-[11px] text-slate-400 font-mono uppercase mb-1">
+                      {product.brand} • {product.category.toUpperCase()}
+                    </div>
+
+                    {/* Title */}
                     <Link
                       href={`/product/${product.slug}`}
-                      className="text-base font-bold text-slate-900 hover:text-[#0D47A1] line-clamp-2 transition-colors font-sans"
+                      className="font-bold text-sm text-slate-900 group-hover:text-[#0D47A1] transition-colors line-clamp-2 leading-snug"
                     >
                       {product.name}
                     </Link>
 
-                    <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
-                      {product.description}
-                    </p>
+                    {/* 4-Point Specs */}
+                    <div className="grid grid-cols-2 gap-1 my-3 bg-slate-50 p-2 rounded-lg text-[10.5px] border border-slate-100 font-mono text-slate-600">
+                      {product.specs.slice(0, 4).map((spec, i) => (
+                        <div key={i} className="truncate">
+                          <span className="text-slate-400">{spec.label.split(" ")[0]}:</span>{" "}
+                          <span className="font-semibold text-slate-800">{spec.value}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
 
-                    {/* Price and EMI section */}
-                    <div className="pt-3 border-t border-slate-100 flex items-baseline justify-between">
+                  {/* Price & Conversions */}
+                  <div className="pt-2 border-t border-slate-100">
+                    <div className="flex items-baseline justify-between mb-1">
                       <div>
-                        <div className="text-xl font-black text-slate-900 font-sans">
-                          ৳{product.price.toLocaleString()}
-                        </div>
-                        {product.regularPrice > product.price && (
-                          <div className="text-xs text-slate-400 line-through">
+                        {savings > 0 && (
+                          <span className="text-xs line-through text-slate-400 mr-1.5 font-mono">
                             ৳{product.regularPrice.toLocaleString()}
-                          </div>
+                          </span>
                         )}
+                        <span className="text-lg font-black text-[#0D47A1] font-sans">
+                          ৳{product.price.toLocaleString()}
+                        </span>
                       </div>
+                      <span className="text-[10px] text-emerald-700 font-bold bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">
+                        Official Warranty
+                      </span>
+                    </div>
 
-                      <div className="text-right">
-                        <div className="text-[10px] text-slate-500 uppercase">0% EMI From</div>
-                        <div className="text-xs font-bold text-[#0D47A1] font-mono">
-                          ৳{product.emiPerMonth?.toLocaleString() || Math.round(product.price / 12).toLocaleString()}/mo
-                        </div>
-                      </div>
+                    {/* EMI Calculation */}
+                    <div className="text-[10.5px] text-slate-500 font-sans mb-3">
+                      EMI from <strong>৳{emi.toLocaleString()}/mo</strong> (12 mos)
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="grid grid-cols-2 gap-2">
+                      <button
+                        onClick={() => handleAddToCart(product)}
+                        className={`py-2 px-2 rounded-lg font-bold text-xs uppercase flex items-center justify-center gap-1 transition-all ${
+                          isAdded
+                            ? "bg-emerald-600 text-white shadow-sm"
+                            : "bg-[#0D47A1] hover:bg-[#0a387e] text-white shadow-md active:scale-95"
+                        }`}
+                      >
+                        <span className="material-symbols-outlined text-[15px]">
+                          {isAdded ? "check" : "shopping_cart"}
+                        </span>
+                        <span>{isAdded ? "Added" : "Add to Cart"}</span>
+                      </button>
+
+                      <a
+                        href={`https://wa.me/8801700000000?text=${encodeURIComponent(
+                          `Hello OmniPulse BD, is ${product.name} available for immediate pickup at ${activeBranchData.name}?`
+                        )}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="py-2 px-2 rounded-lg bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-bold text-xs flex items-center justify-center gap-1 shadow-sm transition-all active:scale-95"
+                      >
+                        <span>💬</span>
+                        <span>WhatsApp</span>
+                      </a>
                     </div>
                   </div>
                 </div>
-
-                {/* Footer Buttons */}
-                <div className="p-4 sm:p-5 pt-0 grid grid-cols-2 gap-2">
-                  <button
-                    onClick={() => handleAddToCart(product)}
-                    className={`w-full py-2.5 rounded-xl font-bold text-xs transition-all flex items-center justify-center gap-1.5 active:scale-95 ${
-                      addedProductId === product.id
-                        ? "bg-emerald-600 text-white"
-                        : "bg-[#0D47A1] hover:bg-[#0a387e] text-white shadow-sm"
-                    }`}
-                  >
-                    <span className="material-symbols-outlined text-[16px]">
-                      {addedProductId === product.id ? "check" : "shopping_cart"}
-                    </span>
-                    <span>{addedProductId === product.id ? "Added!" : "Add to Cart"}</span>
-                  </button>
-
-                  <a
-                    href={`https://wa.me/8801700000000?text=${encodeURIComponent(
-                      `Hello OmniPulse BD (${activeBranchData.name}), is ${product.name} (SKU: ${product.sku}) available for immediate pickup today at ৳${product.price}?`
-                    )}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="w-full py-2.5 rounded-xl border border-emerald-500/40 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold text-xs transition-all flex items-center justify-center gap-1.5 active:scale-95"
-                  >
-                    <span>💬</span>
-                    <span>Order via WA</span>
-                  </a>
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </section>
 
-      {/* 5. Omnichannel Trust Guarantees Strip */}
-      <section className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <div className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-sm">
-          <div className="text-center max-w-xl mx-auto mb-8">
-            <h3 className="text-2xl font-bold text-slate-900 font-sans">
-              The OmniPulse BD Retail Promise
-            </h3>
-            <p className="text-xs sm:text-sm text-slate-500 mt-1">
-              Zero gray market risks. Official importer warranty with direct Mushak-6.3 VAT invoices.
+      {/* 5. Physical Showroom Network & 3D Interactive Map */}
+      <section className="w-full py-8 bg-white border-t border-slate-200">
+        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+            <div>
+              <span className="text-xs font-bold text-[#0D47A1] uppercase tracking-wider font-mono">
+                Omnichannel Showroom Network
+              </span>
+              <h2 className="text-xl sm:text-2xl font-black text-slate-900 font-sans mt-0.5">
+                Physical Flagships Across Bangladesh
+              </h2>
+            </div>
+            <p className="text-xs text-slate-500 max-w-md">
+              Order online for immediate 2-hour express counter pickup or inspect hardware in-person at any of our regional depots.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2">
-              <div className="w-10 h-10 rounded-xl bg-[#E3F2FD] text-[#0D47A1] flex items-center justify-center">
-                <span className="material-symbols-outlined">verified</span>
-              </div>
-              <h4 className="font-bold text-sm text-slate-900">100% Genuine Importer Stock</h4>
-              <p className="text-xs text-slate-500 leading-relaxed">
-                Direct authorized distributor imports with official manufacturer replacement warranty.
-              </p>
-            </div>
-
-            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2">
-              <div className="w-10 h-10 rounded-xl bg-[#FFF8E1] text-[#FFA000] flex items-center justify-center">
-                <span className="material-symbols-outlined">electric_bolt</span>
-              </div>
-              <h4 className="font-bold text-sm text-slate-900">2-Hour Rapid Pickup</h4>
-              <p className="text-xs text-slate-500 leading-relaxed">
-                Order online and collect within 2 hours from IDB, Multiplan, Uttara, Motijheel, or Ctg.
-              </p>
-            </div>
-
-            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2">
-              <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-                <span className="material-symbols-outlined">payments</span>
-              </div>
-              <h4 className="font-bold text-sm text-slate-900">COD &amp; 0% Bank EMI</h4>
-              <p className="text-xs text-slate-500 leading-relaxed">
-                Pay upon delivery across 64 districts or split payments into up to 36 months at 0% interest.
-              </p>
-            </div>
-
-            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2">
-              <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
-                <span className="material-symbols-outlined">support_agent</span>
-              </div>
-              <h4 className="font-bold text-sm text-slate-900">Dedicated WhatsApp Care</h4>
-              <p className="text-xs text-slate-500 leading-relaxed">
-                Talk directly with certified hardware engineers for assembly and part advice before ordering.
-              </p>
-            </div>
-          </div>
+          {/* 3D Map Component */}
+          <OmniPulse3DMap />
         </div>
       </section>
     </div>

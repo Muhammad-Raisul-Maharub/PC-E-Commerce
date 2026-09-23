@@ -71,8 +71,8 @@ export default function KryptonCatalog() {
       )}
 
       {/* Breadcrumb & Section Header */}
-      <section className="bg-white border-b-2 border-black py-8 px-4 sm:px-6">
-        <div className="max-w-[1440px] mx-auto">
+      <section className="bg-white border-b-2 border-black py-8">
+        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 font-mono text-xs text-slate-500 uppercase mb-2">
             <Link href="/" className="hover:text-black underline">
               Krypton Depot
@@ -110,7 +110,7 @@ export default function KryptonCatalog() {
       </section>
 
       {/* Main Content Layout: Sidebar Filters + Product Grid */}
-      <section className="max-w-[1440px] mx-auto px-4 sm:px-6 pt-8">
+      <section className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 pt-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* Left Column: Heavy Brutalist Filter Bay (3 cols) */}

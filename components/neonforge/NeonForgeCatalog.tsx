@@ -16,6 +16,7 @@ export default function NeonForgeCatalog() {
   const [selectedSync, setSelectedSync] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [branchFilter, setBranchFilter] = useState<string>("all");
+  const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
 
   const filteredProducts = useMemo(() => {
     return HARDWARE_PRODUCTS.filter((item) => {
@@ -69,8 +70,8 @@ export default function NeonForgeCatalog() {
   }, [selectedCategory, selectedRadiator, selectedThread, selectedTubing, selectedSync, searchQuery, branchFilter]);
 
   return (
-    <div className="w-full min-h-screen bg-[#0A0A0F] text-slate-100 selection:bg-[#00F0FF] selection:text-[#0A0A0F] py-6 px-4 sm:px-6">
-      <div className="max-w-[1440px] mx-auto space-y-6">
+    <div className="w-full min-h-screen bg-[#0A0A0F] text-slate-100 selection:bg-[#00F0FF] selection:text-[#0A0A0F] py-6">
+      <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         {/* Header Title & Breadcrumb */}
         <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-white/10">
           <div>
@@ -86,6 +87,15 @@ export default function NeonForgeCatalog() {
           </div>
 
           <div className="flex items-center gap-3">
+            {/* Mobile/Tablet Off-Canvas Filter Terminal Trigger */}
+            <button
+              onClick={() => setIsFilterDrawerOpen(!isFilterDrawerOpen)}
+              className="lg:hidden flex items-center gap-2 px-3 py-1.5 rounded-lg bg-cyan-950/70 border border-cyan-500/40 text-[#00F0FF] font-mono text-xs font-bold"
+            >
+              <span className="material-symbols-outlined text-[16px]">tune</span>
+              <span>FILTER TERMINAL</span>
+            </button>
+
             <span className="font-mono text-xs px-3 py-1.5 rounded-lg bg-[#12121A] border border-cyan-500/30 text-cyan-300 font-bold">
               {filteredProducts.length} ARMORED UNITS FOUND
             </span>
@@ -94,28 +104,38 @@ export default function NeonForgeCatalog() {
 
         {/* Main 2-Column Layout (Filters Left, 3-Column Glass Cards Right) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* Left Sidebar Filters */}
-          <aside className="lg:col-span-3 space-y-5">
+          {/* Left Sidebar Filters (Desktop sticky & Mobile off-canvas drawer) */}
+          <aside className={`lg:col-span-3 space-y-5 ${isFilterDrawerOpen ? "fixed inset-0 z-50 bg-[#0A0A0F]/95 p-6 overflow-y-auto block" : "hidden lg:block"}`}>
             <div className="bg-[#12121A]/90 backdrop-blur-xl border border-cyan-500/30 rounded-2xl p-5 shadow-2xl space-y-5">
               <div className="flex items-center justify-between pb-3 border-b border-white/10">
                 <span className="font-chakra text-sm font-bold uppercase text-white flex items-center gap-1.5">
                   <span className="material-symbols-outlined text-cyan-400 text-base">tune</span>
                   <span>Modding Facets</span>
                 </span>
-                <button
-                  onClick={() => {
-                    setSelectedCategory("all");
-                    setSelectedRadiator("all");
-                    setSelectedThread("all");
-                    setSelectedTubing("all");
-                    setSelectedSync("all");
-                    setSearchQuery("");
-                    setBranchFilter("all");
-                  }}
-                  className="font-mono text-[10px] text-slate-400 hover:text-cyan-400 uppercase underline"
-                >
-                  Reset All
-                </button>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => {
+                      setSelectedCategory("all");
+                      setSelectedRadiator("all");
+                      setSelectedThread("all");
+                      setSelectedTubing("all");
+                      setSelectedSync("all");
+                      setSearchQuery("");
+                      setBranchFilter("all");
+                    }}
+                    className="font-mono text-[10px] text-slate-400 hover:text-cyan-400 uppercase underline"
+                  >
+                    Reset All
+                  </button>
+                  {isFilterDrawerOpen && (
+                    <button
+                      onClick={() => setIsFilterDrawerOpen(false)}
+                      className="lg:hidden p-1 rounded bg-white/10 text-white font-mono text-xs"
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
               </div>
 
               {/* Search Bar */}

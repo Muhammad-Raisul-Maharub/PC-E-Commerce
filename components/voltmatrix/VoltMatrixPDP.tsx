@@ -108,7 +108,7 @@ export default function VoltMatrixPDP({ product: propProduct }: { product?: Hard
       )}
 
       {/* Main Viewport Container */}
-      <div className="max-w-[1440px] mx-auto px-3 sm:px-4 py-6">
+      <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
           {/* ================= LEFT 6 COLS: 3D CAD ORBIT & MEDIA GALLERY ================= */}
           <div className="xl:col-span-6 space-y-4">

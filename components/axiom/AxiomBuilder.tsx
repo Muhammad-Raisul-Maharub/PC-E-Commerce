@@ -275,7 +275,7 @@ export default function AxiomBuilder() {
     <div className="min-h-screen bg-[#FBFBFD] text-[#18181B] font-sans pb-16">
       {/* Top Architecture Header */}
       <div className="bg-white border-b border-[#E4E4E7] py-6 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-[1440px] mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="w-full max-w-[1536px] mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
               <span className="w-2 h-2 rounded-full bg-[#004F32]" />
@@ -310,7 +310,7 @@ export default function AxiomBuilder() {
         </div>
       </div>
 
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Main 8-Slot Architect Canvas (8 Cols) */}
           <div className="lg:col-span-8 space-y-4">

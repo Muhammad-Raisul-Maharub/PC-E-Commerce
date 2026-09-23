@@ -54,10 +54,10 @@ export default function SynapseHome() {
   };
 
   return (
-    <div className="w-full bg-[#0F172A] text-[#F8FAFC] font-sans antialiased min-h-screen pt-28">
+    <div className="w-full bg-[#0F172A] text-[#F8FAFC] font-sans antialiased min-h-screen">
       {/* 1. Live Component Inventory Ticker */}
       <section className="w-full bg-[#060E20] border-b border-[#334155] overflow-hidden">
-        <div className="flex items-center px-4 md:px-8 py-2 gap-4 text-[#94A3B8] font-mono text-xs">
+        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center py-2 gap-4 text-[#94A3B8] font-mono text-xs">
           <div className="flex items-center gap-1.5 shrink-0 text-[#06B6D4] font-bold">
             <span className="inline-block w-2 h-2 rounded-full bg-[#06B6D4] animate-ping" />
             <span>DEPOT_STREAM //</span>
@@ -98,16 +98,8 @@ export default function SynapseHome() {
       </section>
 
       {/* 2. Hero Section: The Live System Schematic Canvas */}
-      <section className="relative w-full px-4 md:px-8 py-10 bg-[#0B1326] border-b border-[#334155] overflow-hidden cad-grid-bg">
-        {/* HUD Watermark Axis */}
-        <div className="absolute top-4 left-8 pointer-events-none flex items-center gap-3 font-mono text-[11px] text-[#475569]">
-          <span>[SYS_CANVAS_RENDER: ORTHO_V4.8]</span>
-          <span>X: 002.48</span>
-          <span>Y: 104.90</span>
-          <span>Z: 088.11</span>
-        </div>
-
-        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mt-4">
+      <section className="relative w-full py-10 bg-[#0B1326] border-b border-[#334155] overflow-hidden cad-grid-bg">
+        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left CAD Control & Telemetry Panel (7 cols) */}
           <div className="lg:col-span-7 flex flex-col gap-6">
             {/* Header & Subtitle */}
@@ -309,7 +301,8 @@ export default function SynapseHome() {
       </section>
 
       {/* 3. Parametric Component Showcase Grid */}
-      <section className="w-full px-4 md:px-8 py-12 bg-[#0F172A]">
+      <section className="w-full py-12 bg-[#0F172A]">
+        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4 border-b border-[#334155] pb-4">
           <div>
             <div className="flex items-center gap-2 text-[#06B6D4] mb-1 font-mono text-xs font-bold">
@@ -442,6 +435,7 @@ export default function SynapseHome() {
             <span>[ Browse Full Parametric Component Directory ({HARDWARE_PRODUCTS.length} SKUs) ]</span>
             <span className="material-symbols-outlined text-sm">arrow_forward</span>
           </Link>
+        </div>
         </div>
       </section>
     </div>

@@ -97,8 +97,8 @@ export default function KryptonCheckout() {
       )}
 
       {/* Header Banner */}
-      <section className="bg-white border-b-2 border-black py-8 px-4 sm:px-6">
-        <div className="max-w-[1440px] mx-auto">
+      <section className="bg-white border-b-2 border-black py-8">
+        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 font-mono text-xs text-slate-500 uppercase mb-2">
             <Link href="/" className="hover:text-black underline">
               Krypton Depot
@@ -127,7 +127,7 @@ export default function KryptonCheckout() {
       </section>
 
       {/* Main Checkout Layout */}
-      <section className="max-w-[1440px] mx-auto px-4 sm:px-6 pt-8">
+      <section className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 pt-8">
         {standaloneItems.length === 0 ? (
           <div className="bg-white border-2 border-black p-12 text-center shadow-[4px_4px_0px_#000000]">
             <span className="material-symbols-outlined text-5xl text-slate-400 mb-3">production_quantity_limits</span>

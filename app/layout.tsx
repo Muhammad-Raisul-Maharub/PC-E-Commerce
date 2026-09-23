@@ -59,9 +59,9 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
         />
       </head>
-      <body className="bg-[#f8f9ff] text-[#0d1c2e] min-h-screen flex flex-col font-sans antialiased transition-colors duration-300">
+      <body className="w-full min-h-screen flex flex-col font-sans antialiased transition-colors duration-300">
         <Header />
-        <div className="flex-1 pt-28">{children}</div>
+        <main className="flex-1 w-full">{children}</main>
         <Footer />
         <ConceptSwitcherHUD />
       </body>

@@ -312,7 +312,7 @@ export default function OmniPulseBuilder() {
 
   return (
     <div className="w-full bg-[#F4F6F9] text-slate-900 font-sans antialiased min-h-screen py-8">
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+      <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         {/* Toast Alert */}
         {toastMessage && (
           <div className="fixed top-20 right-4 z-50 bg-[#0D47A1] text-white px-4 py-2.5 rounded-xl shadow-xl flex items-center gap-2 text-xs font-bold animate-in fade-in slide-in-from-top-2">

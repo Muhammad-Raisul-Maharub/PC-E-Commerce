@@ -20,6 +20,7 @@ export default function OmniPulseCatalog() {
   const [priceMax, setPriceMax] = useState<number>(300000);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [sortBy, setSortBy] = useState<"featured" | "price-asc" | "price-desc">("featured");
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [addedProductId, setAddedProductId] = useState<string | null>(null);
 
   const activeBranchData =
@@ -123,7 +124,7 @@ export default function OmniPulseCatalog() {
 
   return (
     <div className="w-full bg-[#F4F6F9] text-slate-900 font-sans antialiased min-h-screen py-8">
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Top Header & Telemetry Bar */}
         <div className="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm mb-6 flex flex-wrap items-center justify-between gap-4">
           <div>
@@ -335,7 +336,7 @@ export default function OmniPulseCatalog() {
                 />
               </div>
 
-              {/* Sorting and Count */}
+              {/* Sorting, View Switcher and Count */}
               <div className="flex items-center gap-3">
                 <span className="text-xs text-slate-500 font-mono">
                   <strong>{filteredProducts.length}</strong> items
@@ -350,10 +351,70 @@ export default function OmniPulseCatalog() {
                   <option value="price-asc">Price: Low to High</option>
                   <option value="price-desc">Price: High to Low</option>
                 </select>
+
+                {/* Grid vs List View Toggle (Ryans Benchmark) */}
+                <div className="flex items-center bg-slate-100 p-0.5 rounded-xl border border-slate-200">
+                  <button
+                    onClick={() => setViewMode("grid")}
+                    className={`p-1.5 rounded-lg text-xs transition-all ${
+                      viewMode === "grid"
+                        ? "bg-white text-[#0D47A1] shadow-sm font-bold"
+                        : "text-slate-500 hover:text-slate-800"
+                    }`}
+                    title="Grid View (4 Columns)"
+                  >
+                    <span className="material-symbols-outlined text-[16px]">grid_view</span>
+                  </button>
+                  <button
+                    onClick={() => setViewMode("list")}
+                    className={`p-1.5 rounded-lg text-xs transition-all ${
+                      viewMode === "list"
+                        ? "bg-white text-[#0D47A1] shadow-sm font-bold"
+                        : "text-slate-500 hover:text-slate-800"
+                    }`}
+                    title="Compact List View (Ryans Specification)"
+                  >
+                    <span className="material-symbols-outlined text-[16px]">format_list_bulleted</span>
+                  </button>
+                </div>
               </div>
             </div>
 
-            {/* Products Grid */}
+            {/* Dedicated Branch Quick Tabs Strip */}
+            <div className="flex items-center gap-2 overflow-x-auto pb-1 text-xs">
+              <span className="text-slate-500 font-mono text-[11px] uppercase font-bold shrink-0">Branch Stock:</span>
+              {[
+                { key: "all", label: "All Hubs" },
+                { key: "idb", label: "IDB Dhaka" },
+                { key: "multiplan", label: "Multiplan Dhaka" },
+                { key: "chittagong", label: "GEC Chittagong" },
+              ].map((tab) => (
+                <button
+                  key={tab.key}
+                  onClick={() => handleSwitchBranch(tab.key)}
+                  className={`px-3 py-1 rounded-lg text-[11px] font-semibold transition-colors shrink-0 ${
+                    selectedBranchFilter === tab.key
+                      ? "bg-[#0D47A1] text-white shadow-sm"
+                      : "bg-white border border-slate-200 text-slate-700 hover:bg-slate-50"
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+              <button
+                onClick={() => setCodOnly(!codOnly)}
+                className={`ml-auto px-3 py-1 rounded-lg text-[11px] font-semibold transition-colors shrink-0 flex items-center gap-1 ${
+                  codOnly
+                    ? "bg-emerald-600 text-white shadow-sm"
+                    : "bg-white border border-emerald-300 text-emerald-700 hover:bg-emerald-50"
+                }`}
+              >
+                <span>🚚</span>
+                <span>COD Only</span>
+              </button>
+            </div>
+
+            {/* Products Display */}
             {filteredProducts.length === 0 ? (
               <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center space-y-3">
                 <span className="material-symbols-outlined text-4xl text-slate-300">
@@ -379,8 +440,115 @@ export default function OmniPulseCatalog() {
                   Reset All Filters
                 </button>
               </div>
+            ) : viewMode === "list" ? (
+              /* DENSE COMPACT LIST VIEW (Ryans Computers Benchmark) */
+              <div className="space-y-3">
+                {filteredProducts.map((product) => {
+                  const currentStock =
+                    selectedBranchFilter === "all"
+                      ? Object.values(product.branchStock as Record<string, number>).reduce(
+                          (a, b) => a + b,
+                          0
+                        )
+                      : (product.branchStock as Record<string, number>)[selectedBranchFilter] || 0;
+
+                  const savings = product.regularPrice - product.price;
+
+                  return (
+                    <div
+                      key={product.id}
+                      className="bg-white rounded-2xl border border-slate-200 hover:border-[#0D47A1] p-4 shadow-sm hover:shadow-md transition-all flex flex-col md:flex-row items-center justify-between gap-4 group"
+                    >
+                      {/* Left: Thumbnail & Badges */}
+                      <div className="flex items-center gap-4 w-full md:w-auto">
+                        <div className="w-20 h-20 shrink-0 bg-slate-50 rounded-xl p-1.5 flex items-center justify-center border border-slate-100 relative overflow-hidden">
+                          <img
+                            src={product.image}
+                            alt={product.name}
+                            className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                          />
+                          {savings > 0 && (
+                            <span className="absolute top-1 left-1 bg-[#D32F2F] text-white text-[9px] font-black px-1 rounded">
+                              -৳{savings.toLocaleString()}
+                            </span>
+                          )}
+                        </div>
+
+                        <div className="space-y-1 min-w-0">
+                          <div className="flex items-center gap-2 text-[11px] text-slate-500">
+                            <span className="font-bold text-[#0D47A1] uppercase">{product.brand}</span>
+                            <span>•</span>
+                            <span className="font-mono text-[10px]">{product.sku}</span>
+                            <span className="hidden sm:inline px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                              {currentStock > 0 ? `${currentStock} in stock` : "Transfer Available"}
+                            </span>
+                          </div>
+                          <Link
+                            href={`/product/${product.slug}`}
+                            className="text-sm font-bold text-slate-900 hover:text-[#0D47A1] line-clamp-1 transition-colors block"
+                          >
+                            {product.name}
+                          </Link>
+                          <div className="flex items-center gap-3 text-[11px] text-slate-500 truncate">
+                            {product.specs.slice(0, 2).map((s, idx) => (
+                              <span key={idx} className="truncate">
+                                {s.label}: <strong className="text-slate-700">{s.value}</strong>
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Right: Pricing & Action Buttons */}
+                      <div className="flex items-center justify-between md:justify-end gap-4 w-full md:w-auto pt-3 md:pt-0 border-t md:border-t-0 border-slate-100">
+                        <div className="text-left md:text-right">
+                          <div className="text-base font-black text-slate-900">
+                            ৳{product.price.toLocaleString()}
+                          </div>
+                          {product.regularPrice > product.price && (
+                            <div className="text-[10px] text-slate-400 line-through">
+                              ৳{product.regularPrice.toLocaleString()}
+                            </div>
+                          )}
+                          <div className="text-[10px] text-[#0D47A1] font-mono font-semibold">
+                            EMI: ৳{product.emiPerMonth?.toLocaleString() || Math.round(product.price / 12).toLocaleString()}/mo
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-2 shrink-0">
+                          <button
+                            onClick={() => handleAddToCart(product)}
+                            className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1 active:scale-95 ${
+                              addedProductId === product.id
+                                ? "bg-emerald-600 text-white"
+                                : "bg-[#0D47A1] hover:bg-[#0a387e] text-white shadow-sm"
+                            }`}
+                          >
+                            <span className="material-symbols-outlined text-[15px]">
+                              {addedProductId === product.id ? "check" : "shopping_cart"}
+                            </span>
+                            <span>{addedProductId === product.id ? "Added" : "Add"}</span>
+                          </button>
+                          <a
+                            href={`https://wa.me/8801700000000?text=${encodeURIComponent(
+                              `Hello OmniPulse BD, inquiring about ${product.name} (SKU: ${product.sku}). In stock?`
+                            )}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="p-2 rounded-xl border border-emerald-500/40 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs transition-colors"
+                            title="WhatsApp Specialist"
+                          >
+                            <span>💬</span>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              /* DENSE 4-COLUMN RETAIL PRODUCT GRID */
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
                 {filteredProducts.map((product) => {
                   const currentStock =
                     selectedBranchFilter === "all"
@@ -399,7 +567,7 @@ export default function OmniPulseCatalog() {
                     >
                       <div>
                         {/* Image Preview & Badges */}
-                        <div className="relative h-48 w-full bg-slate-100 overflow-hidden">
+                        <div className="relative h-44 w-full bg-slate-100 overflow-hidden">
                           <img
                             src={product.image}
                             alt={product.name}
@@ -408,20 +576,20 @@ export default function OmniPulseCatalog() {
 
                           {/* Savings Tag */}
                           {savings > 0 && (
-                            <div className="absolute top-2.5 left-2.5 bg-[#D32F2F] text-white px-2 py-0.5 rounded text-[11px] font-extrabold shadow">
+                            <div className="absolute top-2 left-2 bg-[#D32F2F] text-white px-2 py-0.5 rounded text-[10px] font-extrabold shadow">
                               SAVE ৳{savings.toLocaleString()}
                             </div>
                           )}
 
                           {/* Branch Inventory Pill */}
-                          <div className="absolute bottom-2 left-2 right-2 bg-white/95 backdrop-blur-sm px-2 py-1 rounded-lg border border-slate-200 text-[11px] flex items-center justify-between">
-                            <span className="text-emerald-700 font-bold flex items-center gap-1 truncate max-w-[170px]">
+                          <div className="absolute bottom-2 left-2 right-2 bg-white/95 backdrop-blur-sm px-2 py-1 rounded-lg border border-slate-200 text-[10px] flex items-center justify-between">
+                            <span className="text-emerald-700 font-bold flex items-center gap-1 truncate max-w-[130px]">
                               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                               {currentStock > 0 ? (
                                 selectedBranchFilter === "all" ? (
-                                  `${currentStock} in stock nationwide`
+                                  `${currentStock} in stock`
                                 ) : (
-                                  `In Stock at ${activeBranchData.name.split(" ")[0]}`
+                                  `In Stock @ ${activeBranchData.name.split(" ")[0]}`
                                 )
                               ) : (
                                 "Transfer from Central"
@@ -434,38 +602,38 @@ export default function OmniPulseCatalog() {
                         </div>
 
                         {/* Card Content */}
-                        <div className="p-4 space-y-1.5">
-                          <div className="flex items-center justify-between text-[11px] text-slate-500">
+                        <div className="p-3.5 space-y-1.5">
+                          <div className="flex items-center justify-between text-[10px] text-slate-500">
                             <span className="font-bold uppercase text-[#0D47A1]">{product.brand}</span>
-                            <span className="font-mono text-[10px]">{product.sku}</span>
+                            <span className="font-mono text-[9px]">{product.sku}</span>
                           </div>
 
                           <Link
                             href={`/product/${product.slug}`}
-                            className="text-sm font-bold text-slate-900 hover:text-[#0D47A1] line-clamp-2 transition-colors font-sans"
+                            className="text-xs font-bold text-slate-900 hover:text-[#0D47A1] line-clamp-2 transition-colors font-sans"
                           >
                             {product.name}
                           </Link>
 
                           {/* Quick Specs bullets */}
-                          <div className="pt-1.5 text-[11px] text-slate-500 space-y-0.5">
+                          <div className="pt-1 text-[10.5px] text-slate-500 space-y-0.5">
                             {product.specs.slice(0, 2).map((s, idx) => (
                               <div key={idx} className="flex items-center gap-1 truncate">
                                 <span className="text-slate-400">•</span>
-                                <span>{s.label}:</span>
-                                <strong className="text-slate-700">{s.value}</strong>
+                                <span className="truncate">{s.label}:</span>
+                                <strong className="text-slate-700 truncate">{s.value}</strong>
                               </div>
                             ))}
                           </div>
 
                           {/* Price & EMI block */}
-                          <div className="pt-3 border-t border-slate-100 flex items-baseline justify-between">
+                          <div className="pt-2 border-t border-slate-100 flex items-baseline justify-between">
                             <div>
-                              <div className="text-lg font-black text-slate-900 font-sans">
+                              <div className="text-base font-black text-slate-900 font-sans">
                                 ৳{product.price.toLocaleString()}
                               </div>
                               {product.regularPrice > product.price && (
-                                <div className="text-[11px] text-slate-400 line-through">
+                                <div className="text-[10px] text-slate-400 line-through">
                                   ৳{product.regularPrice.toLocaleString()}
                                 </div>
                               )}
@@ -473,7 +641,7 @@ export default function OmniPulseCatalog() {
 
                             <div className="text-right">
                               <div className="text-[9px] text-slate-400 uppercase">0% EMI</div>
-                              <div className="text-xs font-bold text-[#0D47A1] font-mono">
+                              <div className="text-[11px] font-bold text-[#0D47A1] font-mono">
                                 ৳{product.emiPerMonth?.toLocaleString() || Math.round(product.price / 12).toLocaleString()}/mo
                               </div>
                             </div>
@@ -482,19 +650,19 @@ export default function OmniPulseCatalog() {
                       </div>
 
                       {/* Card Action Buttons */}
-                      <div className="p-4 pt-0 grid grid-cols-2 gap-2">
+                      <div className="p-3.5 pt-0 grid grid-cols-2 gap-2">
                         <button
                           onClick={() => handleAddToCart(product)}
-                          className={`w-full py-2 rounded-xl font-bold text-xs transition-all flex items-center justify-center gap-1 active:scale-95 ${
+                          className={`w-full py-1.5 rounded-xl font-bold text-xs transition-all flex items-center justify-center gap-1 active:scale-95 ${
                             addedProductId === product.id
                               ? "bg-emerald-600 text-white"
                               : "bg-[#0D47A1] hover:bg-[#0a387e] text-white shadow-sm"
                           }`}
                         >
-                          <span className="material-symbols-outlined text-[15px]">
+                          <span className="material-symbols-outlined text-[14px]">
                             {addedProductId === product.id ? "check" : "shopping_cart"}
                           </span>
-                          <span>{addedProductId === product.id ? "Added!" : "Add to Cart"}</span>
+                          <span>{addedProductId === product.id ? "Added" : "Add to Cart"}</span>
                         </button>
 
                         <a
@@ -503,7 +671,7 @@ export default function OmniPulseCatalog() {
                           )}`}
                           target="_blank"
                           rel="noreferrer"
-                          className="w-full py-2 rounded-xl border border-emerald-500/40 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold text-xs transition-all flex items-center justify-center gap-1 active:scale-95"
+                          className="w-full py-1.5 rounded-xl border border-emerald-500/40 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold text-xs transition-all flex items-center justify-center gap-1 active:scale-95"
                         >
                           <span>💬</span>
                           <span>WhatsApp</span>

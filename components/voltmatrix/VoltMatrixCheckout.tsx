@@ -101,8 +101,8 @@ export default function VoltMatrixCheckout() {
   return (
     <div className="w-full bg-[#f8f9ff] min-h-screen">
       {/* Sub-Header Breadcrumb & Telemetry */}
-      <section className="w-full bg-slate-100 border-b border-slate-200 px-3 sm:px-4 py-2">
-        <div className="max-w-[1440px] mx-auto flex flex-wrap items-center justify-between gap-2">
+      <section className="w-full bg-slate-100 border-b border-slate-200 py-2">
+        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center justify-between gap-2">
           <nav className="flex items-center gap-1.5 text-slate-500 text-[12px] font-mono">
             <Link href="/" className="hover:text-[#EF4444] transition-colors">Home</Link>
             <span className="material-symbols-outlined text-[14px]">chevron_right</span>
@@ -123,7 +123,7 @@ export default function VoltMatrixCheckout() {
       </section>
 
       {/* Main Checkout Viewport Container */}
-      <div className="max-w-[1440px] mx-auto px-3 sm:px-4 py-8">
+      <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* ================= LEFT 8 COLS: ITEMIZED BOM RIG & FULFILLMENT ================= */}
           <div className="lg:col-span-8 space-y-6">

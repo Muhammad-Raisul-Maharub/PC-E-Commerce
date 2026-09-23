@@ -140,10 +140,10 @@ export default function SynapseCatalog() {
   };
 
   return (
-    <div className="w-full bg-[#0F172A] text-[#F8FAFC] font-sans antialiased min-h-screen pt-28 pb-16">
+    <div className="w-full bg-[#0F172A] text-[#F8FAFC] font-sans antialiased min-h-screen py-6">
       {/* Top Banner / Breadcrumb & Telemetry */}
-      <div className="w-full bg-[#0B1326] border-b border-[#334155] px-4 md:px-8 py-3">
-        <div className="max-w-[1440px] mx-auto flex flex-wrap items-center justify-between gap-3 font-mono text-xs">
+      <div className="w-full bg-[#0B1326] border-b border-[#334155] py-3 mb-6">
+        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center justify-between gap-3 font-mono text-xs">
           <div className="flex items-center gap-2 text-[#94A3B8]">
             <Link href="/" className="hover:text-[#06B6D4] transition-colors">SYNAPSECAD</Link>
             <span>/</span>
@@ -160,7 +160,7 @@ export default function SynapseCatalog() {
       </div>
 
       {/* Main Two-Column Directory Workspace */}
-      <div className="max-w-[1440px] mx-auto px-4 md:px-8 py-8 grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
+      <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
         {/* LEFT ASIDE: CAD Filter Tree & Active Constraint Controls (3 cols) */}
         <aside className="xl:col-span-3 flex flex-col gap-6 sticky top-24 bg-[#131B2E] border border-[#334155] p-5 shadow-xl">
           {/* Compatibility Lock Switch */}

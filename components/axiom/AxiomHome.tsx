@@ -54,7 +54,7 @@ export default function AxiomHome() {
     <div className="min-h-screen bg-[#FBFBFD] text-[#18181B] font-sans">
       {/* 1. Hero Tier: 55/45 Split with 3D Architectural Clay Viewer */}
       <section className="border-b border-[#E4E4E7] bg-white">
-        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
+        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
           {/* Top Breadcrumb / Classification Tag */}
           <div className="flex flex-wrap items-center justify-between gap-3 mb-6 pb-4 border-b border-[#E4E4E7]">
             <div className="flex items-center gap-2">
@@ -136,7 +136,7 @@ export default function AxiomHome() {
       </section>
 
       {/* 2. Interactive "Workflow Switcher" Tab Bar */}
-      <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-[1440px] mx-auto">
+      <section className="py-12 px-4 sm:px-6 lg:px-8 w-full max-w-[1536px] mx-auto">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
           <div>
             <div className="font-mono text-xs font-bold uppercase tracking-widest text-[#004F32] mb-1">
@@ -327,7 +327,7 @@ export default function AxiomHome() {
 
       {/* 3. Authorized Distributor Credentials & Serial Warranty Verification Box */}
       <section className="border-t border-[#E4E4E7] bg-white py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-[1440px] mx-auto">
+        <div className="w-full max-w-[1536px] mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             {/* Left Column: Authorized Importer Credentials */}
             <div className="lg:col-span-6 space-y-6">
