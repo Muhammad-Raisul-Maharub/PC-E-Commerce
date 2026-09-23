@@ -81,24 +81,24 @@ export default function VoltMatrixPDP({ product: propProduct }: { product?: Hard
     { label: "3D CAD Model", type: "3d" },
     {
       label: "Front IHS Ortho",
-      img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBqBvl2EGg9xIpMTbj4V6h9KRF5yyM2IhQMOGxnMfdRK5E4cBzyPZWRD8uo_swIIJrnWlOb-T2aAcA5YJen1APv8muYgHLvcq9WDrOd5N-52fmXvQtOenTdG4GGvweR5ZGQTYyh4SWQTGDQEvpdAxECLVfabCtkJ9sGuKZ_b-rJmqK4eEIUmDwWGsPmhs-eAsh_WRMFuw9AR4y_BnSm0Rsv-HTvlBz3wMwoDCaCqKF3WTY4a7Vs4ptw9Q",
+      img: "https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=1000&q=80",
     },
     {
       label: "LGA1718 Pinout",
-      img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDW-3RQ3cnw5v_OwufVs5HSGeZMJqZ_xddnOF4wpuv0Sdo8U8PSyuFpSnTpvCI2s0j9JfrAqztx4wgfzQaWEgaVQT0aCxYQ1dUf7M1D6QrY2l5jMzmwrEsBrRqiFXfoTzPnGNkUh2p-X36Tf4aLrwTrAQqiJh6dPD6M8fZqkb6WmojYQryci-_sASBT6Gf7nbnUrmxSL1rlGP_EV0M0cgqgnxihXinDsSk90TcX6nyEnBG9f9iA8ZEmsA",
+      img: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=80",
     },
     {
       label: "Exploded Silicon",
-      img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBJ7etcU5GqIs6OkDXa7VF3kluC9v5JY5jQyV_eC2FnMC1MmwCej4oZ-w-caFwOVuf_H_Z_fdPe3COaDUEQ9SlMjLRur45TYV8Bj69wS6azdeE5XLw1iRz3VzKXGf6L0IWCjHFtk6hl544nA8t9BRO4IlEsCOw0htFLy9A9ETlQq0n9M0Ni6riPwT6Dnegg_aIAsxq73Hhzpo8IMSJbhvr1EA6krHG7maRov6W8YAHjpDJWWB6Kngs2_w",
+      img: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=1000&q=80",
     },
     {
       label: "Retail Package",
-      img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDIHyd42JuOhJSv69c9hgb6ToRP646yUbopEmuB1LGd05TzBB-8CRvwUjC6rpgTmFah0rmaFqD96YrsicwFMQtshfbaEV2k6JdUENDdB90mQu8HpPAKCwNy6pHWiydiLsKaQHofLzY4UME_dofmstKoj7CqoTFeMx_xDbfO5ziXCQIpsI6wNRcE_KfE3lubbZV5TrnGhK9hK48XKBewbj5YTE7lFxxMvPMTuV-EnqHlJRwl9Za4qJV4Fg",
+      img: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=1000&q=80",
     },
   ];
 
   return (
-    <div className="w-full bg-[#f8f9ff] min-h-screen">
+    <div className="w-full min-h-screen">
       {/* Toast Feedback */}
       {feedback && (
         <div className="fixed top-32 right-6 z-50 bg-slate-900 text-white px-4 py-2 rounded shadow-2xl font-mono text-[12px] flex items-center gap-2 border border-slate-700 animate-pulse">

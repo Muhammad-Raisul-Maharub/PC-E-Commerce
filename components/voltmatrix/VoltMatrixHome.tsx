@@ -735,7 +735,7 @@ export default function VoltMatrixHome() {
                 className="w-full h-80 bg-cover bg-center rounded border border-slate-200 relative overflow-hidden flex flex-col justify-between p-4 shadow-inner"
                 style={{
                   backgroundImage:
-                    "url('https://lh3.googleusercontent.com/aida-public/AB6AXuATQfepK1SH2AkHbyJXvhYykwotpixvKGgxQyR-jLSdSzToMu2t0n1h48TczF6HKolHd2L02Hyl6Q9R_ZS6dPSexSjHm3nFTHTzT6Eny4n1G94r4MEe-HcoZBnF5M8agMiL6N4niwRU__7Y46Z1h9_JPsseDpWLzu5aYB-OgqtqbpirTg6a9_Rqpv17tKlgzbUJ_N2Tf5PIPeOK-2ENScv7F0BUfvdKxpaJthR0xNfqrq9j9q8MYQeWQA')",
+                    "url('https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1200&q=80')",
                 }}
               >
                 <div className="flex items-center justify-between z-10">
