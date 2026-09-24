@@ -602,10 +602,10 @@ export default function Header() {
   // =========================================================================
   const voltLinks = [
     { href: "/", label: "Home" },
-    { href: "/catalog", label: "Parametric Catalog" },
-    { href: "/product/amd-ryzen-7-7800x3d", label: "Interactive PDP" },
-    { href: "/pc-builder", label: "System Architect" },
-    { href: "/checkout", label: "Modular Cart" },
+    { href: "/catalog", label: "Component Catalog" },
+    { href: "/product/amd-ryzen-7-7800x3d", label: "Product Details" },
+    { href: "/pc-builder", label: "Custom PC Builder" },
+    { href: "/checkout", label: "Shopping Cart & Checkout" },
   ];
 
   return (

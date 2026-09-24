@@ -128,7 +128,7 @@ export default function SynapseCheckout() {
               <div className="py-8 text-center font-mono space-y-2">
                 <p className="text-sm text-[#94A3B8]">Staging queue is currently empty.</p>
                 <Link href="/catalog" className="text-xs text-[#06B6D4] underline font-bold">
-                  Stage components from Parametric Directory
+                  Browse parts from Component Catalog
                 </Link>
               </div>
             ) : (

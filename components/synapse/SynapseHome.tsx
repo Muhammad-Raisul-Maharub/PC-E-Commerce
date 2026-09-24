@@ -310,7 +310,7 @@ export default function SynapseHome() {
               <span>// SILICON SPECIFICATION CATALOG</span>
             </div>
             <h2 className="font-mono text-2xl sm:text-3xl font-bold text-[#F8FAFC]">
-              Verified Dynamic Parametric Hardware
+              Verified Hardware Directory
             </h2>
             <p className="text-xs sm:text-sm text-[#94A3B8] mt-1">
               Pre-validated against the SynapseCAD mechanical clearance envelope and power curves.
@@ -432,7 +432,7 @@ export default function SynapseHome() {
             href="/catalog"
             className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#1E293B] hover:bg-[#334155] border border-[#06B6D4] text-[#06B6D4] hover:text-[#F8FAFC] font-mono text-xs font-bold uppercase tracking-wider transition-all"
           >
-            <span>[ Browse Full Parametric Component Directory ({HARDWARE_PRODUCTS.length} SKUs) ]</span>
+            <span>[ Browse Full Component Directory ({HARDWARE_PRODUCTS.length} Products) ]</span>
             <span className="material-symbols-outlined text-sm">arrow_forward</span>
           </Link>
         </div>

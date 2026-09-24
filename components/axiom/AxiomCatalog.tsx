@@ -86,7 +86,7 @@ export default function AxiomCatalog() {
                 </span>
               </div>
               <h1 className="text-2xl sm:text-3xl font-extrabold text-[#18181B]">
-                Workstation Components &amp; Parametric Matrix
+                Workstation Components &amp; Hardware Directory
               </h1>
               <p className="text-xs sm:text-sm text-[#71717A] mt-1 max-w-2xl">
                 Live workstation hardware inventory with verified self-healing memory (ECC), data transfer speeds, high-speed connection slots, and certified 3D CAD / AI software compatibility.

@@ -306,7 +306,7 @@ export default function VoltMatrixHome() {
                 <span>Allocated Spot Pricing &amp; High-Flow Inventory</span>
               </div>
               <h2 className="font-headline font-bold text-2xl text-slate-900 tracking-tight">
-                Parametric Flash Deals &amp; Silicon Drops
+                Flash Deals &amp; Hardware Specials
               </h2>
             </div>
             <div className="flex items-center gap-4">
@@ -467,7 +467,7 @@ export default function VoltMatrixHome() {
                 Orthogonal Catalog Tiers
               </span>
               <h2 className="font-headline font-bold text-2xl text-slate-900 tracking-tight">
-                Parametric Category Infrastructure
+                Hardware Categories &amp; Components
               </h2>
             </div>
             <div className="font-mono text-[11px] text-slate-500 hidden md:block">
@@ -590,7 +590,7 @@ export default function VoltMatrixHome() {
                   Pro Gadgets &amp; Smart Devices
                 </h3>
                 <p className="text-[13px] text-slate-600 leading-relaxed">
-                  Parametric smartwatches with ECG logging, 3-axis cinema gimbals, audiophile DACs, and studio wireless monitors.
+                  Smartwatches with ECG logging, 3-axis cinema gimbals, audiophile DACs, and studio wireless monitors.
                 </p>
                 <div className="space-y-1.5 pt-2">
                   <Link
