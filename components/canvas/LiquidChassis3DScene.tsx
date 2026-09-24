@@ -287,7 +287,7 @@ export default function LiquidChassis3DScene({ coolantColor = "#00F0FF" }: Liqui
 
     // 9. Animation Loop
     let animationFrameId: number;
-    let clock = new THREE.Clock();
+    const clock = new THREE.Clock();
 
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);

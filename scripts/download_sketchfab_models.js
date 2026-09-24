@@ -2,7 +2,12 @@ const fs = require('fs');
 const path = require('path');
 const https = require('https');
 
-const API_TOKEN = '36402aa1da8d4f7b96c49468a74ca351';
+const API_TOKEN = process.env.SKETCHFAB_API_TOKEN;
+if (!API_TOKEN) {
+  console.error('Error: SKETCHFAB_API_TOKEN environment variable is required.');
+  console.error('Usage: SKETCHFAB_API_TOKEN=your_token node scripts/download_sketchfab_models.js');
+  process.exit(1);
+}
 const TARGET_DIR = path.join(__dirname, '..', 'public', 'models');
 
 const MODELS_TO_DOWNLOAD = [

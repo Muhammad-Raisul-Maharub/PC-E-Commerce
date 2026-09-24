@@ -250,7 +250,7 @@ export default function AxiomCatalog() {
                   No matching hardware components found
                 </h3>
                 <p className="text-xs text-[#71717A] max-w-sm mx-auto">
-                  Try clearing your ECC filter or selecting "Full Infrastructure Catalog" to view all available components.
+                  Try clearing your ECC filter or selecting &quot;Full Infrastructure Catalog&quot; to view all available components.
                 </p>
                 <button
                   onClick={() => {

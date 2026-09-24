@@ -149,10 +149,6 @@ export const TURNKEY_WORKSTATIONS: TurnkeyWorkstationPlatform[] = [
   },
 ];
 
-export const MOCK_ENTERPRISE_PRODUCTS: HardwareProduct[] = HARDWARE_PRODUCTS.filter(
-  (p) => p.isEnterprise
-);
-
 // Phase 2: Real Component, Maker & Peripheral Asset Bindings for Krypton Brutalist (Concept 6)
 export const KRYPTON_MAKER_ASSET_URLS = {
   microcontrollers: "https://images.unsplash.com/photo-1553406830-ef2513450d76?auto=format&fit=crop&w=1000&q=80",

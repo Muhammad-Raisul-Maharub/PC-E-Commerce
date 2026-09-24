@@ -215,7 +215,7 @@ export default function WaterBlockExploded3D() {
 
     // 8. Animation Loop
     let animationFrameId: number;
-    let clock = new THREE.Clock();
+    const clock = new THREE.Clock();
 
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
