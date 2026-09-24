@@ -78,7 +78,7 @@ export default function NeonForgeCatalog() {
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-[#00F0FF] animate-pulse" />
               <h1 className="font-chakra text-2xl sm:text-3xl font-bold uppercase tracking-wider text-white">
-                Modder&apos;s Armory // Bare Hardware Directory
+                Custom Cooling &amp; High-Performance Hardware
               </h1>
             </div>
             <p className="font-sans text-xs text-slate-400 mt-1">
@@ -93,11 +93,11 @@ export default function NeonForgeCatalog() {
               className="lg:hidden flex items-center gap-2 px-3 py-1.5 rounded-lg bg-cyan-950/70 border border-cyan-500/40 text-[#00F0FF] font-mono text-xs font-bold"
             >
               <span className="material-symbols-outlined text-[16px]">tune</span>
-              <span>FILTER TERMINAL</span>
+              <span>FILTER PRODUCTS</span>
             </button>
 
             <span className="font-mono text-xs px-3 py-1.5 rounded-lg bg-[#12121A] border border-cyan-500/30 text-cyan-300 font-bold">
-              {filteredProducts.length} ARMORED UNITS FOUND
+              {filteredProducts.length} PRODUCTS FOUND
             </span>
           </div>
         </div>
@@ -110,7 +110,7 @@ export default function NeonForgeCatalog() {
               <div className="flex items-center justify-between pb-3 border-b border-white/10">
                 <span className="font-chakra text-sm font-bold uppercase text-white flex items-center gap-1.5">
                   <span className="material-symbols-outlined text-cyan-400 text-base">tune</span>
-                  <span>Modding Facets</span>
+                  <span>Filter Products</span>
                 </span>
                 <div className="flex items-center gap-3">
                   <button
@@ -141,7 +141,7 @@ export default function NeonForgeCatalog() {
               {/* Search Bar */}
               <div>
                 <label className="block font-mono text-[11px] text-slate-400 uppercase font-semibold mb-1.5">
-                  Keyword Query
+                  Search Keywords
                 </label>
                 <input
                   type="text"
@@ -155,17 +155,17 @@ export default function NeonForgeCatalog() {
               {/* Component Categories */}
               <div>
                 <label className="block font-mono text-[11px] text-slate-400 uppercase font-semibold mb-1.5">
-                  Component Domain
+                  Hardware Categories
                 </label>
                 <div className="space-y-1 font-mono text-xs">
                   {[
                     { id: "all", label: "All Hardware" },
                     { id: "modding", label: "Custom Liquid Cooling (All)" },
                     { id: "waterblock", label: "GPU & CPU Water Blocks" },
-                    { id: "radiator", label: "High-Fin Radiators" },
+                    { id: "radiator", label: "Liquid Cooling Radiators" },
                     { id: "distro", label: "Distro Plates & Pumps" },
                     { id: "fittings", label: "Fittings & Tubing" },
-                    { id: "gpu", label: "Discrete GPUs" },
+                    { id: "gpu", label: "Graphics Cards (GPUs)" },
                     { id: "cpu", label: "Processors (CPUs)" },
                   ].map((cat) => (
                     <button
@@ -186,7 +186,7 @@ export default function NeonForgeCatalog() {
               {/* Radiator Dimension Facet */}
               <div>
                 <label className="block font-mono text-[11px] text-slate-400 uppercase font-semibold mb-1.5">
-                  Radiator Profile Size
+                  Radiator Cooling Size
                 </label>
                 <div className="grid grid-cols-2 gap-1.5 font-mono text-xs">
                   {["all", "240mm", "280mm", "360mm", "420mm"].map((rad) => (
@@ -208,7 +208,7 @@ export default function NeonForgeCatalog() {
               {/* G1/4 Fitting Threads */}
               <div>
                 <label className="block font-mono text-[11px] text-slate-400 uppercase font-semibold mb-1.5">
-                  Port Thread Specification
+                  Connection Port Size (Standard)
                 </label>
                 <div className="grid grid-cols-3 gap-1.5 font-mono text-xs">
                   {["all", "G1/4", "G3/8"].map((th) => (
@@ -230,7 +230,7 @@ export default function NeonForgeCatalog() {
               {/* Tubing Type */}
               <div>
                 <label className="block font-mono text-[11px] text-slate-400 uppercase font-semibold mb-1.5">
-                  Tubing Protocol
+                  Tubing Style (Hardline or Flexible)
                 </label>
                 <div className="grid grid-cols-3 gap-1.5 font-mono text-xs">
                   {["all", "hardline", "soft"].map((tub) => (
@@ -252,7 +252,7 @@ export default function NeonForgeCatalog() {
               {/* Physical Branch Stock Filter */}
               <div>
                 <label className="block font-mono text-[11px] text-slate-400 uppercase font-semibold mb-1.5">
-                  Physical Hub Stock
+                  Store Pickup Availability
                 </label>
                 <select
                   value={branchFilter}
@@ -276,10 +276,10 @@ export default function NeonForgeCatalog() {
                   search_off
                 </span>
                 <h3 className="font-chakra text-lg font-bold text-white uppercase">
-                  No Armored Units Match Query
+                  No Products Match Your Search
                 </h3>
                 <p className="font-sans text-xs text-slate-400 mt-1">
-                  Adjust or clear active modding facets to display available custom loop hardware.
+                  Adjust or clear active filters to display available custom cooling hardware.
                 </p>
               </div>
             ) : (
@@ -315,8 +315,8 @@ export default function NeonForgeCatalog() {
                       </Link>
 
                       <div className="flex items-center gap-2 mt-1 font-mono text-[10px] text-slate-400">
-                        <span>SKU: {p.sku}</span>
-                        {p.tdp > 0 && <span>• TDP: {p.tdp}W</span>}
+                        <span>Item Code: {p.sku}</span>
+                        {p.tdp > 0 && <span>• Power: {p.tdp}W</span>}
                       </div>
 
                       {/* Specs Matrix */}
@@ -334,7 +334,7 @@ export default function NeonForgeCatalog() {
                     <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between">
                       <div>
                         <span className="text-[10px] font-mono text-slate-400 block uppercase">
-                          Modder Price
+                          Price
                         </span>
                         <span className="font-rajdhani text-2xl font-bold text-white tracking-tight">
                           ৳{p.price.toLocaleString()}

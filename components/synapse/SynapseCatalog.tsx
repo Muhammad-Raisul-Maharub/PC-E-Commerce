@@ -147,12 +147,12 @@ export default function SynapseCatalog() {
           <div className="flex items-center gap-2 text-[#94A3B8]">
             <Link href="/" className="hover:text-[#06B6D4] transition-colors">SYNAPSECAD</Link>
             <span>/</span>
-            <span className="text-[#06B6D4] font-bold">PARAMETRIC_DIRECTORY</span>
+            <span className="text-[#06B6D4] font-bold">HARDWARE_CATALOG</span>
             <span>/</span>
-            <span className="text-[#84CC16]">V4.8_SPECS</span>
+            <span className="text-[#84CC16]">ALL_SPECS</span>
           </div>
           <div className="flex items-center gap-4 text-[11px] text-[#94A3B8]">
-            <span>TOTAL SKUs: <strong className="text-[#F8FAFC]">{HARDWARE_PRODUCTS.length}</strong></span>
+            <span>TOTAL PRODUCTS: <strong className="text-[#F8FAFC]">{HARDWARE_PRODUCTS.length}</strong></span>
             <span>MATCHES: <strong className="text-[#06B6D4]">{filteredProducts.length}</strong></span>
             <span>DEPOT: <strong className="text-[#84CC16]">DHAKA &amp; CHITTAGONG</strong></span>
           </div>
@@ -168,7 +168,7 @@ export default function SynapseCatalog() {
             <div className="flex items-center justify-between">
               <span className="font-mono text-xs font-bold text-[#84CC16] flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-[#84CC16] animate-ping" />
-                COMPATIBILITY LOCK
+                AUTO-FIT COMPATIBILITY
               </span>
               <button
                 onClick={() => setCompatibilityLock(!compatibilityLock)}
@@ -187,22 +187,22 @@ export default function SynapseCatalog() {
             </div>
             <p className="text-[11px] text-[#94A3B8] font-mono leading-tight">
               {compatibilityLock
-                ? `Auto-filtering incompatible hardware based on current builder slots (${hiddenCount} excluded).`
-                : "All hardware visible. Inter-part clearance rules advisory only."}
+                ? `Hiding parts that won't fit your selected components (${hiddenCount} hidden).`
+                : "Showing all parts without size or motherboard fit restrictions."}
             </p>
           </div>
 
           {/* Search Input */}
           <div className="space-y-1.5">
             <label className="font-mono text-[10px] uppercase text-[#94A3B8] tracking-wider block">
-              SEARCH PARAMETERS
+              SEARCH PARTS &amp; SPECS
             </label>
             <div className="relative">
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Query by Socket, Chipset, SKU..."
+                placeholder="Search by processor fit, brand, model..."
                 className="w-full bg-[#0B1326] border border-[#334155] focus:border-[#06B6D4] px-3 py-2 text-xs font-mono text-[#F8FAFC] placeholder:text-[#475569] focus:outline-none"
               />
               {searchQuery && (
@@ -219,19 +219,19 @@ export default function SynapseCatalog() {
           {/* Component Category Filter Tree */}
           <div className="space-y-2">
             <span className="font-mono text-xs font-bold text-[#06B6D4] uppercase tracking-wider block border-b border-[#334155] pb-1">
-              // HARDWARE ARCHITECTURE
+              // HARDWARE CATEGORIES
             </span>
             <div className="flex flex-col gap-1 font-mono text-xs">
               {[
-                { key: "all", label: "All Silicon Modules" },
-                { key: "cpu", label: "Central Processors (CPUs)" },
-                { key: "motherboard", label: "Motherboard Platforms" },
-                { key: "gpu", label: "PCIe Accelerators (GPUs)" },
-                { key: "cooler", label: "Thermal Coolers (AIO/Air)" },
-                { key: "ram", label: "Memory Interconnect (RAM)" },
-                { key: "storage", label: "Storage NVMe M.2" },
-                { key: "psu", label: "Power Delivery (PSU)" },
-                { key: "chassis", label: "Structural Chassis" },
+                { key: "all", label: "All Hardware Components" },
+                { key: "cpu", label: "Processors (CPU)" },
+                { key: "motherboard", label: "Motherboards" },
+                { key: "gpu", label: "Graphics Cards (GPU)" },
+                { key: "cooler", label: "CPU Coolers (Liquid / Air)" },
+                { key: "ram", label: "System Memory (RAM)" },
+                { key: "storage", label: "Solid State Drives (SSD)" },
+                { key: "psu", label: "Power Supply Units (PSU)" },
+                { key: "chassis", label: "Computer Cases" },
               ].map((cat) => (
                 <button
                   key={cat.key}
@@ -256,7 +256,7 @@ export default function SynapseCatalog() {
           {/* Capital Envelope (Price Slider BDT) */}
           <div className="space-y-2 pt-2 border-t border-[#334155]">
             <div className="flex items-center justify-between font-mono text-xs">
-              <span className="text-[#94A3B8] uppercase">CAPITAL ENVELOPE</span>
+              <span className="text-[#94A3B8] uppercase">PRICE BUDGET</span>
               <span className="text-[#06B6D4] font-bold">Tk {maxPrice.toLocaleString()}</span>
             </div>
             <input
@@ -278,7 +278,7 @@ export default function SynapseCatalog() {
           {/* Fabricator Brand Matrix */}
           <div className="space-y-2 pt-2 border-t border-[#334155]">
             <div className="flex items-center justify-between font-mono text-xs">
-              <span className="text-[#94A3B8] uppercase">FABRICATOR BRAND</span>
+              <span className="text-[#94A3B8] uppercase">MANUFACTURER BRAND</span>
               <span className="text-[10px] text-[#475569]">{selectedBrands.length} SELECTED</span>
             </div>
             <div className="grid grid-cols-2 gap-1.5 font-mono text-xs">
@@ -304,7 +304,7 @@ export default function SynapseCatalog() {
 
           {/* Depot Logistics Filter */}
           <div className="space-y-2 pt-2 border-t border-[#334155]">
-            <span className="font-mono text-xs text-[#94A3B8] uppercase block">LOGISTICS DEPOT</span>
+            <span className="font-mono text-xs text-[#94A3B8] uppercase block">LOCAL STORE BRANCH</span>
             <div className="flex flex-col gap-1 font-mono text-xs">
               {[
                 { key: "all", label: "All Depots Nationwide" },
@@ -352,14 +352,14 @@ export default function SynapseCatalog() {
               <div>
                 <div className="flex items-center gap-2">
                   <h2 className="font-mono text-lg font-bold text-[#F8FAFC]">
-                    System Hardware Specification Matrix
+                    Hardware Catalog &amp; Specifications
                   </h2>
                   <span className="px-2 py-0.5 bg-[#1E293B] border border-[#84CC16] text-[#84CC16] font-mono text-xs font-bold">
                     {filteredProducts.length} Matches
                   </span>
                 </div>
                 <p className="text-xs text-[#94A3B8] mt-1">
-                  Validated against the active CAD clearance rules, socket pinout, and thermal envelopes.
+                  Verified for computer case dimensions, motherboard fit, and power requirements.
                 </p>
               </div>
 
@@ -374,7 +374,7 @@ export default function SynapseCatalog() {
                   }`}
                 >
                   <span className="material-symbols-outlined text-sm">table_rows</span>
-                  <span>CAD ROWS</span>
+                  <span>LIST</span>
                 </button>
                 <button
                   onClick={() => setViewMode("grid")}
@@ -467,11 +467,11 @@ export default function SynapseCatalog() {
                         {p.name}
                       </Link>
                       <div className="flex flex-wrap items-center gap-2 mt-1 text-[11px] font-mono text-[#94A3B8]">
-                        <span>TDP: <strong className="text-[#F8FAFC]">{p.tdp}W</strong></span>
-                        {p.socket && <span>· Socket: <strong className="text-[#06B6D4]">{p.socket}</strong></span>}
+                        <span>Power Draw: <strong className="text-[#F8FAFC]">{p.tdp}W</strong></span>
+                        {p.socket && <span>· Motherboard Fit: <strong className="text-[#06B6D4]">{p.socket}</strong></span>}
                         {p.cadSpecs?.dimensionsMm && (
                           <span>
-                            · Dim:{" "}
+                            · Size:{" "}
                             <strong className="text-[#F8FAFC]">
                               {p.cadSpecs.dimensionsMm.length}×{p.cadSpecs.dimensionsMm.width}×{p.cadSpecs.dimensionsMm.height}mm
                             </strong>

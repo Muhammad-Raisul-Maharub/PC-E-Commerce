@@ -211,7 +211,7 @@ export default function KryptonBuilder() {
         addStandaloneItem(item, 1);
       });
     }
-    setToastMsg("FULL WORKBENCH RIG DISPATCHED TO MANIFEST");
+    setToastMsg("ALL WORKBENCH ITEMS ADDED TO CART");
     setTimeout(() => {
       setToastMsg(null);
       router.push("/checkout");
@@ -247,7 +247,7 @@ export default function KryptonBuilder() {
                 DUAL HARDWARE &amp; KEYBOARD WORKBENCH
               </h1>
               <p className="font-mono text-xs sm:text-sm text-slate-600 mt-2">
-                MODULAR CALIBRATION RIG // SOCKET &amp; PINOUT COMPATIBILITY ENGINE // LIVE ESTIMATED PRICING
+                MODULAR ASSEMBLY WORKBENCH // MOTHERBOARD &amp; KEY FIT ENGINE // LIVE PRICING
               </p>
             </div>
 
@@ -347,7 +347,7 @@ export default function KryptonBuilder() {
                       >
                         <div className="text-xs font-bold">{sw.name}</div>
                         <div className="text-[10px] text-slate-500 mt-1">
-                          {sw.specs.switchType} • {sw.specs.pins} • {sw.specs.actuationForceGf}gf
+                          {sw.specs.switchType} feel • {sw.specs.pins} • {sw.specs.actuationForceGf}gf press resistance
                         </div>
                       </button>
                     ))}
@@ -405,7 +405,7 @@ export default function KryptonBuilder() {
                 <div className="flex items-center justify-between pb-3 border-b-2 border-black">
                   <span className="font-bold text-black">// SUBSYSTEM 02: HIGH-PERFORMANCE PC CORE CHIPSETS</span>
                   <span className={isSocketValid ? "text-[#059669] font-bold" : "text-[#DC2626] font-bold"}>
-                    {isSocketValid ? "SOCKET CHECK: PASS (AM5)" : "SOCKET MISMATCH WARNING"}
+                    {isSocketValid ? "MOTHERBOARD FIT: MATCHED (AM5)" : "MOTHERBOARD FIT WARNING"}
                   </span>
                 </div>
 
@@ -414,7 +414,7 @@ export default function KryptonBuilder() {
                   <div>
                     <div className="text-slate-500 text-[10px]">PROCESSOR (CPU):</div>
                     <div className="font-bold text-black text-sm">{selectedCpu.name}</div>
-                    <div className="text-slate-500 text-[10px]">Socket: {selectedCpu.socket} • TDP: {selectedCpu.tdp}W</div>
+                    <div className="text-slate-500 text-[10px]">Motherboard Fit: {selectedCpu.socket} • Power Draw: {selectedCpu.tdp}W</div>
                   </div>
                   <div className="text-right">
                     <div className="font-extrabold text-black">৳ {selectedCpu.price.toLocaleString()}</div>
@@ -426,7 +426,7 @@ export default function KryptonBuilder() {
                   <div>
                     <div className="text-slate-500 text-[10px]">MOTHERBOARD:</div>
                     <div className="font-bold text-black text-sm">{selectedMotherboard.name}</div>
-                    <div className="text-slate-500 text-[10px]">Form Factor: {selectedMotherboard.formFactor} • Socket: {selectedMotherboard.socket}</div>
+                    <div className="text-slate-500 text-[10px]">Board Size: {selectedMotherboard.formFactor} • Motherboard Fit: {selectedMotherboard.socket}</div>
                   </div>
                   <div className="text-right">
                     <div className="font-extrabold text-black">৳ {selectedMotherboard.price.toLocaleString()}</div>
@@ -436,9 +436,9 @@ export default function KryptonBuilder() {
                 {/* GPU Slot */}
                 <div className="border border-black p-3 bg-[#EBEAE5] flex items-center justify-between">
                   <div>
-                    <div className="text-slate-500 text-[10px]">GRAPHICS ACCELERATOR (GPU):</div>
+                    <div className="text-slate-500 text-[10px]">GRAPHICS CARD (GPU):</div>
                     <div className="font-bold text-black text-sm">{selectedGpu.name}</div>
-                    <div className="text-slate-500 text-[10px]">TDP: {selectedGpu.tdp}W • PCIe 4.0/5.0</div>
+                    <div className="text-slate-500 text-[10px]">Power Draw: {selectedGpu.tdp}W • High-Speed PCIe Slot</div>
                   </div>
                   <div className="text-right">
                     <div className="font-extrabold text-black">৳ {selectedGpu.price.toLocaleString()}</div>

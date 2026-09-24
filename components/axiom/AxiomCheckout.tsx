@@ -94,7 +94,7 @@ export default function AxiomCheckout() {
           {/* Itemized Order Table */}
           <div className="space-y-3">
             <h4 className="font-mono text-xs font-bold uppercase text-[#71717A]">
-              Procured Subsystems
+              Ordered Hardware &amp; Components
             </h4>
             <div className="divide-y divide-[#E4E4E7] border-y border-[#E4E4E7] text-xs">
               {standaloneItems.map((item) => (
@@ -102,7 +102,7 @@ export default function AxiomCheckout() {
                   <div>
                     <span className="font-semibold text-[#18181B] block">{item.product.name}</span>
                     <span className="font-mono text-[10.5px] text-[#71717A]">
-                      Qty: {item.quantity} • SKU: {item.product.sku}
+                      Qty: {item.quantity} • Item Code: {item.product.sku}
                     </span>
                   </div>
                   <span className="font-mono font-bold text-[#18181B]">
@@ -348,7 +348,7 @@ export default function AxiomCheckout() {
                       <div className="flex-1">
                         <div className="flex items-center justify-between">
                           <span className="font-bold text-xs text-[#18181B]">
-                            Corporate Wire Transfer / BEFTN / RTGS
+                            Direct Bank Wire / Bank Transfer
                           </span>
                           <span className="px-2 py-0.5 rounded bg-[#004F32] text-white font-mono text-[10px] font-bold">
                             2% DISCOUNT APPLIED
@@ -397,7 +397,7 @@ export default function AxiomCheckout() {
                       />
                       <div className="flex-1">
                         <span className="font-bold text-xs text-[#18181B]">
-                          bKash / Nagad Merchant Direct Clearing
+                          bKash / Nagad Mobile Banking Payment
                         </span>
                         <p className="text-[11px] text-[#71717A] mt-0.5">
                           Instant automated transaction verification with 0% gateway fee for commercial accounts.

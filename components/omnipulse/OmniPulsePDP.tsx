@@ -78,7 +78,7 @@ export default function OmniPulsePDP({ product }: OmniPulsePDPProps) {
 
   // WhatsApp consultation link
   const whatsappConsultUrl = `https://wa.me/8801700000000?text=${encodeURIComponent(
-    `Hello OmniPulse BD Specialist, I'm reviewing ${product.name} (SKU: ${product.sku}, Price: ৳${product.price.toLocaleString()}). Can you confirm branch availability and compatibility with my build?`
+    `Hello OmniPulse BD Specialist, I'm reviewing ${product.name} (Item Code: ${product.sku}, Price: ৳${product.price.toLocaleString()}). Can you confirm branch availability and compatibility with my build?`
   )}`;
 
   const savings = product.regularPrice - product.price;
@@ -99,7 +99,7 @@ export default function OmniPulsePDP({ product }: OmniPulsePDPProps) {
           </div>
 
           <div className="flex items-center gap-3 font-mono text-[11px]">
-            <span>SKU: <strong className="text-slate-800">{product.sku}</strong></span>
+            <span>Item Code: <strong className="text-slate-800">{product.sku}</strong></span>
             <span>•</span>
             <span className="text-emerald-700 font-bold">100% GENUINE BD STOCK</span>
           </div>
@@ -118,7 +118,7 @@ export default function OmniPulsePDP({ product }: OmniPulsePDPProps) {
               </span>
 
               <span className="text-xs text-slate-500 font-mono hidden sm:inline">
-                Three.js WebGL Engine // 60 FPS PBR
+                Interactive 3D Preview // 1:1 Scale
               </span>
             </div>
 
@@ -132,8 +132,8 @@ export default function OmniPulsePDP({ product }: OmniPulsePDPProps) {
             {/* Feature Badges below Viewer */}
             <div className="grid grid-cols-3 gap-3 text-center text-xs">
               <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
-                <div className="font-bold text-slate-800">360° Ortho View</div>
-                <div className="text-[11px] text-slate-500">Millimetric precision</div>
+                <div className="font-bold text-slate-800">360° Rotate View</div>
+                <div className="text-[11px] text-slate-500">Inspect all sides</div>
               </div>
               <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
                 <div className="font-bold text-slate-800">Retail Box Mode</div>
@@ -141,7 +141,7 @@ export default function OmniPulsePDP({ product }: OmniPulsePDPProps) {
               </div>
               <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
                 <div className="font-bold text-slate-800">Exploded View</div>
-                <div className="text-[11px] text-slate-500">IHS &amp; die structure</div>
+                <div className="text-[11px] text-slate-500">Internal chip structure</div>
               </div>
             </div>
           </div>
@@ -155,7 +155,7 @@ export default function OmniPulsePDP({ product }: OmniPulsePDPProps) {
                   {product.brand}
                 </span>
                 <span className="text-xs font-mono text-slate-400">
-                  SKU: {product.sku}
+                  Item Code: {product.sku}
                 </span>
               </div>
 
@@ -290,7 +290,7 @@ export default function OmniPulsePDP({ product }: OmniPulsePDPProps) {
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
                 <h3 className="text-lg sm:text-xl font-bold text-slate-900 font-sans">
-                  Real-Time Physical Store Inventory Table
+                  Physical Store Stock Availability
                 </h3>
               </div>
               <p className="text-xs text-slate-500 mt-0.5">
@@ -298,7 +298,7 @@ export default function OmniPulsePDP({ product }: OmniPulsePDPProps) {
               </p>
             </div>
             <span className="font-mono text-xs text-[#0D47A1] font-bold bg-[#E3F2FD] px-3 py-1 rounded-lg">
-              Live POS Sync Active
+              Live Store Inventory Sync
             </span>
           </div>
 
@@ -306,7 +306,7 @@ export default function OmniPulsePDP({ product }: OmniPulsePDPProps) {
             <table className="w-full text-left text-xs border-collapse">
               <thead>
                 <tr className="bg-slate-50 border-y border-slate-200 text-slate-600 font-mono text-[11px] uppercase">
-                  <th className="p-3">Physical Showroom Depot</th>
+                  <th className="p-3">Retail Store Branch</th>
                   <th className="p-3">Location</th>
                   <th className="p-3">Available Units</th>
                   <th className="p-3">Collection Readiness</th>
@@ -373,7 +373,7 @@ export default function OmniPulsePDP({ product }: OmniPulsePDPProps) {
           <div className="lg:col-span-5 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
             <div className="border-b border-slate-100 pb-3">
               <h3 className="text-base font-bold text-slate-900 font-sans">
-                0% Bank EMI Instalment Calculator
+                0% Interest Monthly Installment Calculator
               </h3>
               <p className="text-xs text-slate-500 mt-0.5">
                 Available through 36 major Bangladeshi banks including SCB, City Bank, BRAC, and EBL.
@@ -414,7 +414,7 @@ export default function OmniPulsePDP({ product }: OmniPulsePDPProps) {
           <div className="lg:col-span-7 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
             <div className="border-b border-slate-100 pb-3">
               <h3 className="text-base font-bold text-slate-900 font-sans">
-                Technical Specifications &amp; Parametric Matrix
+                Full Hardware &amp; Performance Specifications
               </h3>
               <p className="text-xs text-slate-500 mt-0.5">
                 Factory certified data for {product.name}.
@@ -434,14 +434,14 @@ export default function OmniPulsePDP({ product }: OmniPulsePDPProps) {
 
               {product.socket && (
                 <div className="p-3 bg-slate-50 rounded-xl border border-slate-200/80 flex flex-col justify-between">
-                  <span className="text-[10px] text-slate-500 uppercase font-mono">CPU Socket</span>
+                  <span className="text-[10px] text-slate-500 uppercase font-mono">Motherboard Fit (Socket)</span>
                   <span className="font-bold text-[#0D47A1] text-xs mt-1">{product.socket}</span>
                 </div>
               )}
 
               {product.tdp > 0 && (
                 <div className="p-3 bg-slate-50 rounded-xl border border-slate-200/80 flex flex-col justify-between">
-                  <span className="text-[10px] text-slate-500 uppercase font-mono">Thermal Design Power (TDP)</span>
+                  <span className="text-[10px] text-slate-500 uppercase font-mono">Power &amp; Heat Output (Watts)</span>
                   <span className="font-bold text-amber-900 text-xs mt-1">{product.tdp} Watts</span>
                 </div>
               )}

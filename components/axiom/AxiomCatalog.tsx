@@ -89,14 +89,14 @@ export default function AxiomCatalog() {
                 Workstation Components &amp; Parametric Matrix
               </h1>
               <p className="text-xs sm:text-sm text-[#71717A] mt-1 max-w-2xl">
-                High-density inventory matrix with verified ECC support status, memory bandwidth ratings, PCIe lane allocations, and ISV CAD/AI certifications.
+                Live workstation hardware inventory with verified self-healing memory (ECC), data transfer speeds, high-speed connection slots, and certified 3D CAD / AI software compatibility.
               </p>
             </div>
 
             {/* Quick Stats & View Switcher */}
             <div className="flex items-center gap-3">
               <div className="hidden sm:flex items-center gap-3 px-3 py-1.5 rounded border border-[#E4E4E7] bg-[#FBFBFD] font-mono text-xs">
-                <span className="text-[#71717A]">ACTIVE SKUS:</span>
+                <span className="text-[#71717A]">IN-STOCK ITEMS:</span>
                 <span className="font-bold text-[#004F32]">{filteredProducts.length}</span>
               </div>
 
@@ -133,7 +133,7 @@ export default function AxiomCatalog() {
             {/* Search Box */}
             <div className="rounded-xl border border-[#E4E4E7] bg-white p-4 space-y-2">
               <label className="font-mono text-xs font-bold uppercase tracking-wide text-[#18181B] block">
-                Parametric Search
+                Hardware &amp; Spec Search
               </label>
               <div className="relative">
                 <span className="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-[18px] text-[#71717A]">
@@ -143,7 +143,7 @@ export default function AxiomCatalog() {
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="SKU, Socket, Architecture..."
+                  placeholder="Part name, motherboard fit, model..."
                   className="w-full h-9 pl-8 pr-3 rounded border border-[#E4E4E7] bg-[#FBFBFD] text-xs font-mono text-[#18181B] placeholder:text-[#A1A1AA] focus:bg-white focus:border-[#004F32] focus:outline-none"
                 />
               </div>
@@ -152,7 +152,7 @@ export default function AxiomCatalog() {
             {/* Category Filter */}
             <div className="rounded-xl border border-[#E4E4E7] bg-white p-4 space-y-2">
               <label className="font-mono text-xs font-bold uppercase tracking-wide text-[#18181B] block">
-                Component Discipline
+                Hardware Category
               </label>
               <div className="space-y-1">
                 {categories.map((cat) => (
@@ -175,7 +175,7 @@ export default function AxiomCatalog() {
             {/* Enterprise Rules: ECC Memory & Reliability */}
             <div className="rounded-xl border border-[#E4E4E7] bg-white p-4 space-y-3">
               <label className="font-mono text-xs font-bold uppercase tracking-wide text-[#18181B] block">
-                Mission-Critical Filters
+                Reliability &amp; Business Filters
               </label>
 
               <label className="flex items-center gap-2 cursor-pointer text-xs text-[#18181B]">
@@ -185,13 +185,13 @@ export default function AxiomCatalog() {
                   onChange={(e) => setOnlyEcc(e.target.checked)}
                   className="rounded border-[#E4E4E7] text-[#004F32] focus:ring-[#004F32]"
                 />
-                <span className="font-medium">ECC Registered Memory Only</span>
+                <span className="font-medium">Self-Healing Crash-Proof Memory Only (ECC)</span>
               </label>
 
               {/* ISV Cert filter */}
               <div className="space-y-1.5 pt-2 border-t border-[#E4E4E7]">
                 <label className="font-mono text-[11px] text-[#71717A] uppercase block">
-                  ISV Certification
+                  Professional Software Certification
                 </label>
                 <select
                   value={selectedIsv}
@@ -209,7 +209,7 @@ export default function AxiomCatalog() {
               {/* Physical Branch Stock Filter */}
               <div className="space-y-1.5 pt-2 border-t border-[#E4E4E7]">
                 <label className="font-mono text-[11px] text-[#71717A] uppercase block">
-                  Branch On-Hand Inventory
+                  Branch On-Hand Store Stock
                 </label>
                 <select
                   value={selectedBranch}
@@ -272,14 +272,14 @@ export default function AxiomCatalog() {
                   <table className="w-full text-left border-collapse">
                     <thead>
                       <tr className="border-b border-[#E4E4E7] bg-[#FBFBFD] text-[11px] font-mono uppercase text-[#71717A]">
-                        <th className="py-3 px-4 font-semibold">Component / SKU</th>
-                        <th className="py-3 px-3 font-semibold">Socket / Form</th>
-                        <th className="py-3 px-3 font-semibold">ECC Status</th>
-                        <th className="py-3 px-3 font-semibold">Bandwidth</th>
-                        <th className="py-3 px-3 font-semibold">ISV Badges</th>
-                        <th className="py-3 px-3 font-semibold">Stock</th>
-                        <th className="py-3 px-4 font-semibold text-right">Unit Price</th>
-                        <th className="py-3 px-3 text-right">Action</th>
+                        <th className="py-3 px-4 font-semibold">Hardware Item / Part Code</th>
+                        <th className="py-3 px-3 font-semibold">Motherboard Fit &amp; Size</th>
+                        <th className="py-3 px-3 font-semibold">Crash Protection</th>
+                        <th className="py-3 px-3 font-semibold">Transfer Speed</th>
+                        <th className="py-3 px-3 font-semibold">Certified Software</th>
+                        <th className="py-3 px-3 font-semibold">Store Stock</th>
+                        <th className="py-3 px-4 font-semibold text-right">Price (BDT)</th>
+                        <th className="py-3 px-3 text-right">Cart</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-[#E4E4E7] text-xs">
@@ -319,10 +319,10 @@ export default function AxiomCatalog() {
                           <td className="py-3 px-3 font-mono text-[11px]">
                             {product.eccSupport ? (
                               <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-[#ECFDF5] text-[#004F32] font-semibold border border-[#ADF1C9]">
-                                ✓ ECC
+                                ✓ Self-Healing (ECC)
                               </span>
                             ) : (
-                              <span className="text-[#A1A1AA]">Non-ECC</span>
+                              <span className="text-[#A1A1AA]">Standard Non-ECC</span>
                             )}
                           </td>
 
@@ -406,7 +406,7 @@ export default function AxiomCatalog() {
                         />
                         {product.eccSupport && (
                           <span className="absolute top-2 left-2 px-1.5 py-0.5 rounded bg-[#ECFDF5] text-[#004F32] font-mono text-[9px] font-bold border border-[#ADF1C9]">
-                            ECC SUPPORTED
+                            SELF-HEALING (ECC)
                           </span>
                         )}
                       </div>
@@ -424,11 +424,11 @@ export default function AxiomCatalog() {
 
                       <div className="grid grid-cols-2 gap-2 mt-3 pt-2 border-t border-[#E4E4E7] text-[11px] font-mono text-[#52525B]">
                         <div>
-                          <span className="text-[#71717A] block text-[9px]">SOCKET</span>
+                          <span className="text-[#71717A] block text-[9px]">MOTHERBOARD FIT</span>
                           <span>{product.socket || product.formFactor || "Standard"}</span>
                         </div>
                         <div>
-                          <span className="text-[#71717A] block text-[9px]">BANDWIDTH</span>
+                          <span className="text-[#71717A] block text-[9px]">TRANSFER SPEED</span>
                           <span className="text-[#2563EB]">
                             {product.memoryBandwidthGBs ? `${product.memoryBandwidthGBs} GB/s` : "Gen 5.0"}
                           </span>

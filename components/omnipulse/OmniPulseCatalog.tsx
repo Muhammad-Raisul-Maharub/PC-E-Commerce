@@ -131,7 +131,7 @@ export default function OmniPulseCatalog() {
             <div className="flex items-center gap-2 mb-1">
               <span className="w-2 h-2 rounded-full bg-[#0D47A1]" />
               <span className="font-mono text-xs uppercase tracking-wider text-[#0D47A1] font-bold">
-                Parametric Inventory Directory
+                Store &amp; Online Product Catalog
               </span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-sans">
@@ -329,7 +329,7 @@ export default function OmniPulseCatalog() {
                 </span>
                 <input
                   type="text"
-                  placeholder="Search by product name, brand, or SKU..."
+                  placeholder="Search by product name, brand, or item code..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-[#0D47A1] focus:bg-white text-slate-900 transition-colors"
@@ -511,7 +511,7 @@ export default function OmniPulseCatalog() {
                             </div>
                           )}
                           <div className="text-[10px] text-[#0D47A1] font-mono font-semibold">
-                            EMI: ৳{product.emiPerMonth?.toLocaleString() || Math.round(product.price / 12).toLocaleString()}/mo
+                            Monthly: ৳{product.emiPerMonth?.toLocaleString() || Math.round(product.price / 12).toLocaleString()}/mo (0% Interest)
                           </div>
                         </div>
 
@@ -531,7 +531,7 @@ export default function OmniPulseCatalog() {
                           </button>
                           <a
                             href={`https://wa.me/8801700000000?text=${encodeURIComponent(
-                              `Hello OmniPulse BD, inquiring about ${product.name} (SKU: ${product.sku}). In stock?`
+                              `Hello OmniPulse BD, inquiring about ${product.name} (Item Code: ${product.sku}). In stock?`
                             )}`}
                             target="_blank"
                             rel="noreferrer"

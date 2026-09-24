@@ -110,13 +110,13 @@ export default function VoltMatrixCatalog() {
             <span className="material-symbols-outlined text-[14px]">chevron_right</span>
             <span className="hover:text-[#EF4444] cursor-pointer">Hardware Directory</span>
             <span className="material-symbols-outlined text-[14px]">chevron_right</span>
-            <span className="text-slate-900 font-bold">Parametric Catalog Matrix</span>
+            <span className="text-slate-900 font-bold">Component Catalog</span>
           </nav>
 
           <div className="hidden lg:flex items-center gap-4 font-mono text-[10.5px] text-slate-600">
             <span className="flex items-center gap-1">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-              SYS-INDEX: {HARDWARE_PRODUCTS.length} ACTIVE SKUS
+              CATALOG: {HARDWARE_PRODUCTS.length} VERIFIED PRODUCTS
             </span>
             <span className="text-slate-300">|</span>
             <span>IDB INVENTORY: REALTIME SYNC (30s)</span>
@@ -135,10 +135,10 @@ export default function VoltMatrixCatalog() {
             <div className="bg-white p-3.5 rounded border border-slate-200 shadow-sm space-y-2">
               <div className="flex items-center justify-between">
                 <span className="font-headline font-semibold text-[14px] uppercase tracking-tight text-slate-900">
-                  Parametric Tree
+                  Filters &amp; Search
                 </span>
                 <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 font-bold">
-                  V4.2
+                  LIVE
                 </span>
               </div>
               <div className="relative w-full">
@@ -158,20 +158,20 @@ export default function VoltMatrixCatalog() {
             {/* Category Selectors */}
             <div className="bg-white p-3.5 rounded border border-slate-200 shadow-sm space-y-2">
               <span className="font-mono text-[10.5px] uppercase font-bold text-slate-500 block">
-                Component Hierarchy
+                Hardware Categories
               </span>
               <div className="flex flex-col gap-1 text-[12px]">
                 {[
-                  { id: "all", label: "All Silicon & Parts" },
-                  { id: "gpu", label: "Discrete GPUs (Graphics)" },
+                  { id: "all", label: "All Components & Parts" },
+                  { id: "gpu", label: "Graphics Cards (GPUs)" },
                   { id: "cpu", label: "Processors (CPUs)" },
-                  { id: "motherboard", label: "Motherboards (ATX/mATX)" },
-                  { id: "ram", label: "DDR5 / DDR4 Memory" },
-                  { id: "storage", label: "PCIe 4.0/5.0 NVMe SSD" },
-                  { id: "psu", label: "ATX 3.0 Power Supplies" },
-                  { id: "cooler", label: "AIO Liquid Cooling" },
-                  { id: "chassis", label: "High-Airflow Chassis" },
-                  { id: "peripherals", label: "Esports Peripherals" },
+                  { id: "motherboard", label: "Motherboards" },
+                  { id: "ram", label: "DDR5 / DDR4 Memory (RAM)" },
+                  { id: "storage", label: "High-Speed Solid State Drives (SSD)" },
+                  { id: "psu", label: "Power Supplies (PSUs)" },
+                  { id: "cooler", label: "CPU Liquid & Air Coolers" },
+                  { id: "chassis", label: "Computer Cases" },
+                  { id: "peripherals", label: "Keyboards, Mice & Displays" },
                 ].map((cat) => (
                   <button
                     key={cat.id}
@@ -197,7 +197,7 @@ export default function VoltMatrixCatalog() {
             <div className="bg-white p-3.5 rounded border border-slate-200 shadow-sm space-y-2">
               <div className="flex items-center justify-between">
                 <span className="font-mono text-[10.5px] uppercase font-bold text-slate-500">
-                  Fulfillment Matrix
+                  Stock &amp; Delivery Options
                 </span>
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
               </div>
@@ -286,7 +286,7 @@ export default function VoltMatrixCatalog() {
             <div className="bg-white p-3.5 rounded border border-slate-200 shadow-sm space-y-2">
               <div className="flex items-center justify-between">
                 <span className="font-mono text-[10.5px] uppercase font-bold text-slate-500">
-                  Foundry Manufacturer
+                  Manufacturer Brand
                 </span>
                 <span className="font-mono text-[10px] text-slate-400">{allBrands.length} Brands</span>
               </div>
@@ -319,7 +319,7 @@ export default function VoltMatrixCatalog() {
             {/* VRAM Capacity Facet */}
             <div className="bg-white p-3.5 rounded border border-slate-200 shadow-sm space-y-2">
               <span className="font-mono text-[10.5px] uppercase font-bold text-slate-500 block">
-                Memory / VRAM Size
+                Video Memory (VRAM) Size
               </span>
               <div className="flex flex-wrap gap-1">
                 {["8GB", "12GB", "16GB", "32GB"].map((vram) => {
@@ -347,11 +347,11 @@ export default function VoltMatrixCatalog() {
             {/* Telemetry Diagnostic Widget */}
             <div className="bg-slate-900 text-white p-3.5 rounded border border-slate-800 space-y-2 shadow-sm">
               <div className="flex items-center justify-between font-mono text-[11px] font-bold">
-                <span>VOLT POWER AUDIT</span>
+                <span>POWER SUPPLY SAFETY GUIDE</span>
                 <span className="text-emerald-400">SAFE</span>
               </div>
               <p className="text-[11px] text-slate-400 leading-snug">
-                Ensure your 12V rail handles transient spikes of up to 450W with modern ATX 3.1 certified PSUs.
+                Ensure your power supply handles peak surges safely by choosing modern certified power units.
               </p>
               <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
                 <div className="bg-emerald-500 h-full w-[72%]"></div>
@@ -366,13 +366,13 @@ export default function VoltMatrixCatalog() {
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <h1 className="font-headline font-bold text-xl uppercase tracking-tight text-slate-900 flex items-center gap-2">
-                    Foundry Hardware Directory
+                    Hardware Product Catalog
                     <span className="font-mono text-[10.5px] px-2 py-0.5 rounded bg-red-100 text-[#b61722] font-bold">
-                      {filteredProducts.length} ACTIVE SKUS
+                      {filteredProducts.length} PRODUCTS FOUND
                     </span>
                   </h1>
                   <p className="text-[12px] text-slate-500 mt-0.5">
-                    Displaying verified hardware matching parametric criteria. Live pricing aligned with authorized importer warranty.
+                    Displaying verified components matching your selected criteria with genuine warranty.
                   </p>
                 </div>
 
@@ -388,7 +388,7 @@ export default function VoltMatrixCatalog() {
                       }`}
                     >
                       <span className="material-symbols-outlined text-[15px] text-[#EF4444]">view_list</span>
-                      Dense Matrix
+                      Detailed List
                     </button>
                     <button
                       onClick={() => setViewMode("grid")}
@@ -399,7 +399,7 @@ export default function VoltMatrixCatalog() {
                       }`}
                     >
                       <span className="material-symbols-outlined text-[15px]">grid_view</span>
-                      Card Grid
+                      Photo Grid
                     </button>
                   </div>
 
@@ -516,10 +516,10 @@ export default function VoltMatrixCatalog() {
                               {product.brand}
                             </span>
                             <span className="font-mono text-[10.5px] px-1.5 py-0.5 bg-slate-50 text-slate-500 rounded border border-slate-200">
-                              SKU: {product.sku}
+                              Item Code: {product.sku}
                             </span>
                             <span className="font-mono text-[10.5px] px-1.5 py-0.5 bg-red-50 text-[#b61722] font-semibold rounded">
-                              {product.tdp}W TDP
+                              {product.tdp}W Power Draw
                             </span>
                           </div>
 
@@ -574,7 +574,7 @@ export default function VoltMatrixCatalog() {
                             </div>
                           )}
                           <div className="mt-1 font-mono text-[10.5px] text-slate-600 bg-white px-2 py-0.5 rounded border border-slate-200">
-                            EMI: ৳{Math.round(product.price / 12).toLocaleString()}/mo x 12m
+                            Installment: ৳{Math.round(product.price / 12).toLocaleString()}/mo (12m)
                           </div>
                         </div>
 
@@ -701,7 +701,7 @@ export default function VoltMatrixCatalog() {
               </div>
               <div>
                 <div className="font-headline font-bold text-[13px] uppercase text-slate-900 leading-none">
-                  Side-By-Side Spec Matrix
+                  Side-By-Side Product Comparison
                 </div>
                 <div className="font-mono text-[10px] text-slate-500">
                   {comparedProducts.length} Selected / Max 4 Products
@@ -741,7 +741,7 @@ export default function VoltMatrixCatalog() {
                 onClick={() => setComparedProducts([])}
                 className="h-8 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded font-mono text-[11px] transition-colors"
               >
-                Clear Tray
+                Clear Comparison
               </button>
               <button
                 onClick={() => setIsCompareModalOpen(true)}
@@ -763,7 +763,7 @@ export default function VoltMatrixCatalog() {
               <div className="flex items-center gap-2">
                 <span className="material-symbols-outlined text-[#EF4444] text-[22px]">difference</span>
                 <h3 className="font-headline font-bold text-lg text-slate-900">
-                  Side-By-Side Technical Hardware Comparison
+                  Side-By-Side Hardware Comparison
                 </h3>
               </div>
               <button
@@ -783,8 +783,8 @@ export default function VoltMatrixCatalog() {
                     <div className="font-headline font-semibold text-[14px] text-slate-900 leading-snug">{p.name}</div>
                     <div className="font-mono text-[18px] text-[#b61722] font-bold">৳{p.price.toLocaleString()}</div>
                     <div className="font-mono text-[11px] text-slate-600 space-y-1 pt-2 border-t border-slate-200">
-                      <div>TDP: <strong>{p.tdp}W</strong></div>
-                      {p.socket && <div>Socket: <strong>{p.socket}</strong></div>}
+                      <div>Power &amp; Heat: <strong>{p.tdp}W</strong></div>
+                      {p.socket && <div>Motherboard Fit: <strong>{p.socket}</strong></div>}
                       {p.specs.map((s, i) => (
                         <div key={i}>
                           {s.label}: <strong>{s.value}</strong>

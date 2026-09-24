@@ -18,14 +18,14 @@ interface SlotConfig {
 }
 
 const BUILDER_SLOTS: SlotConfig[] = [
-  { key: "cpu", label: "Central Processing Unit", category: "cpu", slotCode: "[SLOT-01]", required: true },
-  { key: "motherboard", label: "Motherboard Platform", category: "motherboard", slotCode: "[SLOT-02]", required: true },
-  { key: "cooler", label: "Thermal Dissipation Cooler", category: "cooler", slotCode: "[SLOT-03]", required: true },
-  { key: "ram", label: "Memory Interconnect (RAM)", category: "ram", slotCode: "[SLOT-04]", required: true },
-  { key: "storage", label: "Primary Storage (NVMe M.2)", category: "storage", slotCode: "[SLOT-05]", required: true },
-  { key: "gpu", label: "Graphics Accelerator (GPU)", category: "gpu", slotCode: "[SLOT-06]", required: true },
-  { key: "psu", label: "Power Conversion Unit (PSU)", category: "psu", slotCode: "[SLOT-07]", required: true },
-  { key: "chassis", label: "Structural Enclosure (Chassis)", category: "chassis", slotCode: "[SLOT-08]", required: true },
+  { key: "cpu", label: "Processor (CPU)", category: "cpu", slotCode: "[SLOT-01]", required: true },
+  { key: "motherboard", label: "Motherboard", category: "motherboard", slotCode: "[SLOT-02]", required: true },
+  { key: "cooler", label: "CPU Cooler", category: "cooler", slotCode: "[SLOT-03]", required: true },
+  { key: "ram", label: "System Memory (RAM)", category: "ram", slotCode: "[SLOT-04]", required: true },
+  { key: "storage", label: "Fast Storage (M.2 NVMe SSD)", category: "storage", slotCode: "[SLOT-05]", required: true },
+  { key: "gpu", label: "Graphics Card (GPU)", category: "gpu", slotCode: "[SLOT-06]", required: true },
+  { key: "psu", label: "Power Supply Unit (PSU)", category: "psu", slotCode: "[SLOT-07]", required: true },
+  { key: "chassis", label: "Computer Case", category: "chassis", slotCode: "[SLOT-08]", required: true },
 ];
 
 export default function SynapseBuilder() {
@@ -283,7 +283,7 @@ export default function SynapseBuilder() {
             <div className="flex items-center justify-between border-b border-[#334155] pb-2">
               <div className="flex items-center gap-1.5 text-xs font-bold text-[#06B6D4]">
                 <span className="material-symbols-outlined text-sm">functions</span>
-                <span>WATTAGE CALCULATION FORMULA</span>
+                <span>POWER DRAW &amp; SUPPLY SAFETY CALCULATOR</span>
               </div>
               <span className="text-[10px] text-[#84CC16]">P_SYS = Σ(P_PARTS) × 1.25</span>
             </div>
@@ -306,7 +306,7 @@ export default function SynapseBuilder() {
                 <span className="text-[#F8FAFC] font-bold">{selectedPsuCapacity} W</span>
               </div>
               <div className="flex justify-between items-center text-[#94A3B8] pt-1 border-t border-[#334155]">
-                <span>Electrical Headroom Margin:</span>
+                <span>Power Safety Margin:</span>
                 <span className={`text-xs font-bold ${isPowerAdequate ? "text-[#84CC16]" : "text-[#EF4444]"}`}>
                   {isPowerAdequate ? `+${powerHeadroom}% SAFE` : "INSUFFICIENT"}
                 </span>
@@ -319,7 +319,7 @@ export default function SynapseBuilder() {
             <div className="flex items-center justify-between border-b border-[#334155] pb-2 text-xs font-bold text-[#84CC16]">
               <span className="flex items-center gap-1.5">
                 <span className="material-symbols-outlined text-sm">straighten</span>
-                <span>PHYSICAL CLEARANCE CHECKS</span>
+                <span>CASE SIZE &amp; FIT CHECKS</span>
               </span>
               <span className="text-[10px] text-[#94A3B8]">CAD ENVELOPE</span>
             </div>
@@ -328,7 +328,7 @@ export default function SynapseBuilder() {
               {/* GPU Length vs Chassis Max */}
               <div className="p-2.5 bg-[#0B1326] border border-[#334155] flex items-center justify-between">
                 <div>
-                  <span className="text-[11px] text-[#94A3B8] block">GPU LENGTH VS CHASSIS</span>
+                  <span className="text-[11px] text-[#94A3B8] block">GRAPHICS CARD LENGTH VS CASE FIT</span>
                   <span className="text-[#F8FAFC]">
                     {gpuLen}mm vs {caseGpuMax}mm max
                   </span>
@@ -341,7 +341,7 @@ export default function SynapseBuilder() {
               {/* Cooler Height vs Chassis Width */}
               <div className="p-2.5 bg-[#0B1326] border border-[#334155] flex items-center justify-between">
                 <div>
-                  <span className="text-[11px] text-[#94A3B8] block">COOLER HEIGHT VS CASE</span>
+                  <span className="text-[11px] text-[#94A3B8] block">CPU COOLER HEIGHT VS CASE FIT</span>
                   <span className="text-[#F8FAFC]">
                     {coolerH}mm vs {caseCoolerMax}mm max
                   </span>
@@ -410,7 +410,7 @@ export default function SynapseBuilder() {
                             {part.name}
                           </span>
                           <span className="font-mono text-[10px] text-[#94A3B8]">
-                            TDP: {part.tdp}W {part.socket ? `· ${part.socket}` : ""} · Tk {part.price.toLocaleString()}
+                            Power Draw: {part.tdp}W {part.socket ? `· Motherboard Fit: ${part.socket}` : ""} · Tk {part.price.toLocaleString()}
                           </span>
                         </div>
                       </div>
@@ -609,7 +609,7 @@ export default function SynapseBuilder() {
                       <span className="text-[10px] text-[#06B6D4] uppercase font-bold block">{item.brand}</span>
                       <span className="font-bold text-[#F8FAFC] block truncate">{item.name}</span>
                       <span className="text-[10px] text-[#94A3B8]">
-                        TDP: {item.tdp}W {item.socket ? `· ${item.socket}` : ""} · Stock: {item.branchStock.idb} Units
+                        Power Draw: {item.tdp}W {item.socket ? `· Motherboard Fit: ${item.socket}` : ""} · Stock: {item.branchStock.idb} Units
                       </span>
                     </div>
                   </div>

@@ -72,7 +72,7 @@ export default function SynapsePDP({ product }: SynapsePDPProps) {
 
   // WhatsApp query text
   const whatsappUrl = `https://wa.me/8801700000000?text=${encodeURIComponent(
-    `Hello SynapseCAD Engineering, I need technical qualification for: ${product.name} (SKU: ${product.sku}). Is it verified for my CAD workstation build?`
+    `Hello SynapseCAD Engineering, I need technical qualification for: ${product.name} (Item Code: ${product.sku}). Is it verified for my CAD workstation build?`
   )}`;
 
   const emiPerMonth = product.emiPerMonth || Math.round(product.price / 12);
@@ -92,8 +92,8 @@ export default function SynapsePDP({ product }: SynapsePDPProps) {
             <span className="text-[#84CC16] truncate max-w-[200px]">{product.sku}</span>
           </div>
           <div className="flex items-center gap-4 text-[11px] text-[#94A3B8]">
-            <span>STATUS: <strong className="text-[#84CC16]">CALIBRATED SPEC</strong></span>
-            <span>DATUM: <strong className="text-[#06B6D4]">PCIe REF (0,0,0)</strong></span>
+            <span>STATUS: <strong className="text-[#84CC16]">VERIFIED COMPATIBILITY</strong></span>
+            <span>MEASUREMENT: <strong className="text-[#06B6D4]">PHYSICAL CLEARANCE FIT</strong></span>
           </div>
         </div>
       </div>
@@ -109,7 +109,7 @@ export default function SynapsePDP({ product }: SynapsePDPProps) {
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-[#84CC16] animate-pulse" />
                 <span className="font-bold text-[#06B6D4] uppercase">
-                  DIAGNOSTIC CLEARANCE ENVELOPE // 3D RULER
+                  PHYSICAL CLEARANCE FIT // 3D MEASUREMENT RULER
                 </span>
               </div>
               <span className="text-[#94A3B8] text-[11px]">TOLERANCE ±0.20 mm</span>
@@ -118,7 +118,7 @@ export default function SynapsePDP({ product }: SynapsePDPProps) {
             {/* Interactive Dimension Leader Ruler Overlay (Top X-Axis) */}
             <div className="relative w-full bg-[#0B1326] border border-[#334155] p-4 mb-4">
               <div className="flex items-center justify-between font-mono text-xs font-bold text-[#06B6D4] px-3 py-1 bg-[#1E293B] border border-[#06B6D4]/40 shadow">
-                <span className="text-[10px] text-[#94A3B8]">|◀ DIM_X (LENGTH)</span>
+                <span className="text-[10px] text-[#94A3B8]">|◀ LENGTH</span>
                 <span className="tracking-wider">{productLength.toFixed(2)} mm</span>
                 <span className="text-[10px] text-[#94A3B8]">TOL ±0.2 ▶|</span>
               </div>
@@ -160,10 +160,10 @@ export default function SynapsePDP({ product }: SynapsePDPProps) {
             <div className="mt-6 p-4 bg-[#1E293B] border border-[#334155] space-y-3">
               <div className="flex items-center justify-between font-mono text-xs">
                 <span className="text-[#94A3B8] uppercase font-bold">
-                  // CHASSIS FIT SIMULATION SLIDER
+                  // COMPUTER CASE FIT TEST SLIDER
                 </span>
                 <span className="text-[#06B6D4] font-bold">
-                  TEST CHASSIS CLEARANCE: {chassisMaxClearance} mm
+                  TEST CASE INTERNAL CLEARANCE: {chassisMaxClearance} mm
                 </span>
               </div>
 
@@ -199,12 +199,12 @@ export default function SynapsePDP({ product }: SynapsePDPProps) {
                     <span className="font-bold block">
                       {isClearanceSafe
                         ? `100% FIT CONFIRMED: ${remainingClearance}mm BUFFER`
-                        : `COLLISION DETECTED: EXCEEDS CHASSIS BY ${Math.abs(remainingClearance)}mm`}
+                        : `DOES NOT FIT: EXCEEDS CASE BY ${Math.abs(remainingClearance)}mm`}
                     </span>
                     <span className="text-[11px] text-[#94A3B8]">
                       {isClearanceSafe
                         ? "Zero interference with front radiator/fans."
-                        : "Component exceeds internal cavity limits. Select a larger enclosure."}
+                        : "Component exceeds case size limits. Choose a larger computer case."}
                     </span>
                   </div>
                 </div>
@@ -221,14 +221,14 @@ export default function SynapsePDP({ product }: SynapsePDPProps) {
                 className="flex items-center gap-1.5 text-[#06B6D4] hover:underline"
               >
                 <span className="material-symbols-outlined text-sm">download</span>
-                <span>[ Download 2D DXF / 3D STEP Schematic (v4.8) ]</span>
+                <span>[ Download Technical Blueprint &amp; Measurements ]</span>
               </button>
               <button
                 onClick={() => alert(`Opening official bus & pinout datasheet for ${product.sku}...`)}
                 className="flex items-center gap-1.5 text-[#94A3B8] hover:text-[#F8FAFC]"
               >
                 <span className="material-symbols-outlined text-sm">picture_as_pdf</span>
-                <span>[ Factory Pinout &amp; PCIe Spec (PDF) ]</span>
+                <span>[ Factory Power &amp; Connection Specs (PDF) ]</span>
               </button>
             </div>
           </div>
@@ -256,16 +256,16 @@ export default function SynapsePDP({ product }: SynapsePDPProps) {
             {/* Micro Parameter Chips */}
             <div className="flex flex-wrap gap-2 pt-1 font-mono text-xs">
               <span className="px-2 py-1 bg-[#1E293B] border border-[#334155] text-[#F8FAFC]">
-                TDP: <strong className="text-[#F59E0B]">{product.tdp}W</strong>
+                Power &amp; Heat: <strong className="text-[#F59E0B]">{product.tdp}W</strong>
               </span>
               {product.socket && (
                 <span className="px-2 py-1 bg-[#1E293B] border border-[#334155] text-[#F8FAFC]">
-                  Socket: <strong className="text-[#06B6D4]">{product.socket}</strong>
+                  Motherboard Fit: <strong className="text-[#06B6D4]">{product.socket}</strong>
                 </span>
               )}
               {product.ramType && (
                 <span className="px-2 py-1 bg-[#1E293B] border border-[#334155] text-[#F8FAFC]">
-                  RAM: <strong className="text-[#84CC16]">{product.ramType}</strong>
+                  Memory: <strong className="text-[#84CC16]">{product.ramType}</strong>
                 </span>
               )}
               <span className="px-2 py-1 bg-[#1E293B] border border-[#334155] text-[#F8FAFC]">
@@ -277,7 +277,7 @@ export default function SynapsePDP({ product }: SynapsePDPProps) {
             <div className="p-4 bg-[#1E293B] border border-[#334155] space-y-2">
               <div className="flex items-baseline justify-between">
                 <div>
-                  <span className="font-mono text-[10px] text-[#94A3B8] uppercase block">CASHOUT PRICE</span>
+                  <span className="font-mono text-[10px] text-[#94A3B8] uppercase block">SPECIAL CASH / BANK PRICE</span>
                   <div className="flex items-baseline gap-2">
                     <span className="font-mono text-3xl font-extrabold text-[#06B6D4]">
                       Tk {product.price.toLocaleString()}
@@ -301,7 +301,7 @@ export default function SynapsePDP({ product }: SynapsePDPProps) {
                 <div className="flex items-center gap-1.5 text-[#94A3B8]">
                   <span className="material-symbols-outlined text-sm text-[#06B6D4]">credit_card</span>
                   <span>
-                    Financing from <strong className="text-[#84CC16]">Tk {emiPerMonth.toLocaleString()}/mo</strong> (12 Mo. 0% EMI)
+                    Financing from <strong className="text-[#84CC16]">Tk {emiPerMonth.toLocaleString()}/mo</strong> (12 Months 0% Interest)
                   </span>
                 </div>
                 <span className="text-[10px] text-[#475569]">18 Partner Banks</span>
@@ -311,7 +311,7 @@ export default function SynapsePDP({ product }: SynapsePDPProps) {
             {/* Omnichannel Physical Inventory Depot Disposition */}
             <div className="space-y-2">
               <span className="font-mono text-xs font-bold text-[#94A3B8] uppercase block">
-                // PHYSICAL DEPOT STOCK DISPOSITION
+                // STORE PICKUP &amp; REGIONAL AVAILABILITY
               </span>
               <div className="flex flex-col gap-1.5 font-mono text-xs">
                 <div className="p-2.5 bg-[#0B1326] border border-[#334155] flex items-center justify-between">
@@ -356,7 +356,7 @@ export default function SynapsePDP({ product }: SynapsePDPProps) {
                 className="w-full py-3.5 bg-[#06B6D4] hover:bg-[#0891b2] text-[#0F172A] font-bold uppercase tracking-wider shadow-[0_0_16px_rgba(6,182,212,0.3)] transition-all flex items-center justify-center gap-2"
               >
                 <span className="material-symbols-outlined text-base">architecture</span>
-                <span>Stage to Schematic Workbench</span>
+                <span>Configure in Custom PC Builder</span>
               </button>
 
               <button
@@ -364,7 +364,7 @@ export default function SynapsePDP({ product }: SynapsePDPProps) {
                 className="w-full py-3 bg-[#1E293B] hover:bg-[#334155] border border-[#06B6D4] text-[#06B6D4] hover:text-[#F8FAFC] font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2"
               >
                 <span className="material-symbols-outlined text-base">shopping_cart</span>
-                <span>{isAddedToCart ? "Added to Payload!" : "Add to Checkout Payload"}</span>
+                <span>{isAddedToCart ? "Added to Cart!" : "Add to Shopping Cart"}</span>
               </button>
 
               <a
@@ -374,7 +374,7 @@ export default function SynapsePDP({ product }: SynapsePDPProps) {
                 className="w-full py-2.5 bg-[#131B2E] hover:bg-[#25D366]/15 border border-[#25D366]/40 text-[#25D366] font-bold uppercase tracking-wider text-center flex items-center justify-center gap-2 transition-all"
               >
                 <span className="w-2 h-2 rounded-full bg-[#25D366] animate-pulse" />
-                <span>Consult Systems Engineer on WhatsApp</span>
+                <span>Ask a Hardware Specialist on WhatsApp</span>
               </a>
             </div>
           </div>

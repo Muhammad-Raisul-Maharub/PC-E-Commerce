@@ -210,7 +210,7 @@ export default function VoltMatrixPDP({ product: propProduct }: { product?: Hard
             {/* Verification Badges */}
             <div className="flex flex-wrap items-center gap-2">
               <span className="px-2 py-0.5 bg-slate-100 text-slate-800 font-mono text-[10.5px] rounded border border-slate-200">
-                SKU: <strong className="text-slate-900 font-bold">{product.sku}</strong>
+                Item Code: <strong className="text-slate-900 font-bold">{product.sku}</strong>
               </span>
               <span className="px-2 py-0.5 bg-slate-100 text-slate-800 font-mono text-[10.5px] rounded border border-slate-200 flex items-center gap-1">
                 <span className="material-symbols-outlined text-emerald-600 text-[14px]">verified</span>
@@ -257,19 +257,19 @@ export default function VoltMatrixPDP({ product: propProduct }: { product?: Hard
                 </div>
               </div>
 
-              {/* EMI Calculator Matrix */}
+              {/* Monthly Installment Calculator Matrix */}
               <div className="p-3 bg-slate-50 rounded border border-slate-200 flex items-center justify-between gap-3 text-[12px]">
                 <div className="flex items-center gap-2">
                   <span className="material-symbols-outlined text-slate-500 text-[18px]">credit_card</span>
                   <span className="text-slate-800">
-                    Or <strong>৳{Math.round(product.price / 12).toLocaleString()}/mo</strong> (12 Mo Zero-Interest EMI on 18 partner banks)
+                    Or <strong>৳{Math.round(product.price / 12).toLocaleString()}/mo</strong> (12-Month Zero-Interest Installments on 18 partner banks)
                   </span>
                 </div>
                 <button
                   onClick={() => alert("18 Partner Banks Supported: City Bank, EBL, SCB, BRAC, MTB, Prime Bank, etc.")}
                   className="font-mono text-[11px] text-[#b61722] font-bold hover:underline whitespace-nowrap"
                 >
-                  EMI Calculator &gt;
+                  Installment Calculator &gt;
                 </button>
               </div>
             </div>
@@ -360,7 +360,7 @@ export default function VoltMatrixPDP({ product: propProduct }: { product?: Hard
                   className="h-9 px-4 bg-white hover:bg-slate-50 text-slate-800 rounded font-mono text-[11px] font-bold border border-slate-200 flex items-center justify-center gap-1.5 shadow-sm transition-colors"
                 >
                   <span className="material-symbols-outlined text-[16px] text-[#EF4444]">developer_board</span>
-                  <span>Configure in System Architect</span>
+                  <span>Configure in Custom PC Builder</span>
                 </button>
 
                 <a
@@ -382,11 +382,11 @@ export default function VoltMatrixPDP({ product: propProduct }: { product?: Hard
           {/* Sticky Tab Navigation */}
           <div className="sticky top-28 z-40 bg-white border-b border-slate-200 px-4 flex items-center overflow-x-auto py-2 gap-4 text-[12px] font-mono">
             {[
-              { id: "specs", label: "Parametric Specifications" },
-              { id: "clearance", label: "Socket & Thermal Clearance" },
-              { id: "benchmarks", label: "Hardware Benchmarks & Thermals" },
-              { id: "pairings", label: "Verified Motherboard & RAM Pairings" },
-              { id: "reviews", label: "Verified Customer Logs (142)" },
+              { id: "specs", label: "Full Specifications & Performance" },
+              { id: "clearance", label: "Motherboard Fit & Cooler Sizing" },
+              { id: "benchmarks", label: "Real-World Benchmarks & Heat Tests" },
+              { id: "pairings", label: "Verified Motherboard & Memory Pairings" },
+              { id: "reviews", label: "Verified Customer Reviews (142)" },
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -409,10 +409,10 @@ export default function VoltMatrixPDP({ product: propProduct }: { product?: Hard
                 <div className="lg:col-span-8 space-y-4">
                   <div>
                     <h2 className="font-headline font-bold text-lg text-slate-900 uppercase tracking-tight">
-                      Architectural &amp; Silicon Telemetry
+                      Detailed Hardware &amp; Performance Specs
                     </h2>
                     <p className="text-[12px] text-slate-500 font-mono">
-                      Exact physical parameters verified via Foundry Microcode and Instruction Data Sheets.
+                      Exact performance measurements verified for compatibility and build stability.
                     </p>
                   </div>
 
@@ -420,18 +420,18 @@ export default function VoltMatrixPDP({ product: propProduct }: { product?: Hard
                   <div className="rounded border border-slate-200 overflow-hidden text-[12px]">
                     <div className="divide-y divide-slate-100">
                       {[
-                        { label: "Microarchitecture", val: "Zen 4 (Persephone Core Architecture)" },
-                        { label: "Physical Core / Thread Topology", val: "8 Cores / 16 Concurrent Threads" },
-                        { label: "Base Clock Frequency", val: "4.20 GHz" },
-                        { label: "Maximum Precision Boost Clock", val: "Up to 5.00 GHz (Single Core Peak)" },
-                        { label: "3D V-Cache / L3 Cache Envelope", val: "96 MB 3D V-Cache (Direct TSV Bonded)" },
-                        { label: "Total Cache Hierarchy (L1 + L2 + L3)", val: "512 KB (L1) + 8 MB (L2) + 96 MB (L3) = 104.5 MB" },
-                        { label: "Thermal Design Power (TDP / PPT)", val: `${product.tdp}W (Package Power Target: 162W)` },
-                        { label: "Maximum Operating Temperature (TJMax)", val: "89°C (Precision Boost Thermal Guard)" },
-                        { label: "Manufacturing Lithography", val: "TSMC 5nm FinFET (CCD) + TSMC 6nm (IOD)" },
-                        { label: "Supported Memory Subsystem", val: "DDR5 Dual Channel up to 5200 MT/s Native (6000+ EXPO)" },
-                        { label: "PCI Express Connectivity", val: "PCIe 5.0 (28 total lanes: 24 usable for GPU & NVMe)" },
-                        { label: "Integrated Graphics Core", val: "AMD Radeon RDNA 2 (2 CU, 2200 MHz)" },
+                        { label: "Processor Architecture", val: "Zen 4 (High-Efficiency Core Design)" },
+                        { label: "Physical Cores & Multi-Tasks", val: "8 Cores / 16 Multi-Tasking Channels" },
+                        { label: "Base Speed", val: "4.20 GHz" },
+                        { label: "Peak Burst Speed", val: "Up to 5.00 GHz (Single Core Peak)" },
+                        { label: "Game-Boosting Instant Memory (L3 Cache)", val: "96 MB 3D V-Cache (Directly Bonded)" },
+                        { label: "Total On-Chip Cache Memory", val: "512 KB (L1) + 8 MB (L2) + 96 MB (L3) = 104.5 MB" },
+                        { label: "Power & Heat Output (Watts)", val: `${product.tdp}W (Package Power Target: 162W)` },
+                        { label: "Maximum Safe Operating Temp", val: "89°C (Automatic Thermal Guard)" },
+                        { label: "Microscopic Silicon Process", val: "TSMC 5nm High-Efficiency Process" },
+                        { label: "Supported System Memory (RAM)", val: "DDR5 Dual Channel up to 5200 MT/s Native (6000+ EXPO)" },
+                        { label: "High-Speed Expansion Slots (PCIe)", val: "PCIe 5.0 (28 total lanes: 24 usable for GPU & NVMe)" },
+                        { label: "Built-In Display Graphics", val: "AMD Radeon RDNA 2 (2 CU, 2200 MHz)" },
                       ].map((row, i) => (
                         <div
                           key={i}
@@ -452,10 +452,10 @@ export default function VoltMatrixPDP({ product: propProduct }: { product?: Hard
                   <div className="p-4 bg-slate-50 rounded border border-slate-200 space-y-3">
                     <div className="flex items-center gap-2 text-slate-900 font-headline font-semibold text-[14px]">
                       <span className="material-symbols-outlined text-[#EF4444]">memory</span>
-                      <span>3D V-Cache Physical Architecture</span>
+                      <span>3D V-Cache Game Memory Architecture</span>
                     </div>
                     <p className="text-[12px] text-slate-600 leading-relaxed font-sans">
-                      The L3 SRAM die is direct hybrid-bonded on top of the CPU core complex using Through-Silicon Vias (TSVs), yielding 2.5 TB/s bi-directional cache bandwidth and zero memory-wait latency during intensive gameplay loops.
+                      The game cache memory is stacked directly on top of the processor cores, giving the chip instant 2.5 TB/s data access with zero waiting time during intense gaming.
                     </p>
                     <div className="p-2.5 bg-white rounded border border-slate-200 font-mono text-[11px] space-y-1">
                       <div className="text-slate-500">SRAM Layer Thickness: <strong>~20 Microns</strong></div>
@@ -471,7 +471,7 @@ export default function VoltMatrixPDP({ product: propProduct }: { product?: Hard
           {activeTab === "clearance" && (
             <div className="p-6 space-y-4">
               <h3 className="font-headline font-bold text-lg text-slate-900">
-                Socket &amp; Thermal Clearance Validator
+                Motherboard Fit &amp; Cooler Sizing Validator
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-[12px]">
                 <div className="p-4 bg-emerald-50 text-emerald-950 rounded border border-emerald-200">
@@ -479,19 +479,19 @@ export default function VoltMatrixPDP({ product: propProduct }: { product?: Hard
                     <span className="material-symbols-outlined text-[16px]">check_circle</span>
                     <span>Cooler Mounting</span>
                   </div>
-                  <span>100% AM4 bracket backwards compatibility verified. Fits all standard 240mm/360mm AIO coolers.</span>
+                  <span>100% AM4 bracket backwards compatibility verified. Fits all standard 240mm/360mm liquid and air coolers.</span>
                 </div>
                 <div className="p-4 bg-emerald-50 text-emerald-950 rounded border border-emerald-200">
                   <div className="font-bold text-[13px] flex items-center gap-1.5 mb-1 text-emerald-800">
                     <span className="material-symbols-outlined text-[16px]">check_circle</span>
-                    <span>Memory DIMM Clearance</span>
+                    <span>Memory Module Clearance</span>
                   </div>
                   <span>Compatible with low-profile and tall RGB heatsinks (up to 44mm height).</span>
                 </div>
                 <div className="p-4 bg-emerald-50 text-emerald-950 rounded border border-emerald-200">
                   <div className="font-bold text-[13px] flex items-center gap-1.5 mb-1 text-emerald-800">
                     <span className="material-symbols-outlined text-[16px]">check_circle</span>
-                    <span>PCIe Armor Clearance</span>
+                    <span>PCIe Slot Clearance</span>
                   </div>
                   <span>No interference with Top Gen5 M.2 heatsinks on B650 and X870 motherboards.</span>
                 </div>
@@ -503,7 +503,7 @@ export default function VoltMatrixPDP({ product: propProduct }: { product?: Hard
           {activeTab === "benchmarks" && (
             <div className="p-6 space-y-4">
               <h3 className="font-headline font-bold text-lg text-slate-900">
-                Hardware Benchmark Telemetry
+                Real-World Gaming &amp; Power Benchmarks
               </h3>
               <div className="space-y-3 font-mono text-[12px]">
                 <div>
@@ -528,7 +528,7 @@ export default function VoltMatrixPDP({ product: propProduct }: { product?: Hard
 
                 <div>
                   <div className="flex justify-between mb-1">
-                    <span>Full-Load Package Power Draw</span>
+                    <span>Full-Load Maximum Power Draw</span>
                     <span className="font-bold text-emerald-600">82W (Extremely Efficient)</span>
                   </div>
                   <div className="w-full bg-slate-100 h-2 rounded overflow-hidden">
@@ -543,18 +543,18 @@ export default function VoltMatrixPDP({ product: propProduct }: { product?: Hard
           {activeTab === "pairings" && (
             <div className="p-6 space-y-4">
               <h3 className="font-headline font-bold text-lg text-slate-900">
-                Verified Motherboard &amp; RAM Pairings
+                Verified Motherboard &amp; Memory Pairings
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="p-4 bg-slate-50 rounded border border-slate-200 space-y-2">
                   <div className="font-headline font-semibold text-[14px]">Recommended Motherboard:</div>
                   <div className="font-mono text-[13px] text-[#b61722] font-bold">MSI MAG B650 TOMAHAWK WIFI</div>
-                  <div className="text-[12px] text-slate-600">14+2+1 80A VRM handles 7800X3D without exceeding 54°C mosfet temperature.</div>
+                  <div className="text-[12px] text-slate-600">Heavy-duty clean power delivery handles 7800X3D without exceeding safe operating temperatures.</div>
                 </div>
                 <div className="p-4 bg-slate-50 rounded border border-slate-200 space-y-2">
-                  <div className="font-headline font-semibold text-[14px]">Recommended Memory Kit:</div>
+                  <div className="font-headline font-semibold text-[14px]">Recommended Memory (RAM) Kit:</div>
                   <div className="font-mono text-[13px] text-[#b61722] font-bold">Corsair Vengeance 32GB DDR5-6000 CL30</div>
-                  <div className="text-[12px] text-slate-600">Optimal 1:1 UCLK/MCLK sync ratio for AMD Zen 4 infinity fabric.</div>
+                  <div className="text-[12px] text-slate-600">Optimal synchronized speed ratio for ultra-low response times and smooth frame rates.</div>
                 </div>
               </div>
             </div>
@@ -564,7 +564,7 @@ export default function VoltMatrixPDP({ product: propProduct }: { product?: Hard
           {activeTab === "reviews" && (
             <div className="p-6 space-y-3">
               <h3 className="font-headline font-bold text-lg text-slate-900">
-                Verified Technician &amp; Customer Logs (142)
+                Verified Customer Reviews (142)
               </h3>
               <div className="p-3 bg-slate-50 rounded border border-slate-200 text-[12px] space-y-1">
                 <div className="flex items-center justify-between font-mono">

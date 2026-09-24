@@ -221,10 +221,10 @@ export default function NeonForgeBuilder() {
 
           <div className="flex items-center gap-3 font-mono text-xs">
             <div className="px-3 py-1.5 rounded-lg bg-[#12121A] border border-cyan-500/30 text-cyan-300">
-              POWER ENVELOPE: <strong className="text-white">{estimatedWatts}W</strong>
+              TOTAL POWER DRAW: <strong className="text-white">{estimatedWatts}W</strong>
             </div>
             <div className="px-3 py-1.5 rounded-lg bg-[#12121A] border border-emerald-500/30 text-emerald-400">
-              SOCKET: <strong className="text-white">{slots.cpu?.socket || "AM5 / LGA1851"}</strong>
+              MOTHERBOARD FIT: <strong className="text-white">{slots.cpu?.socket || "AM5 / LGA1851"}</strong>
             </div>
           </div>
         </div>
@@ -237,7 +237,7 @@ export default function NeonForgeBuilder() {
             </span>
             <div className="text-xs space-y-1">
               <div className="font-chakra font-bold text-sm text-red-300 uppercase tracking-wide">
-                ⚠️ MECHANICAL CLEARANCE COLLISION DETECTED
+                ⚠️ SIZE CLEARANCE CONFLICT DETECTED
               </div>
               <p className="font-mono text-[11px] leading-relaxed">
                 Selected GPU length (<strong>357mm</strong>) physically collides with the front-mounted 360mm radiator &amp; fan stack (maximum chassis bay depth available: <strong>331mm</strong>).
@@ -262,9 +262,9 @@ export default function NeonForgeBuilder() {
           <div className="p-3 rounded-xl bg-cyan-950/40 border border-cyan-500/40 text-cyan-300 font-mono text-xs flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-[#00F0FF] animate-pulse" />
-              <span>HYDRAULIC &amp; PINOUT VALIDATION: 100% PASS • ZERO BOTTLENECKS</span>
+              <span>COOLING &amp; HARDWARE FIT: 100% VERIFIED • NO PHYSICAL CONFLICTS</span>
             </div>
-            <span className="text-[10px] text-slate-400">PUMP HEAD: 3.9M H2O</span>
+            <span className="text-[10px] text-slate-400">WATER LIFT HEIGHT: 3.9 METERS</span>
           </div>
         )}
 
@@ -348,7 +348,7 @@ export default function NeonForgeBuilder() {
                       onChange={(e) => setPneumaticLeakTest(e.target.checked)}
                       className="accent-[#00F0FF] rounded"
                     />
-                    <span>24h Pneumatic Air-Decay Leak Certification</span>
+                    <span>24-Hour Factory Air Pressure Leak-Testing</span>
                   </div>
                   <span className="text-[#00F0FF] font-bold">+৳1,500</span>
                 </label>
@@ -526,7 +526,7 @@ export default function NeonForgeBuilder() {
                             {cand.name}
                           </div>
                           <div className="font-mono text-[10px] text-slate-400">
-                            {cand.brand} • {cand.sku} • {cand.tdp}W TDP
+                            {cand.brand} • {cand.sku} • {cand.tdp}W Power Draw
                           </div>
                         </div>
                       </div>

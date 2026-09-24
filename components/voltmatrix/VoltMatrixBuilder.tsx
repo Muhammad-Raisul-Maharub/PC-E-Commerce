@@ -140,14 +140,14 @@ function PcBuilderContent() {
             <div>
               <div className="flex items-center gap-2">
                 <span className="bg-[#EF4444] text-white px-2 py-0.5 rounded font-mono text-[10.5px] uppercase font-bold">
-                  Silicon Architect Workbench
+                  Custom PC Builder Workbench
                 </span>
                 <span className="font-mono text-[11px] text-slate-500">
-                  REAL-TIME VALIDATION ENGINE V5.1
+                  AUTOMATIC COMPATIBILITY CHECK V5.1
                 </span>
               </div>
               <h1 className="font-headline font-bold text-2xl sm:text-3xl text-slate-900 tracking-tight mt-1">
-                Custom PC System Architect &amp; Bill of Materials
+                Custom PC Builder &amp; Complete Parts List
               </h1>
             </div>
 
@@ -168,7 +168,7 @@ function PcBuilderContent() {
                 className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded font-mono text-[11px] font-semibold border border-slate-200 flex items-center gap-1.5 transition-colors"
               >
                 <span className="material-symbols-outlined text-[15px]">picture_as_pdf</span>
-                <span>{isExportingPdf ? "Compiling PDF..." : "Export Quotation"}</span>
+                <span>{isExportingPdf ? "Compiling PDF..." : "Export Quotation (PDF)"}</span>
               </button>
             </div>
           </div>
@@ -180,7 +180,7 @@ function PcBuilderContent() {
               <div className="space-y-1 min-w-0">
                 <div className="flex items-center gap-1 font-mono text-[11px] text-slate-500 font-bold uppercase">
                   <span className="material-symbols-outlined text-[#EF4444] text-[16px]">bolt</span>
-                  <span>ESTIMATED SYSTEM LOAD</span>
+                  <span>ESTIMATED TOTAL POWER DRAW</span>
                 </div>
                 <div className="font-mono text-[22px] text-slate-900 font-bold">
                   {estimatedWattage}W{" "}
@@ -189,7 +189,7 @@ function PcBuilderContent() {
                   </span>
                 </div>
                 <div className="text-[11px] text-slate-500 truncate">
-                  Recommended: {recommendedPsu}W 80+ Gold (25% safety margin)
+                  Recommended Power Supply: {recommendedPsu}W (includes 25% safety headroom)
                 </div>
               </div>
 
@@ -248,7 +248,7 @@ function PcBuilderContent() {
             <div className="p-4 bg-slate-100 rounded border border-slate-200 flex flex-col justify-between">
               <div className="flex items-center justify-between">
                 <span className="font-mono text-[10.5px] text-slate-500 uppercase font-bold">
-                  Running Financial Total
+                  Total System Cost
                 </span>
                 <span className="font-mono text-[10px] px-2 py-0.5 bg-[#b61722] text-white rounded font-bold">
                   {filledCount} OF 8 SLOTS FILLED
@@ -280,14 +280,14 @@ function PcBuilderContent() {
             <div className="p-3 bg-white rounded border border-slate-200 flex items-center justify-between shadow-sm">
               <div className="flex items-center gap-3">
                 <span className="font-headline font-bold text-[14px] text-slate-900 uppercase tracking-tight">
-                  System Bill of Materials (BOM)
+                  Selected Hardware Parts List
                 </span>
                 <span className="font-mono text-[10px] px-2 py-0.5 bg-slate-100 text-slate-600 rounded font-bold">
-                  MATRIX REV 4.2
+                  LIVE PARTS LIST
                 </span>
               </div>
               <div className="font-mono text-[11px] text-slate-500">
-                EST. BUILD WEIGHT: <strong className="text-slate-900">14.8 KG</strong>
+                APPROX. SYSTEM WEIGHT: <strong className="text-slate-900">14.8 KG</strong>
               </div>
             </div>
 
@@ -349,7 +349,7 @@ function PcBuilderContent() {
                               )}
                               {item.tdp > 0 && (
                                 <span className="bg-red-50 text-[#b61722] font-bold px-1.5 py-0.5 rounded">
-                                  {item.tdp}W TDP
+                                  {item.tdp}W Power Draw
                                 </span>
                               )}
                               {item.specs.slice(0, 2).map((s, i) => (
@@ -471,11 +471,11 @@ function PcBuilderContent() {
                   />
                   <div className="space-y-0.5 w-full">
                     <div className="font-semibold text-slate-900 flex items-center justify-between">
-                      <span>24-Hour OCCT Stress-Testing</span>
+                      <span>24-Hour Stability &amp; Stress Testing</span>
                       <span className="font-mono text-[11.5px] text-[#b61722] font-bold">+৳1,500</span>
                     </div>
                     <div className="text-[11px] text-slate-500">
-                      AVX2 thermal loading, memtest86 4-cycle loop, &amp; signed bench certificate.
+                      High-temperature load testing, memory error scan, &amp; certified test report.
                     </div>
                   </div>
                 </label>
@@ -490,11 +490,11 @@ function PcBuilderContent() {
                   />
                   <div className="space-y-0.5 w-full">
                     <div className="font-semibold text-slate-900 flex items-center justify-between">
-                      <span>Operating System &amp; BIOS Flash</span>
+                      <span>Windows Setup &amp; Motherboard Firmware Update</span>
                       <span className="font-mono text-[11.5px] text-[#b61722] font-bold">+৳500</span>
                     </div>
                     <div className="text-[11px] text-slate-500">
-                      Latest AGESA BIOS patch, AMD EXPO profile tuned, test Windows install.
+                      Latest motherboard update, memory high-speed profile tuning, test Windows install.
                     </div>
                   </div>
                 </label>
@@ -534,7 +534,7 @@ function PcBuilderContent() {
                     className="mt-1 accent-[#EF4444]"
                   />
                   <div>
-                    <div className="font-bold text-slate-900">In-Store Handover &amp; POST Demo</div>
+                    <div className="font-bold text-slate-900">In-Store Pickup &amp; Live Power-On Demo</div>
                     <div className="text-[11px] text-slate-500">
                       Ready in <strong>4 Hours</strong> at <strong>Dhaka IDB Bhaban Hub</strong>.
                     </div>
@@ -552,7 +552,7 @@ function PcBuilderContent() {
           <div className="flex items-center gap-4 w-full md:w-auto justify-between md:justify-start">
             <div>
               <div className="font-mono text-[10.5px] text-slate-500 uppercase flex items-center gap-1.5">
-                <span>READY RIG BOM TOTAL ({filledCount} ITEMS)</span>
+                <span>READY RIG TOTAL ({filledCount} ITEMS)</span>
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
               </div>
               <div className="flex items-baseline gap-2">
@@ -575,7 +575,7 @@ function PcBuilderContent() {
 
           <div className="flex items-center gap-2.5 w-full md:w-auto">
             <a
-              href={`https://wa.me/8801700000000?text=VoltMatrix%20Build%20Audit%20Request%20for%20BOM%20Total:%20৳${totalWithServices}`}
+              href={`https://wa.me/8801700000000?text=VoltMatrix%20Build%20Audit%20Request%20for%20Rig%20Total:%20৳${totalWithServices}`}
               target="_blank"
               rel="noreferrer"
               className="flex-1 md:flex-initial flex items-center justify-center gap-1.5 px-4 h-11 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-mono text-[11.5px] font-bold rounded border border-emerald-300 transition-all shadow-sm"

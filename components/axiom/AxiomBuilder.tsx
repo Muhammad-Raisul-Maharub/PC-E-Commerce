@@ -59,14 +59,14 @@ export default function AxiomBuilder() {
   });
 
   const slotDefinitions: { key: BuilderSlotKey; label: string; icon: string; category: string }[] = [
-    { key: "cpu", label: "01 // Compute Engine (CPU)", icon: "memory", category: "cpu" },
-    { key: "motherboard", label: "02 // System Bus Fabric (Motherboard)", icon: "developer_board", category: "motherboard" },
-    { key: "cooler", label: "03 // Industrial Thermal Cooler", icon: "ac_unit", category: "cooler" },
-    { key: "ram", label: "04 // Registered ECC Memory Array", icon: "view_column", category: "ram" },
-    { key: "gpu", label: "05 // Parallel Accelerator / GPU", icon: "sports_esports", category: "gpu" },
-    { key: "storage", label: "06 // Enterprise U.3 / NVMe SSD", icon: "storage", category: "storage" },
-    { key: "psu", label: "07 // Redundant Power Supply (PSU)", icon: "electric_bolt", category: "psu" },
-    { key: "chassis", label: "08 // 4U Workstation Chassis", icon: "dns", category: "chassis" },
+    { key: "cpu", label: "01 // Processor (CPU)", icon: "memory", category: "cpu" },
+    { key: "motherboard", label: "02 // Workstation Motherboard", icon: "developer_board", category: "motherboard" },
+    { key: "cooler", label: "03 // Heavy-Duty CPU Cooler", icon: "ac_unit", category: "cooler" },
+    { key: "ram", label: "04 // Self-Healing Crash-Proof Memory (ECC RAM)", icon: "view_column", category: "ram" },
+    { key: "gpu", label: "05 // Graphics Workstation Card (GPU)", icon: "sports_esports", category: "gpu" },
+    { key: "storage", label: "06 // High-Speed Solid State Drive (SSD)", icon: "storage", category: "storage" },
+    { key: "psu", label: "07 // Power Supply Unit (PSU)", icon: "electric_bolt", category: "psu" },
+    { key: "chassis", label: "08 // Computer Chassis / Case", icon: "dns", category: "chassis" },
   ];
 
   // Quick Load Enterprise Flagship Preset
@@ -284,10 +284,10 @@ export default function AxiomBuilder() {
               </span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-[#18181B]">
-              Enterprise System Platform Architect &amp; Builder
+              Enterprise Workstation Builder
             </h1>
             <p className="text-xs sm:text-sm text-[#71717A] mt-1">
-              Enforcing PCIe 5.0 lane allocation budgets, ECC Registered memory compliance, and ISO/IEC clean-room burn-in verification.
+              Enforcing expansion slot speeds, self-healing memory compatibility, and factory stress-testing.
             </p>
           </div>
 
@@ -319,9 +319,9 @@ export default function AxiomBuilder() {
               <div className="p-4 rounded-xl border border-amber-300 bg-amber-50 text-amber-900 text-xs font-mono flex items-start gap-3">
                 <span className="material-symbols-outlined text-amber-600 text-lg">warning</span>
                 <div>
-                  <strong className="block font-bold">CRITICAL MEMORY TOPOLOGY ALERT: NON-ECC RAM DETECTED</strong>
+                  <strong className="block font-bold">MEMORY COMPATIBILITY WARNING: NON-ECC RAM DETECTED</strong>
                   <span>
-                    The selected AMD WRX90 / Threadripper PRO platform mandates JEDEC Registered ECC DIMMs (RDIMM) for octal-channel stability. Please select Kingston Server Premier ECC memory.
+                    This workstation processor platform requires self-healing error-correcting memory (ECC) for multi-channel stability. Please select Kingston Server Premier ECC memory.
                   </span>
                 </div>
               </div>

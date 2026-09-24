@@ -251,7 +251,7 @@ export default function VoltMatrixHome() {
                       <span>100% Sockets In-Stock</span>
                     </span>
                     <span>•</span>
-                    <span>Calculated TDP Range: 450W - 1000W</span>
+                    <span>Estimated Power Draw Range: 450W - 1000W</span>
                   </div>
                   <span className="font-mono text-[11px] text-[#b61722] font-bold">
                     5,412 Compatible Matrix Combos

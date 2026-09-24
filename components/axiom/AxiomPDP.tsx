@@ -45,7 +45,7 @@ export default function AxiomPDP({ product }: AxiomPDPProps) {
       doc.setFontSize(10);
       doc.setFont("helvetica", "normal");
       doc.setTextColor(82, 82, 91);
-      doc.text(`Brand: ${product.brand}   |   SKU: ${product.sku}   |   Category: ${product.category.toUpperCase()}`, 14, 53);
+      doc.text(`Brand: ${product.brand}   |   Item Code: ${product.sku}   |   Category: ${product.category.toUpperCase()}`, 14, 53);
 
       doc.setDrawColor(228, 228, 231);
       doc.line(14, 58, 196, 58);
@@ -62,7 +62,7 @@ export default function AxiomPDP({ product }: AxiomPDPProps) {
 
       // Technical Specifications Table
       doc.setFont("helvetica", "bold");
-      doc.text("PARAMETRIC HARDWARE MATRIX", 14, 90);
+      doc.text("HARDWARE & PERFORMANCE SPECIFICATIONS", 14, 90);
       doc.setDrawColor(228, 228, 231);
       doc.line(14, 93, 196, 93);
 
@@ -85,17 +85,17 @@ export default function AxiomPDP({ product }: AxiomPDPProps) {
       if (product.eccSupport !== undefined) {
         doc.setFont("helvetica", "bold");
         doc.setTextColor(82, 82, 91);
-        doc.text("ECC Architecture:", 16, y);
+        doc.text("Self-Healing Memory (ECC):", 16, y);
         doc.setFont("helvetica", "normal");
         doc.setTextColor(0, 79, 50);
-        doc.text(product.eccSupport ? "Multi-bit ECC Supported (JEDEC Compliant)" : "Standard Non-ECC", 80, y);
+        doc.text(product.eccSupport ? "Crash-Proof Self-Healing Server Memory (ECC)" : "Standard Non-ECC", 80, y);
         y += 10;
       }
 
       if (product.isvCertifications && product.isvCertifications.length > 0) {
         doc.setFont("helvetica", "bold");
         doc.setTextColor(82, 82, 91);
-        doc.text("ISV Validations:", 16, y);
+        doc.text("Certified Software Compatibility:", 16, y);
         doc.setFont("helvetica", "normal");
         doc.setTextColor(24, 24, 27);
         doc.text(product.isvCertifications.join(", "), 80, y);
@@ -160,7 +160,7 @@ export default function AxiomPDP({ product }: AxiomPDPProps) {
           <div className="flex items-center gap-2 text-[#71717A]">
             <Link href="/" className="hover:text-[#18181B]">Axiom Pro</Link>
             <span>/</span>
-            <Link href="/catalog" className="hover:text-[#18181B]">Infrastructure Directory</Link>
+            <Link href="/catalog" className="hover:text-[#18181B]">Hardware Catalog</Link>
             <span>/</span>
             <span className="text-[#004F32] font-bold">{product.sku}</span>
           </div>
@@ -169,7 +169,7 @@ export default function AxiomPDP({ product }: AxiomPDPProps) {
             <span className="px-2 py-0.5 rounded bg-[#ECFDF5] text-[#004F32] font-semibold border border-[#ADF1C9]">
               Mushak-6.3 Tax Compliant
             </span>
-            <span className="text-[#71717A]">ECC Validated</span>
+            <span className="text-[#71717A]">Crash-Proof Memory Validated</span>
           </div>
         </div>
       </div>
@@ -185,12 +185,12 @@ export default function AxiomPDP({ product }: AxiomPDPProps) {
                 <span className="px-3 py-1.5 rounded bg-[#004F32] text-white font-mono text-xs font-bold flex items-center gap-1.5 shadow-sm">
                   <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                   <span className="material-symbols-outlined text-sm">view_in_ar</span>
-                  <span>3D CAD Workstation Architecture Stage</span>
+                  <span>3D Interactive Workstation Overview</span>
                 </span>
               </div>
 
               <span className="font-mono text-[11px] text-[#71717A] hidden sm:inline">
-                Orthogonal &amp; Perspective Studio Shading // ISO/IEC 27001
+                Precision Hardware Modeling // ISO/IEC 27001
               </span>
             </div>
 
@@ -203,7 +203,7 @@ export default function AxiomPDP({ product }: AxiomPDPProps) {
             <div className="rounded-xl border border-[#E4E4E7] bg-white p-6 space-y-4 shadow-sm">
               <h3 className="font-mono text-xs font-bold uppercase tracking-wider text-[#18181B] flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#004F32]" />
-                <span>Parametric Engineering Specifications</span>
+                <span>Full Hardware &amp; Performance Specifications</span>
               </h3>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
@@ -226,7 +226,7 @@ export default function AxiomPDP({ product }: AxiomPDPProps) {
               {product.isvCertifications && product.isvCertifications.length > 0 && (
                 <div className="pt-3 border-t border-[#E4E4E7]">
                   <span className="font-mono text-[11px] uppercase text-[#71717A] block mb-2 font-semibold">
-                    ISV Application Certifications:
+                    Certified Professional Software Compatibility:
                   </span>
                   <div className="flex flex-wrap gap-2">
                     {product.isvCertifications.map((isv) => (
@@ -251,7 +251,7 @@ export default function AxiomPDP({ product }: AxiomPDPProps) {
                 <div className="flex items-center gap-2 mb-2 font-mono text-xs text-[#71717A]">
                   <span>{product.brand}</span>
                   <span>•</span>
-                  <span>SKU: {product.sku}</span>
+                  <span>Item Code: {product.sku}</span>
                 </div>
 
                 <h1 className="text-2xl sm:text-3xl font-extrabold text-[#18181B] leading-tight">
@@ -267,10 +267,10 @@ export default function AxiomPDP({ product }: AxiomPDPProps) {
               <div className="p-4 rounded-lg bg-[#FBFBFD] border border-[#E4E4E7] space-y-1.5">
                 <div className="flex items-baseline justify-between">
                   <span className="font-mono text-xs text-[#71717A] uppercase">
-                    Official Corporate Price
+                    Official Commercial Price
                   </span>
                   <span className="font-mono text-xs text-[#004F32] font-semibold">
-                    Tax Invoice Included
+                    Tax (VAT) Invoice Included
                   </span>
                 </div>
 
@@ -285,7 +285,7 @@ export default function AxiomPDP({ product }: AxiomPDPProps) {
                 )}
 
                 <div className="pt-2 text-[11px] font-mono text-[#52525B]">
-                  • 2% Corporate Wire Transfer / RTGS direct clearing discount available
+                  • 2% Direct Bank Transfer / Instant Clearing Discount Available
                 </div>
               </div>
 
@@ -313,12 +313,12 @@ export default function AxiomPDP({ product }: AxiomPDPProps) {
                   <button
                     onClick={() => {
                       addStandaloneItem(product, quantity);
-                      alert(`Added ${quantity}x ${product.name} to procurement cart.`);
+                      alert(`Added ${quantity}x ${product.name} to order.`);
                     }}
                     className="flex-1 h-10 px-6 rounded bg-[#004F32] hover:bg-[#003823] text-white font-mono text-xs font-bold uppercase tracking-wider transition-colors shadow-sm flex items-center justify-center gap-2"
                   >
                     <span className="material-symbols-outlined text-base">shopping_cart</span>
-                    <span>Add to Procurement Order</span>
+                    <span>Add to Order / Quotation</span>
                   </button>
                 </div>
 
@@ -332,19 +332,19 @@ export default function AxiomPDP({ product }: AxiomPDPProps) {
                     download_for_offline
                   </span>
                   <span>
-                    {downloadingPdf ? "Generating PDF Blueprint..." : "Download Official Spec Sheet (PDF)"}
+                    {downloadingPdf ? "Generating Product Blueprint..." : "Download Official Product Sheet (PDF)"}
                   </span>
                 </button>
 
                 {/* WhatsApp Concierge Link */}
                 <a
-                  href={`https://wa.me/8801700000000?text=Hello%20Axiom%20Concierge,%20I%20am%20inquiring%20about%20${encodeURIComponent(product.name)}%20(SKU:%20${product.sku}).`}
+                  href={`https://wa.me/8801700000000?text=Hello%20Axiom%20Concierge,%20I%20am%20inquiring%20about%20${encodeURIComponent(product.name)}%20(Item%20Code:%20${product.sku}).`}
                   target="_blank"
                   rel="noreferrer"
                   className="w-full h-10 rounded bg-[#ECFDF5] border border-emerald-300 text-[#004F32] hover:bg-[#004F32] hover:text-white font-mono text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-2"
                 >
                   <span>💬</span>
-                  <span>WhatsApp Enterprise Sales Concierge</span>
+                  <span>WhatsApp Corporate &amp; Sales Specialist</span>
                 </a>
               </div>
             </div>
@@ -354,7 +354,7 @@ export default function AxiomPDP({ product }: AxiomPDPProps) {
               <div className="flex items-center justify-between pb-2 border-b border-[#E4E4E7]">
                 <h3 className="font-mono text-xs font-bold uppercase tracking-wider text-[#18181B] flex items-center gap-2">
                   <span className="material-symbols-outlined text-[#004F32] text-base">inventory_2</span>
-                  <span>Physical Branch Stock Verification</span>
+                  <span>Store &amp; Regional Depot Availability</span>
                 </h3>
                 <span className="font-mono text-[10px] text-[#004F32] font-semibold">Live Audit</span>
               </div>

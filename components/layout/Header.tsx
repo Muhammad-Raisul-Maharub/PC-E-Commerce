@@ -218,7 +218,7 @@ export default function Header() {
               href="/checkout"
               className="hidden md:inline-flex items-center gap-1 px-2.5 py-1 text-[11.5px] font-mono text-[#004F32] bg-[#ECFDF5] hover:bg-[#D1FAE5] border border-emerald-300 rounded transition-colors"
             >
-              <span>🏛️ B2B Corporate Procurement</span>
+              <span>🏛️ Corporate Procurement &amp; Quotations</span>
             </Link>
 
             <Link
@@ -250,10 +250,10 @@ export default function Header() {
   if (activeConcept === "synapse") {
     const synapseLinks = [
       { href: "/", label: "Schematic Home" },
-      { href: "/catalog", label: "Parametric Directory" },
-      { href: "/product/amd-ryzen-7-7800x3d", label: "Diagnostic PDP" },
+      { href: "/catalog", label: "Hardware Directory" },
+      { href: "/product/amd-ryzen-7-7800x3d", label: "Product Specifications" },
       { href: "/pc-builder", label: "3D Workbench" },
-      { href: "/checkout", label: "Assembly Staging" },
+      { href: "/checkout", label: "Checkout Staging" },
     ];
 
     return (
@@ -520,10 +520,10 @@ export default function Header() {
   if (activeConcept === "krypton") {
     const kryptonLinks = [
       { href: "/", label: "01 // Depot Manifest" },
-      { href: "/catalog", label: "02 // Component Bins" },
-      { href: "/product/gateron-oil-king-linear-pack-90", label: "03 // Tactile PDP" },
+      { href: "/catalog", label: "02 // Parts Catalog" },
+      { href: "/product/gateron-oil-king-linear-pack-90", label: "03 // Switch Specifications" },
       { href: "/pc-builder", label: "04 // Dual Workbench" },
-      { href: "/checkout", label: "05 // Staging Manifest" },
+      { href: "/checkout", label: "05 // Checkout Cart" },
     ];
 
     return (

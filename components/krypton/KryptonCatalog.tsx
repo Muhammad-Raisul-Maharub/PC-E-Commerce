@@ -87,10 +87,10 @@ export default function KryptonCatalog() {
                 className="font-heading text-3xl sm:text-5xl font-extrabold uppercase tracking-tight text-black leading-none"
                 style={{ fontFamily: "Syne, sans-serif" }}
               >
-                COMPONENT BINS &amp; ENGINEERING DIRECTORY
+                PARTS INVENTORY &amp; HARDWARE DIRECTORY
               </h1>
               <p className="font-mono text-xs sm:text-sm text-slate-600 mt-2">
-                HEAVY GAUGE COMPONENT STORAGE // ACTIVE INVENTORY: {KRYPTON_MAKER_PRODUCTS.length} REGISTERED HARDWARE BINS
+                MAKER &amp; PC HARDWARE CATALOG // AVAILABLE: {KRYPTON_MAKER_PRODUCTS.length} IN-STOCK PARTS
               </p>
             </div>
 
@@ -138,7 +138,7 @@ export default function KryptonCatalog() {
               {/* Search Box */}
               <div className="mb-5">
                 <label className="block font-mono text-[11px] font-bold uppercase text-slate-700 mb-1.5">
-                  // 01 BIN OR SKU SEARCH:
+                  // 01 PART NAME OR CODE SEARCH:
                 </label>
                 <div className="relative">
                   <input
@@ -190,7 +190,7 @@ export default function KryptonCatalog() {
               {/* Switch Type Filter */}
               <div className="mb-5">
                 <label className="block font-mono text-[11px] font-bold uppercase text-slate-700 mb-1.5">
-                  // 03 MECHANICAL SWITCH TYPE:
+                  // 03 KEY SWITCH FEEL:
                 </label>
                 <div className="grid grid-cols-2 gap-1.5 font-mono text-xs">
                   {["all", "Linear", "Tactile", "Clicky", "Hall Effect Magnetic"].map((st) => (
@@ -212,7 +212,7 @@ export default function KryptonCatalog() {
               {/* Pin Mount Filter */}
               <div className="mb-5">
                 <label className="block font-mono text-[11px] font-bold uppercase text-slate-700 mb-1.5">
-                  // 04 PCB PIN MOUNT:
+                  // 04 CIRCUIT BOARD PIN FIT:
                 </label>
                 <div className="space-y-1 font-mono text-xs">
                   {[
@@ -238,7 +238,7 @@ export default function KryptonCatalog() {
               {/* Actuation Force */}
               <div>
                 <label className="block font-mono text-[11px] font-bold uppercase text-slate-700 mb-1.5">
-                  // 05 ACTUATION FORCE:
+                  // 05 KEY PRESS RESISTANCE:
                 </label>
                 <div className="grid grid-cols-3 gap-1 font-mono text-xs">
                   {[
@@ -267,7 +267,7 @@ export default function KryptonCatalog() {
             <div className="bg-[#1E1E24] text-white border-2 border-black p-4 shadow-[4px_4px_0px_#000000] font-mono">
               <div className="text-[#25D366] text-xs font-bold uppercase mb-1 flex items-center gap-1.5">
                 <span className="material-symbols-outlined text-base">chat</span>
-                <span>CUSTOM PINOUT INQUIRY</span>
+                <span>CUSTOM WIRING &amp; PARTS HELP</span>
               </div>
               <p className="text-xs text-slate-300 mb-3">
                 Need bulk reel orders or custom CNC switch plate laser cutting? Connect with our workshop engineers directly.
@@ -358,31 +358,31 @@ export default function KryptonCatalog() {
                       <div className="bg-[#EBEAE5] border border-black p-2 font-mono text-[11px] mb-3 space-y-1">
                         {product.specs.switchType && (
                           <div className="flex justify-between">
-                            <span className="text-slate-500">TYPE:</span>
+                            <span className="text-slate-500">FEEL:</span>
                             <span className="font-bold text-black">{product.specs.switchType}</span>
                           </div>
                         )}
                         {product.specs.pins && (
                           <div className="flex justify-between">
-                            <span className="text-slate-500">PINS:</span>
+                            <span className="text-slate-500">BOARD PINS:</span>
                             <span className="font-bold text-black">{product.specs.pins}</span>
                           </div>
                         )}
                         {product.specs.actuationForceGf && (
                           <div className="flex justify-between">
-                            <span className="text-slate-500">FORCE:</span>
+                            <span className="text-slate-500">RESISTANCE:</span>
                             <span className="font-bold text-black">{product.specs.actuationForceGf} gf</span>
                           </div>
                         )}
                         {product.specs.mcuCore && (
                           <div className="flex justify-between">
-                            <span className="text-slate-500">CORE:</span>
+                            <span className="text-slate-500">PROCESSOR:</span>
                             <span className="font-bold text-black truncate max-w-[130px]">{product.specs.mcuCore}</span>
                           </div>
                         )}
                         {product.specs.formFactor && (
                           <div className="flex justify-between">
-                            <span className="text-slate-500">FACTOR:</span>
+                            <span className="text-slate-500">SIZE:</span>
                             <span className="font-bold text-black">{product.specs.formFactor}</span>
                           </div>
                         )}
@@ -413,7 +413,7 @@ export default function KryptonCatalog() {
                           className="bg-[#FACC15] hover:bg-[#FDE047] text-black border-2 border-black px-3 py-2 font-mono text-xs font-extrabold uppercase shadow-[2px_2px_0px_#000000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all flex items-center gap-1"
                         >
                           <span className="material-symbols-outlined text-sm">add_shopping_cart</span>
-                          <span>DISPATCH</span>
+                          <span>ADD TO CART</span>
                         </button>
                       </div>
                     </div>

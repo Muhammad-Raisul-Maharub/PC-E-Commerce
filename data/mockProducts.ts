@@ -497,10 +497,24 @@ export function toHardwareProduct(item: KryptonMakerProduct): HardwareProduct {
     image: item.image,
     description: item.description,
     tdp: 0,
-    specs: Object.entries(item.specs).map(([label, value]) => ({
-      label: label.charAt(0).toUpperCase() + label.slice(1),
-      value: String(value),
-    })),
+    specs: Object.entries(item.specs).map(([label, value]) => {
+      const friendlyLabels: Record<string, string> = {
+        switchType: "Key Feel & Switch Type",
+        pins: "Switch Mounting Stability",
+        actuationForceGf: "Key Press Resistance (gf)",
+        bottomOutForceGf: "Full Bottom-Out Pressure (gf)",
+        travelMm: "Key Travel Depth (mm)",
+        material: "Keycap & Housing Material",
+        profile: "Ergonomic Keycap Height",
+        formFactor: "Supported Keyboard Size",
+        mcuCore: "Processing Chip Core",
+        flashStorage: "Onboard Flash Storage",
+      };
+      return {
+        label: friendlyLabels[label] || (label.charAt(0).toUpperCase() + label.slice(1)),
+        value: String(value),
+      };
+    }),
     branchStock: {
       idb: item.depotStock.idbDhaka,
       multiplan: item.depotStock.elephantRoad,

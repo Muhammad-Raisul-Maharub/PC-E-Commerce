@@ -112,7 +112,7 @@ export default function SynapseHome() {
                 Algorithmic System Architecture &amp; Component Compatibility Engine
               </h1>
               <p className="text-sm sm:text-base text-[#94A3B8] max-w-2xl leading-relaxed">
-                Real-time mechanical collision detection, TDP thermal envelope dissipation calculation, and bus topology validation engineered for precision workstation builds.
+                Real-time physical size collision detection, power draw and heat dissipation calculations, and motherboard compatibility checks for precision workstation builds.
               </p>
             </div>
 
@@ -146,7 +146,7 @@ export default function SynapseHome() {
                 {/* Numerical Telemetry Readout */}
                 <div className="space-y-1.5">
                   <div className="flex items-baseline justify-between">
-                    <span className="text-[#94A3B8] uppercase text-[11px]">Calculated TDP Load:</span>
+                    <span className="text-[#94A3B8] uppercase text-[11px]">Calculated Power Draw:</span>
                     <span className="text-base font-bold text-[#06B6D4]">420W</span>
                   </div>
                   <div className="flex items-baseline justify-between">
@@ -366,7 +366,7 @@ export default function SynapseHome() {
                     className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
                   />
                   <div className="absolute top-2 right-2 bg-[#0F172A]/90 border border-[#334155] px-2 py-0.5 font-mono text-[9px] text-[#06B6D4]">
-                    TDP: {p.tdp}W
+                    Power Draw: {p.tdp}W
                   </div>
                 </div>
 

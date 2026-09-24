@@ -15,9 +15,9 @@ const SLOT_CONFIG: { key: BuilderSlotKey; label: string; icon: string; category:
   { key: "cooler", label: "CPU Cooler", icon: "ac_unit", category: "cooler" },
   { key: "ram", label: "Memory (RAM)", icon: "storage", category: "ram" },
   { key: "gpu", label: "Graphics Card (GPU)", icon: "videogame_asset", category: "gpu" },
-  { key: "storage", label: "Primary Storage (M.2 NVMe)", icon: "dns", category: "storage" },
+  { key: "storage", label: "Fast Storage (M.2 NVMe SSD)", icon: "dns", category: "storage" },
   { key: "psu", label: "Power Supply (PSU)", icon: "power", category: "psu" },
-  { key: "chassis", label: "Computer Chassis", icon: "computer", category: "chassis" },
+  { key: "chassis", label: "Computer Case", icon: "computer", category: "chassis" },
 ];
 
 export default function OmniPulseBuilder() {
@@ -230,13 +230,13 @@ export default function OmniPulseBuilder() {
       }
       if (services.occtStressTest) {
         doc.setFont("helvetica", "normal");
-        doc.text("• 24-Hour Thermal & Voltage OCCT Stress Test Benchmarking", 16, y);
+        doc.text("• 24-Hour Full-Load Stability & Stress Testing", 16, y);
         doc.text("৳1,500", 194, y, { align: "right" });
         y += 5.5;
       }
       if (services.osBiosSetup) {
         doc.setFont("helvetica", "normal");
-        doc.text("• Genuine OS Installation & Latest UEFI BIOS Optimization", 16, y);
+        doc.text("• Windows Setup & Motherboard Firmware Update", 16, y);
         doc.text("৳500", 194, y, { align: "right" });
         y += 5.5;
       }
@@ -327,14 +327,14 @@ export default function OmniPulseBuilder() {
             <div className="flex items-center gap-2 mb-1">
               <span className="w-2.5 h-2.5 rounded-full bg-[#FFB300] animate-ping" />
               <span className="font-mono text-xs uppercase tracking-wider text-[#0D47A1] font-bold">
-                Omnichannel Custom Rig Architect
+                Custom PC Builder &amp; Parts Configurator
               </span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-sans">
               OmniPulse BD Custom PC Builder &amp; Budget Wizard
             </h1>
             <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
-              Automated socket, RAM, and wattage compatibility validation with direct store quotation export.
+              Automated motherboard fit, memory, and power compatibility checks with quotation download.
             </p>
           </div>
 
