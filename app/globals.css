@@ -12,12 +12,18 @@
   body {
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
     background-color: var(--background);
     color: var(--foreground);
     font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     min-height: 100vh;
+  }
+
+  svg {
+    max-width: 100%;
+    vertical-align: middle;
   }
 
   /* Industrial Hairline Precision Borders */
@@ -123,6 +129,21 @@
 }
 
 @layer components {
+  .layout-container {
+    width: 100%;
+    max-width: 1536px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  @media (min-width: 768px) {
+    .layout-container {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
   .app-container {
     width: 100%;
     max-width: 1536px;

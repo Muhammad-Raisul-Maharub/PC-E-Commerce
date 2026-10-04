@@ -6,11 +6,13 @@ import { usePathname } from "next/navigation";
 import { useCartStore } from "@/store/useCartStore";
 import { useConceptStore } from "@/store/useConceptStore";
 import { HARDWARE_PRODUCTS } from "@/data/hardwareDatabase";
+import { useBranches } from "@/lib/services/branchService";
 
 export default function Header() {
   const pathname = usePathname();
   const { getGrandTotal, getTotalItemCount, deliveryDetails, updateDeliveryDetails } = useCartStore();
   const { activeConcept } = useConceptStore();
+  const { branches: dbBranches, isSingleBranch, activeBranch, setActiveBranchId } = useBranches();
 
   const [mounted, setMounted] = useState(false);
   const [isBranchDropdownOpen, setIsBranchDropdownOpen] = useState(false);
@@ -61,8 +63,8 @@ export default function Header() {
     ];
 
     return (
-      <header className="sticky top-0 z-40 w-full py-2.5 px-4 sm:px-6 lg:px-8 transition-all">
-        <div className="w-full max-w-[1536px] mx-auto">
+      <header className="sticky top-0 z-40 w-full py-2.5 transition-all">
+        <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6">
           <div className="bg-[#0A0A0F]/85 backdrop-blur-xl border border-cyan-500/30 rounded-2xl shadow-[0_0_25px_rgba(0,240,255,0.15)] px-4 lg:px-6 py-2.5 flex items-center justify-between gap-4">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 group shrink-0">
@@ -171,7 +173,7 @@ export default function Header() {
 
     return (
       <header className="sticky top-0 z-40 w-full bg-[#FFFFFF] border-b border-[#E4E4E7] shadow-[0_1px_3px_rgba(0,0,0,0.03)] transition-colors">
-        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-6">
+        <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6 h-14 flex items-center justify-between gap-6">
           {/* Left: Brand Identity */}
           <div className="flex items-center gap-6 shrink-0">
             <Link href="/" className="flex items-center gap-2 group">
@@ -258,7 +260,7 @@ export default function Header() {
 
     return (
       <header className="sticky top-0 z-40 w-full bg-[#0F172A]/98 backdrop-blur-md border-b border-[#334155] text-slate-100 shadow-xl transition-colors">
-        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-4">
+        <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6 h-14 flex items-center justify-between gap-4">
           {/* Left: Telemetry Identity & Realtime Coordinates */}
           <div className="flex items-center gap-4">
             <Link href="/" className="flex items-center gap-2 group shrink-0">
@@ -342,7 +344,7 @@ export default function Header() {
       <header className="sticky top-0 z-40 w-full bg-[#0A2558] text-white shadow-xl transition-colors">
         {/* Tier 1: Retail Top Contact & Trust Bar (h-9) */}
         <div className="w-full bg-[#06183B] border-b border-blue-900/60 text-xs py-1.5">
-          <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between text-[11.5px] font-sans">
+          <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6 flex items-center justify-between text-[11.5px] font-sans">
             <div className="flex items-center gap-4 flex-wrap">
               <span className="flex items-center gap-1 font-semibold text-amber-300">
                 <span className="material-symbols-outlined text-[15px]">phone_in_talk</span>
@@ -372,7 +374,7 @@ export default function Header() {
 
         {/* Tier 2: Commercial Action & Universal Search Bar (h-16) */}
         <div className="w-full border-b border-blue-800/80 py-2.5">
-          <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+          <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6 flex items-center justify-between gap-4">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2.5 group shrink-0">
               <div className="w-9 h-9 rounded bg-[#FFB300] flex items-center justify-center text-[#0D47A1] font-black text-base shadow-md font-sans">
@@ -485,7 +487,7 @@ export default function Header() {
 
         {/* Tier 3: Horizontal Mega Category Menu Rail (h-10) */}
         <div className="w-full bg-[#0D3882] border-b border-blue-900/60 hidden md:block">
-          <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between text-xs font-sans overflow-x-auto">
+          <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6 flex items-center justify-between text-xs font-sans overflow-x-auto">
             <div className="flex items-center gap-5 py-2 whitespace-nowrap">
               <Link href="/catalog" className="text-white hover:text-amber-300 font-bold flex items-center gap-1">
                 <span className="material-symbols-outlined text-sm">laptop_mac</span>
@@ -529,15 +531,15 @@ export default function Header() {
     return (
       <header className="sticky top-0 z-40 w-full bg-[#EBEAE5] border-b-2 border-black text-black shadow-[0_4px_0px_#000000] transition-colors">
         {/* Upper Status Ticker Strip */}
-        <div className="bg-black text-[#FACC15] font-mono text-[10.5px] font-bold uppercase py-1 border-b-2 border-black px-4 sm:px-6 lg:px-8">
-          <div className="w-full max-w-[1536px] mx-auto flex items-center justify-between">
+        <div className="bg-black text-[#FACC15] font-mono text-[10.5px] font-bold uppercase py-1 border-b-2 border-black">
+          <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6 flex items-center justify-between">
             <span>⚡ KRYPTON INDUSTRIAL DEPOT // ISO-9001 CALIBRATION RIG // 4 DEPOTS ACTIVE</span>
             <span className="hidden sm:inline">NATIONWIDE COD READY • DISPATCH WITHIN 4 HOURS</span>
           </div>
         </div>
 
         {/* Main Action Bar */}
-        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-4">
+        <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6 h-14 flex items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-2 group shrink-0">
             <div className="w-8 h-8 bg-[#FACC15] border-2 border-black flex items-center justify-center text-black font-extrabold text-sm shadow-[2px_2px_0px_#000000] font-mono">
               KP
@@ -612,16 +614,24 @@ export default function Header() {
     <header className="sticky top-0 z-40 w-full bg-white shadow-[0_1px_8px_rgba(0,0,0,0.06)] border-b border-slate-200 text-slate-900 transition-colors">
       {/* Tier 1: Utility & Branch Selector (h-14) */}
       <div className="w-full border-b border-slate-100">
-        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-3">
+        <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6 h-14 flex items-center justify-between gap-3">
           {/* Logo & Hub */}
           <div className="flex items-center gap-4">
             <Link href="/" className="flex items-center gap-2 group shrink-0">
-              <div className="w-8 h-8 rounded bg-slate-900 flex items-center justify-center shadow-sm">
-                <svg className="w-6 h-6" viewBox="0 0 240 50" fill="none">
+              <div className="w-8 h-8 max-w-8 max-h-8 shrink-0 rounded bg-slate-900 flex items-center justify-center shadow-sm overflow-hidden">
+                <svg
+                  width={24}
+                  height={24}
+                  className="w-6 h-6 shrink-0"
+                  viewBox="0 0 240 50"
+                  fill="none"
+                  style={{ width: "24px", height: "24px", maxWidth: "24px", maxHeight: "24px" }}
+                >
                   <path d="M12 14L22 36H28L38 14H32L25 30L18 14H12Z" fill="#EF4444" />
                   <rect x="23" y="11" width="4" height="4" fill="#10B981" />
                 </svg>
               </div>
+
               <div className="flex flex-col">
                 <span className="font-headline font-bold text-[17px] tracking-tight text-slate-900 leading-none">
                   VOLT<span className="text-[#EF4444]">MATRIX</span>
@@ -632,47 +642,55 @@ export default function Header() {
               </div>
             </Link>
 
-            {/* Branch Selector */}
-            <div className="relative hidden xl:block">
-              <button
-                onClick={() => setIsBranchDropdownOpen(!isBranchDropdownOpen)}
-                className="flex items-center gap-1.5 px-3 py-1 rounded border border-slate-200 bg-slate-50 hover:bg-slate-100 text-[12px] font-medium transition-colors"
-              >
-                <span className="material-symbols-outlined text-[15px] text-[#EF4444]">location_on</span>
-                <span>Hub: {currentBranchLabel.split(",")[0]}</span>
-                <span className="material-symbols-outlined text-[14px] text-slate-400">
-                  {isBranchDropdownOpen ? "expand_less" : "expand_more"}
-                </span>
-              </button>
+            {/* Branch Indicator / Adaptive Store Selector */}
+            {isSingleBranch ? (
+              <div className="hidden xl:flex items-center gap-1.5 px-3 py-1 rounded border border-slate-200 bg-slate-50 text-[12px] font-medium text-slate-700 shadow-sm">
+                <span className="material-symbols-outlined text-[15px] text-[#EF4444]">storefront</span>
+                <span>Store Pickup: Chattogram Showroom | Courier Delivery across 64 Districts</span>
+              </div>
+            ) : (
+              <div className="relative hidden xl:block">
+                <button
+                  onClick={() => setIsBranchDropdownOpen(!isBranchDropdownOpen)}
+                  className="flex items-center gap-1.5 px-3 py-1 rounded border border-slate-200 bg-slate-50 hover:bg-slate-100 text-[12px] font-medium transition-colors"
+                >
+                  <span className="material-symbols-outlined text-[15px] text-[#EF4444]">location_on</span>
+                  <span>Hub: {activeBranch.name.split(",")[0]}</span>
+                  <span className="material-symbols-outlined text-[14px] text-slate-400">
+                    {isBranchDropdownOpen ? "expand_less" : "expand_more"}
+                  </span>
+                </button>
 
-              {isBranchDropdownOpen && (
-                <div className="absolute left-0 mt-1 w-64 rounded-xl shadow-2xl border border-slate-200 bg-white py-1.5 z-50">
-                  <div className="px-3 py-1.5 border-b border-slate-100 text-[10px] font-mono uppercase font-bold text-slate-500">
-                    Select Importer Hub
+                {isBranchDropdownOpen && (
+                  <div className="absolute left-0 mt-1 w-64 rounded-xl shadow-2xl border border-slate-200 bg-white py-1.5 z-50">
+                    <div className="px-3 py-1.5 border-b border-slate-100 text-[10px] font-mono uppercase font-bold text-slate-500">
+                      Select Importer Hub
+                    </div>
+                    {dbBranches.map((b) => (
+                      <button
+                        key={b.id}
+                        onClick={() => {
+                          updateDeliveryDetails({ pickupBranch: b.id });
+                          setActiveBranchId(b.id);
+                          setIsBranchDropdownOpen(false);
+                        }}
+                        className={`w-full text-left px-3 py-2 text-[12px] flex items-center justify-between transition-colors ${
+                          deliveryDetails.pickupBranch === b.id || activeBranch.id === b.id ? "bg-red-50 text-[#b61722] font-semibold" : "hover:bg-slate-50 text-slate-800"
+                        }`}
+                      >
+                        <div>
+                          <div>{b.name}</div>
+                          <div className="text-[10px] font-mono text-emerald-600">{b.district}</div>
+                        </div>
+                        {(deliveryDetails.pickupBranch === b.id || activeBranch.id === b.id) && (
+                          <span className="material-symbols-outlined text-[16px] text-[#b61722]">check</span>
+                        )}
+                      </button>
+                    ))}
                   </div>
-                  {branches.map((b) => (
-                    <button
-                      key={b.key}
-                      onClick={() => {
-                        updateDeliveryDetails({ pickupBranch: b.key });
-                        setIsBranchDropdownOpen(false);
-                      }}
-                      className={`w-full text-left px-3 py-2 text-[12px] flex items-center justify-between transition-colors ${
-                        deliveryDetails.pickupBranch === b.key ? "bg-red-50 text-[#b61722] font-semibold" : "hover:bg-slate-50 text-slate-800"
-                      }`}
-                    >
-                      <div>
-                        <div>{b.label}</div>
-                        <div className="text-[10px] font-mono text-emerald-600">{b.status}</div>
-                      </div>
-                      {deliveryDetails.pickupBranch === b.key && (
-                        <span className="material-symbols-outlined text-[16px] text-[#b61722]">check</span>
-                      )}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Fulfillment Status Banner */}
@@ -683,16 +701,32 @@ export default function Header() {
             </span>
           </div>
 
-          {/* Right Actions: WhatsApp Specialist & Cart */}
-          <div className="flex items-center gap-3">
+          {/* Right Actions: Track Order, Account, WhatsApp & Cart */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            <Link
+              href="/track-order"
+              className="hidden sm:flex items-center gap-1 px-2.5 py-1 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 rounded text-[11px] font-mono font-bold transition-colors"
+            >
+              <span className="material-symbols-outlined text-[14px] text-[#EF4444]">local_shipping</span>
+              <span>Track Order</span>
+            </Link>
+
+            <Link
+              href="/auth/login"
+              className="flex items-center gap-1 px-2.5 py-1 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 rounded text-[11px] font-mono font-bold transition-colors"
+            >
+              <span className="material-symbols-outlined text-[14px] text-slate-600">person</span>
+              <span className="hidden md:inline">Account</span>
+            </Link>
+
             <a
               href="https://wa.me/8801700000000?text=Hello%20VoltMatrix%20Specialist"
               target="_blank"
               rel="noreferrer"
-              className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 bg-emerald-50 text-emerald-700 border border-emerald-300 rounded text-[11px] font-mono font-bold hover:bg-emerald-600 hover:text-white transition-all"
+              className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 bg-emerald-50 text-emerald-700 border border-emerald-300 rounded text-[11px] font-mono font-bold hover:bg-emerald-600 hover:text-white transition-all"
             >
               <span>💬</span>
-              <span className="hidden md:inline">Tech Specialist</span>
+              <span>Specialist</span>
             </a>
 
             <Link
@@ -711,7 +745,7 @@ export default function Header() {
 
       {/* Tier 2: Category Mega Menu & Search Input (h-14) */}
       <div className="w-full">
-        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-4">
+        <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6 h-14 flex items-center justify-between gap-4">
           <nav className="hidden lg:flex items-center gap-6 overflow-x-auto py-1">
             {voltLinks.map((link) => {
               const isActive = pathname === link.href;

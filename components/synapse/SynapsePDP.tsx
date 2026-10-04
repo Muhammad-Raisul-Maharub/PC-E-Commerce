@@ -81,7 +81,7 @@ export default function SynapsePDP({ product }: SynapsePDPProps) {
     <div className="w-full bg-[#0F172A] text-[#F8FAFC] font-sans antialiased min-h-screen py-6">
       {/* Top Breadcrumb & Telemetry Navigation */}
       <div className="w-full bg-[#0B1326] border-b border-[#334155] py-3 mb-6">
-        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center justify-between gap-3 font-mono text-xs">
+        <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6 flex flex-wrap items-center justify-between gap-3 font-mono text-xs">
           <div className="flex items-center gap-2 text-[#94A3B8]">
             <Link href="/" className="hover:text-[#06B6D4] transition-colors">SYNAPSECAD</Link>
             <span>/</span>
@@ -99,7 +99,7 @@ export default function SynapsePDP({ product }: SynapsePDPProps) {
       </div>
 
       {/* Main PDP Grid (7 cols Left CAD Viewer, 5 cols Right Engineering Console) */}
-      <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* LEFT COLUMN: 3D Diagnostic Clearance Inspector & Dimension Rulers (7 cols) */}
         <div className="lg:col-span-7 flex flex-col gap-6">
           {/* Main CAD Interactive Viewport Container */}

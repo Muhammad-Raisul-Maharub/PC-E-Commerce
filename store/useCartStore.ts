@@ -19,7 +19,7 @@ export interface StandaloneCartItem {
 }
 
 export type FulfillmentMode = "courier" | "pickup";
-export type BranchKey = "idb" | "multiplan" | "motijheel" | "uttara" | "chittagong";
+export type BranchKey = "idb" | "multiplan" | "motijheel" | "uttara" | "chittagong" | string;
 export type PaymentMethod = "cod" | "mfs" | "card" | "emi";
 
 export interface DeliveryDetails {
@@ -67,7 +67,7 @@ interface CartState {
   setSelectedEmiMonths: (months: number) => void;
   updateB2BDetails: (details: Partial<B2BDetails>) => void;
   setMfsModalOpen: (open: boolean) => void;
-  submitOrder: () => Promise<{ success: boolean; orderId: string }>;
+  submitOrder: (customId?: string) => Promise<{ success: boolean; orderId: string }>;
   clearCart: () => void;
   loadSampleCart: () => void;
 
@@ -206,8 +206,8 @@ export const useCartStore = create<CartState>()(
         set({ isMfsModalOpen: open });
       },
 
-      submitOrder: async () => {
-        const generatedId = `VM-${Date.now().toString().slice(-6)}`;
+      submitOrder: async (customId?: string) => {
+        const generatedId = customId || `ORD-CTG-${Date.now().toString().slice(-4)}${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
         set({ orderCompleted: true, orderId: generatedId });
         return { success: true, orderId: generatedId };
       },

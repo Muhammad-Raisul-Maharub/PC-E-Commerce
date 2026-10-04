@@ -57,7 +57,7 @@ export default function SynapseHome() {
     <div className="w-full bg-[#0F172A] text-[#F8FAFC] font-sans antialiased min-h-screen">
       {/* 1. Live Component Inventory Ticker */}
       <section className="w-full bg-[#060E20] border-b border-[#334155] overflow-hidden">
-        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center py-2 gap-4 text-[#94A3B8] font-mono text-xs">
+        <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6 flex items-center py-2 gap-4 text-[#94A3B8] font-mono text-xs">
           <div className="flex items-center gap-1.5 shrink-0 text-[#06B6D4] font-bold">
             <span className="inline-block w-2 h-2 rounded-full bg-[#06B6D4] animate-ping" />
             <span>DEPOT_STREAM //</span>
@@ -99,7 +99,7 @@ export default function SynapseHome() {
 
       {/* 2. Hero Section: The Live System Schematic Canvas */}
       <section className="relative w-full py-10 bg-[#0B1326] border-b border-[#334155] overflow-hidden cad-grid-bg">
-        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left CAD Control & Telemetry Panel (7 cols) */}
           <div className="lg:col-span-7 flex flex-col gap-6">
             {/* Header & Subtitle */}
@@ -302,7 +302,7 @@ export default function SynapseHome() {
 
       {/* 3. Parametric Component Showcase Grid */}
       <section className="w-full py-12 bg-[#0F172A]">
-        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4 border-b border-[#334155] pb-4">
           <div>
             <div className="flex items-center gap-2 text-[#06B6D4] mb-1 font-mono text-xs font-bold">

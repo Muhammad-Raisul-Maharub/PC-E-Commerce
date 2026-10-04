@@ -1,0 +1,33 @@
+name: Supabase 24/7 Keep-Alive Automation
+
+on:
+  schedule:
+    # Runs at 00:00 UTC every 3 days to prevent Supabase free tier inactivity pause
+    - cron: '0 0 */3 * *'
+  workflow_dispatch: # Allows manual trigger from GitHub Actions tab
+
+jobs:
+  ping-health-endpoint:
+    name: Ping Health Telemetry & Supabase Keep-Alive
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Ping Health Endpoint
+        run: |
+          TARGET_URL="https://pc-e-commerce-nine.vercel.app"
+          ENDPOINT="${TARGET_URL%/}/api/health"
+          echo "Pinging keep-alive endpoint: $ENDPOINT"
+          
+          HTTP_RESPONSE=$(curl -s -o response.json -w "%{http_code}" "$ENDPOINT")
+          echo "HTTP Status Code: $HTTP_RESPONSE"
+          
+          cat response.json
+          echo ""
+
+          if [ "$HTTP_RESPONSE" -ne 200 ]; then
+            echo "❌ Keep-alive endpoint returned non-200 status: $HTTP_RESPONSE"
+            exit 1
+          fi
+
+          echo "✅ Supabase database keep-alive ping successful."

@@ -6,11 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seed:admin": "node scripts/seed_admin.js"
   },
   "dependencies": {
     "@react-three/drei": "^9.121.5",
     "@react-three/fiber": "^8.18.0",
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.117.2",
     "clsx": "^2.1.1",
     "framer-motion": "^12.4.7",
     "html2canvas": "^1.4.1",
@@ -19,8 +22,10 @@
     "next": "^15.1.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "resend": "^6.32.0",
     "tailwind-merge": "^3.0.1",
     "three": "^0.173.0",
+    "zod": "^4.6.5",
     "zustand": "^5.0.3"
   },
   "devDependencies": {

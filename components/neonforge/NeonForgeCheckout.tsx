@@ -133,7 +133,7 @@ export default function NeonForgeCheckout() {
 
   return (
     <div className="w-full min-h-screen bg-[#0A0A0F] text-slate-100 selection:bg-[#00F0FF] selection:text-[#0A0A0F] py-6">
-      <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+      <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6 space-y-6">
         {/* Terminal Header */}
         <div className="p-4 rounded-xl bg-[#12121A] border border-cyan-500/30 flex items-center justify-between">
           <div className="flex items-center gap-3">

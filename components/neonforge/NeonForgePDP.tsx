@@ -51,7 +51,7 @@ const WaterBlockExploded3D = dynamic(
 
       return (
         <div className="w-full min-h-screen bg-[#0A0A0F] text-slate-100 selection:bg-[#00F0FF] selection:text-[#0A0A0F] py-8">
-          <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+          <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6 space-y-8">
             {/* Top Breadcrumb */}
             <div className="flex items-center gap-2 font-mono text-xs text-slate-400">
               <Link href="/" className="hover:text-cyan-400">

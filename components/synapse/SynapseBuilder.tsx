@@ -235,7 +235,7 @@ export default function SynapseBuilder() {
     <div className="w-full bg-[#0F172A] text-[#F8FAFC] font-sans antialiased min-h-screen py-6">
       {/* Top Banner & Telemetry Bar */}
       <div className="w-full bg-[#0B1326] border-b border-[#334155] py-3 mb-6">
-        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center justify-between gap-3 font-mono text-xs">
+        <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6 flex flex-wrap items-center justify-between gap-3 font-mono text-xs">
           <div className="flex items-center gap-2 text-[#94A3B8]">
             <Link href="/" className="hover:text-[#06B6D4]">SYNAPSECAD</Link>
             <span>/</span>
@@ -264,7 +264,7 @@ export default function SynapseBuilder() {
       </div>
 
       {/* Main Dual-Pane Workspace */}
-      <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* LEFT PANE: 3D Assembly Visualizer & Live Formulas (5 cols) */}
         <div className="lg:col-span-5 flex flex-col gap-6 sticky top-24">
           {/* 3D Wireframe Scene */}

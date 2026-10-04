@@ -59,11 +59,23 @@ export default function VoltMatrixHome() {
   ];
   const flashDeals = HARDWARE_PRODUCTS.filter((p) => flashDealIds.includes(p.id));
 
+  // Ryans Benchmark Category Icon Rail
+  const voltCategoryRail = [
+    { id: "cpu", label: "Processors (CPUs)", icon: "developer_board", count: "62 Models", socketBadge: "AM5 / LGA1851" },
+    { id: "gpu", label: "Graphics Cards", icon: "sports_esports", count: "48 Models", socketBadge: "RTX 40 / 50 Series" },
+    { id: "motherboard", label: "Motherboards", icon: "memory", count: "74 Models", socketBadge: "DDR5 PCIe 5.0" },
+    { id: "ram", label: "Memory (RAM)", icon: "straighten", count: "55 Kits", socketBadge: "DDR5 6000MHz+" },
+    { id: "storage", label: "Solid State Drives", icon: "save", count: "80+ Drives", socketBadge: "PCIe 4.0 / 5.0 NVMe" },
+    { id: "psu", label: "Power Supplies", icon: "bolt", count: "38 Units", socketBadge: "ATX 3.1 80+ Gold" },
+    { id: "cooler", label: "Liquid & Air Coolers", icon: "ac_unit", count: "42 Systems", socketBadge: "360mm / 420mm AIO" },
+    { id: "chassis", label: "PC Enclosures", icon: "computer", count: "36 Cases", socketBadge: "High-Airflow Panoramic" },
+  ];
+
   return (
     <div className="w-full bg-[#FFFFFF]">
       {/* 1. Live Component Stock Ticker */}
       <section className="w-full bg-slate-100 border-b border-slate-200 py-1.5 overflow-hidden shadow-sm">
-        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-3">
+        <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6 flex items-center justify-between gap-3">
           <div className="flex items-center gap-1.5 bg-[#b61722] px-2 py-0.5 rounded text-white font-mono text-[10.5px] uppercase font-bold shrink-0">
             <span className="material-symbols-outlined text-[13px] animate-pulse">radar</span>
             <span>Telemetry Ticker</span>
@@ -105,9 +117,180 @@ export default function VoltMatrixHome() {
         </div>
       </section>
 
-      {/* 2. Hero Section: 65/35 Split Architecture */}
+      {/* 2. Ryans Benchmark: 3-Split Commercial Promo Grid */}
+      <section className="w-full pt-4 pb-2">
+        <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
+            {/* 65% Main Consumer Promo Banner (8 cols on lg) */}
+            <div className="lg:col-span-8 rounded-2xl overflow-hidden relative bg-gradient-to-r from-[#0F172A] via-[#1E293B] to-[#334155] text-white p-6 sm:p-9 flex flex-col justify-between shadow-xl min-h-[380px] lg:min-h-[420px] border border-slate-700/60">
+              {/* Subtle Ambient Grid */}
+              <div
+                className="absolute inset-0 opacity-15 pointer-events-none"
+                style={{
+                  backgroundImage: "radial-gradient(#EF4444 1px, transparent 1px)",
+                  backgroundSize: "24px 24px",
+                }}
+              />
+              <div className="absolute right-0 top-0 bottom-0 w-1/2 opacity-25 lg:opacity-35 pointer-events-none overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=1000&q=80"
+                  alt="High Performance Hardware"
+                  className="w-full h-full object-cover object-center transform scale-110"
+                />
+              </div>
+
+              {/* Badges & Headline */}
+              <div className="relative z-10 space-y-3 max-w-xl">
+                <div className="inline-flex items-center gap-2 bg-[#EF4444] text-white px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider shadow-sm">
+                  <span>🔥 EID &amp; RAMADAN HARDWARE DROP</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-white" />
+                  <span>UP TO ৳25,000 SAVINGS</span>
+                </div>
+
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-headline font-black text-white leading-tight tracking-tight">
+                  Next-Gen Silicon, <br />
+                  <span className="text-[#EF4444]">AM5 / LGA1851 Rigs &amp; Creator Gear.</span>
+                </h1>
+
+                <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-lg">
+                  Genuine Bangladesh authorized importer warranty, 0% EMI up to 36 months, and immediate 2-hour collection across <strong>IDB Bhaban</strong> &amp; <strong>Multiplan Center</strong> showrooms.
+                </p>
+              </div>
+
+              {/* Action Buttons & Trust Stats */}
+              <div className="relative z-10 pt-6 flex flex-wrap items-center gap-3">
+                <Link
+                  href="/catalog"
+                  className="px-6 py-3 rounded-xl bg-[#EF4444] hover:bg-[#dc2626] text-white font-mono font-bold text-sm transition-all shadow-lg active:scale-95 flex items-center gap-2"
+                >
+                  <span className="material-symbols-outlined text-[18px]">shopping_bag</span>
+                  <span>Explore 50,000+ Hardware SKUs</span>
+                </Link>
+
+                <Link
+                  href="/pc-builder"
+                  className="px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-mono font-bold text-sm transition-all border border-white/20 flex items-center gap-2 backdrop-blur-sm"
+                >
+                  <span className="material-symbols-outlined text-[18px]">tune</span>
+                  <span>[ ⚡ Configure Custom Rig ]</span>
+                </Link>
+
+                <div className="hidden sm:flex items-center gap-3 pl-2 text-xs text-slate-300 font-mono">
+                  <span className="flex items-center gap-1">
+                    <span className="material-symbols-outlined text-emerald-400 text-sm">verified</span>
+                    100% Mushak-6.3 VAT Compliant
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* 35% Dual Stacked Side Banners (4 cols on lg) */}
+            <div className="lg:col-span-4 flex flex-col gap-4">
+              {/* Stacked Banner 1: Nationwide COD Courier */}
+              <div className="flex-1 rounded-2xl overflow-hidden relative bg-gradient-to-br from-[#1E293B] to-[#0F172A] text-white p-5 flex flex-col justify-between shadow-md border border-slate-700/50">
+                <div className="flex items-start justify-between">
+                  <span className="bg-emerald-500 text-slate-950 font-mono font-bold text-[10.5px] px-2.5 py-0.5 rounded-full uppercase">
+                    Nationwide Dispatch
+                  </span>
+                  <span className="material-symbols-outlined text-emerald-400 text-2xl">local_shipping</span>
+                </div>
+
+                <div className="space-y-1 my-2">
+                  <h3 className="font-headline font-bold text-lg text-white">
+                    64 Districts Courier COD
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-snug">
+                    Order online with zero risk. Pay upon inspection at your doorstep via Steadfast &amp; Pathao Express.
+                  </p>
+                </div>
+
+                <Link
+                  href="/catalog"
+                  className="inline-flex items-center gap-1 text-xs font-mono font-bold text-[#EF4444] hover:underline"
+                >
+                  <span>Order with Cash on Delivery</span>
+                  <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                </Link>
+              </div>
+
+              {/* Stacked Banner 2: Showroom Specials & Instant Pickup */}
+              <div className="flex-1 rounded-2xl overflow-hidden relative bg-gradient-to-br from-red-950 via-slate-900 to-black text-white p-5 flex flex-col justify-between shadow-md border border-red-900/40">
+                <div className="flex items-start justify-between">
+                  <span className="bg-[#EF4444] text-white font-mono font-bold text-[10.5px] px-2.5 py-0.5 rounded-full uppercase">
+                    Showroom Specials
+                  </span>
+                  <span className="material-symbols-outlined text-[#EF4444] text-2xl">storefront</span>
+                </div>
+
+                <div className="space-y-1 my-2">
+                  <h3 className="font-headline font-bold text-lg text-white">
+                    IDB &amp; Multiplan Express Collection
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-snug">
+                    Reserve online, inspect hardware in-person, and collect within 2 hours at BCS Computer City &amp; Multiplan.
+                  </p>
+                </div>
+
+                <Link
+                  href="/catalog"
+                  className="inline-flex items-center gap-1 text-xs font-mono font-bold text-[#EF4444] hover:underline"
+                >
+                  <span>View Live Showroom Stock</span>
+                  <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. Ryans Benchmark: Top Category Icon Rail */}
+      <section className="w-full py-4">
+        <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6">
+          <div className="flex items-center justify-between mb-3.5">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#EF4444]" />
+              <h2 className="text-lg sm:text-xl font-headline font-bold text-slate-900 tracking-tight">
+                Hardware Categories &amp; Sockets
+              </h2>
+            </div>
+            <Link
+              href="/catalog"
+              className="text-xs font-mono font-bold text-[#b61722] hover:text-[#EF4444] flex items-center gap-1 transition-colors"
+            >
+              <span>VIEW ALL INVENTORY (50,000+)</span>
+              <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
+            {voltCategoryRail.map((item) => (
+              <Link
+                key={item.id}
+                href={`/catalog?category=${item.id}`}
+                className="p-3 rounded-xl border border-slate-200 bg-white hover:border-[#EF4444] hover:shadow-md transition-all flex flex-col items-center justify-center text-center gap-1.5 group cursor-pointer"
+              >
+                <div className="w-11 h-11 rounded-full bg-red-50 text-[#EF4444] group-hover:bg-[#EF4444] group-hover:text-white flex items-center justify-center transition-all group-hover:scale-105">
+                  <span className="material-symbols-outlined text-[22px]">{item.icon}</span>
+                </div>
+                <div className="font-headline font-bold text-xs text-slate-800 group-hover:text-[#EF4444] transition-colors leading-tight">
+                  {item.label}
+                </div>
+                <div className="font-mono text-[10px] text-slate-400">
+                  {item.count}
+                </div>
+                <span className="mt-0.5 text-[9px] font-mono px-1.5 py-0.5 bg-slate-100 rounded text-slate-600 truncate max-w-full">
+                  {item.socketBadge}
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 4. Hero Section: 65/35 Split Architecture */}
       <section className="w-full py-8">
-        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
           {/* Left 60% (7 cols on 12-col desktop) */}
           <div className="lg:col-span-7 bg-white p-6 sm:p-8 rounded border border-slate-200 shadow-sm flex flex-col justify-between">
             <div className="space-y-4">
@@ -295,9 +478,9 @@ export default function VoltMatrixHome() {
         </div>
       </section>
 
-      {/* 3. High-Density Flash Deals: 4-Column Parametric Card Grid */}
+      {/* 5. High-Density Flash Deals: 4-Column Parametric Card Grid */}
       <section className="w-full py-8">
-        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+        <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6 space-y-4">
           {/* Section Header */}
           <div className="flex flex-wrap items-end justify-between gap-4 bg-slate-100 p-4 rounded border border-slate-200">
             <div className="space-y-1">
@@ -458,9 +641,9 @@ export default function VoltMatrixHome() {
         </div>
       </section>
 
-      {/* 4. Parametric Category Showcase: Core Hardware, Office Tech & Smart Gadgets */}
+      {/* 6. Parametric Category Showcase: Core Hardware, Office Tech & Smart Gadgets */}
       <section className="w-full py-8">
-        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+        <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6 space-y-6">
           <div className="flex items-center justify-between">
             <div>
               <span className="font-mono text-[10.5px] text-[#b61722] uppercase font-bold tracking-wider">
@@ -630,9 +813,9 @@ export default function VoltMatrixHome() {
         </div>
       </section>
 
-      {/* 5. Physical Branch Store Locator & Live Click & Collect Hub */}
+      {/* 7. Physical Branch Store Locator & Live Click & Collect Hub */}
       <section className="w-full py-8 pb-12">
-        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 bg-white p-6 rounded border border-slate-200 shadow-sm">
+        <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6 bg-white p-6 rounded border border-slate-200 shadow-sm">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {/* Left: Showrooms List (5 cols) */}
             <div className="lg:col-span-5 space-y-4 flex flex-col justify-between">

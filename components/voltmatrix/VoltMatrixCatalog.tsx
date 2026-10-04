@@ -13,13 +13,16 @@ export default function VoltMatrixCatalog() {
   // Filter States
   const [searchFilter, setSearchFilter] = useState("");
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
+  const [selectedSockets, setSelectedSockets] = useState<string[]>([]);
+  const [stockStatus, setStockStatus] = useState<"all" | "in-stock" | "idb" | "central">("all");
   const [selectedVram, setSelectedVram] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [minPrice, setMinPrice] = useState<number>(5000);
-  const [maxPrice, setMaxPrice] = useState<number>(150000);
+  const [maxPrice, setMaxPrice] = useState<number>(600000);
   const [idbOnly, setIdbOnly] = useState<boolean>(false);
   const [viewMode, setViewMode] = useState<"dense" | "grid">("dense");
   const [sortBy, setSortBy] = useState<string>("price-desc");
+  const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
 
   // Comparison Tray State
   const [comparedProducts, setComparedProducts] = useState<HardwareProduct[]>([]);
@@ -67,14 +70,41 @@ export default function VoltMatrixCatalog() {
     setTimeout(() => setFeedbackMessage(null), 2200);
   };
 
-  const allBrands = Array.from(new Set(HARDWARE_PRODUCTS.map((p) => p.brand)));
+  const allBrands = Array.from(new Set(HARDWARE_PRODUCTS.map((p) => p.brand))).sort();
+  const availableSockets = ["AM5", "LGA1851", "LGA1700", "sTR5", "LGA4677"];
 
   // Filtered and Sorted Hardware List
   const filteredProducts = useMemo(() => {
     return HARDWARE_PRODUCTS.filter((product) => {
       if (selectedCategory !== "all" && product.category !== selectedCategory) return false;
-      if (searchFilter && !product.name.toLowerCase().includes(searchFilter.toLowerCase())) return false;
+      if (
+        searchFilter &&
+        !product.name.toLowerCase().includes(searchFilter.toLowerCase()) &&
+        !product.brand.toLowerCase().includes(searchFilter.toLowerCase()) &&
+        !product.sku.toLowerCase().includes(searchFilter.toLowerCase())
+      ) {
+        return false;
+      }
       if (selectedBrands.length > 0 && !selectedBrands.includes(product.brand)) return false;
+      if (selectedSockets.length > 0) {
+        const matchesSocket =
+          (product.socket && selectedSockets.includes(product.socket)) ||
+          product.specs.some((s) => selectedSockets.some((sock) => s.value.includes(sock)));
+        if (!matchesSocket) return false;
+      }
+      if (stockStatus === "in-stock") {
+        const totalStock =
+          (product.branchStock.idb || 0) +
+          (product.branchStock.multiplan || 0) +
+          (product.branchStock.central || 0) +
+          (product.branchStock.motijheel || 0) +
+          (product.branchStock.chittagong || 0);
+        if (totalStock <= 0) return false;
+      } else if (stockStatus === "idb") {
+        if ((product.branchStock.idb || 0) <= 0) return false;
+      } else if (stockStatus === "central") {
+        if ((product.branchStock.central || 0) <= 0) return false;
+      }
       if (idbOnly && product.branchStock.idb <= 0) return false;
       if (product.price < minPrice || product.price > maxPrice) return false;
       if (selectedVram.length > 0) {
@@ -90,7 +120,40 @@ export default function VoltMatrixCatalog() {
       if (sortBy === "name") return a.name.localeCompare(b.name);
       return 0;
     });
-  }, [selectedCategory, searchFilter, selectedBrands, idbOnly, minPrice, maxPrice, selectedVram, sortBy]);
+  }, [
+    selectedCategory,
+    searchFilter,
+    selectedBrands,
+    selectedSockets,
+    stockStatus,
+    idbOnly,
+    minPrice,
+    maxPrice,
+    selectedVram,
+    sortBy,
+  ]);
+
+  const activeFilterCount =
+    (selectedCategory !== "all" ? 1 : 0) +
+    selectedBrands.length +
+    selectedSockets.length +
+    (stockStatus !== "all" ? 1 : 0) +
+    (minPrice > 5000 || maxPrice < 600000 ? 1 : 0) +
+    selectedVram.length +
+    (idbOnly ? 1 : 0) +
+    (searchFilter ? 1 : 0);
+
+  const resetAllFilters = () => {
+    setSelectedCategory("all");
+    setSelectedBrands([]);
+    setSelectedSockets([]);
+    setStockStatus("all");
+    setMinPrice(5000);
+    setMaxPrice(600000);
+    setSelectedVram([]);
+    setSearchFilter("");
+    setIdbOnly(false);
+  };
 
   return (
     <div className="w-full bg-[#f8f9ff] min-h-screen">
@@ -103,8 +166,8 @@ export default function VoltMatrixCatalog() {
       )}
 
       {/* Sub-Header Breadcrumb & Telemetry Ticker */}
-      <section className="w-full bg-slate-100 border-b border-slate-200 px-4 sm:px-6 lg:px-8 py-2">
-        <div className="w-full max-w-[1536px] mx-auto flex flex-wrap items-center justify-between gap-2">
+      <section className="w-full bg-slate-100 border-b border-slate-200 py-2">
+        <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6 flex flex-wrap items-center justify-between gap-2">
           <nav className="flex items-center gap-1.5 text-slate-500 text-[12px] font-mono">
             <Link href="/" className="hover:text-[#EF4444] transition-colors">Home</Link>
             <span className="material-symbols-outlined text-[14px]">chevron_right</span>
@@ -127,23 +190,61 @@ export default function VoltMatrixCatalog() {
       </section>
 
       {/* Main Split Architecture */}
-      <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6 py-6">
+        {/* Mobile Filter Toggle Button (Visible on mobile/tablet) */}
+        <div className="lg:hidden w-full mb-4 flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+          <button
+            onClick={() => setMobileFilterOpen(!mobileFilterOpen)}
+            className="flex items-center gap-2 px-3 py-1.5 bg-[#EF4444] text-white font-mono text-xs font-bold rounded shadow transition-all active:scale-95"
+          >
+            <span className="material-symbols-outlined text-[16px]">tune</span>
+            <span>{mobileFilterOpen ? "Hide Facet Filters" : "Filter Components"}</span>
+            {activeFilterCount > 0 && (
+              <span className="bg-white text-[#EF4444] w-4 h-4 rounded-full text-[10px] flex items-center justify-center font-bold">
+                {activeFilterCount}
+              </span>
+            )}
+          </button>
+          {activeFilterCount > 0 && (
+            <button
+              onClick={resetAllFilters}
+              className="text-xs font-mono text-[#b61722] hover:underline"
+            >
+              Clear All ({activeFilterCount})
+            </button>
+          )}
+        </div>
+
         <div className="flex flex-col lg:flex-row gap-6 items-start">
-          {/* LEFT PARAMETRIC FILTER SIDEBAR (280px fixed width rail on desktop) */}
-          <aside className="w-full lg:w-[280px] lg:shrink-0 flex flex-col gap-4 select-none">
-            {/* Search within facet */}
-            <div className="bg-white p-3.5 rounded border border-slate-200 shadow-sm space-y-2">
+          {/* LEFT PARAMETRIC FILTER SIDEBAR (Functional Sticky 260px Faceted Sidebar) */}
+          <aside
+            className={`w-full lg:w-[260px] lg:shrink-0 lg:sticky lg:top-20 lg:max-h-[calc(100vh-5.5rem)] overflow-y-auto space-y-3.5 pr-1 select-none scrollbar-thin ${
+              mobileFilterOpen ? "block" : "hidden lg:block"
+            }`}
+          >
+            {/* Active Filters & Search */}
+            <div className="bg-white p-3.5 rounded border border-slate-200 shadow-sm space-y-2.5">
               <div className="flex items-center justify-between">
-                <span className="font-headline font-semibold text-[14px] uppercase tracking-tight text-slate-900">
-                  Filters &amp; Search
+                <span className="font-headline font-bold text-[13px] uppercase tracking-tight text-slate-900 flex items-center gap-1.5">
+                  <span className="material-symbols-outlined text-[16px] text-[#EF4444]">tune</span>
+                  Faceted Filters
                 </span>
-                <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 font-bold">
-                  LIVE
-                </span>
+                {activeFilterCount > 0 ? (
+                  <button
+                    onClick={resetAllFilters}
+                    className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-red-50 text-[#b61722] hover:bg-red-100 font-bold"
+                  >
+                    Reset ({activeFilterCount})
+                  </button>
+                ) : (
+                  <span className="font-mono text-[9.5px] px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 font-bold">
+                    LIVE
+                  </span>
+                )}
               </div>
               <div className="relative w-full">
-                <span className="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-[16px] text-slate-400">
-                  tune
+                <span className="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-[15px] text-slate-400">
+                  search
                 </span>
                 <input
                   type="text"
@@ -155,23 +256,241 @@ export default function VoltMatrixCatalog() {
               </div>
             </div>
 
-            {/* Category Selectors */}
+            {/* 1. BRAND FACET */}
             <div className="bg-white p-3.5 rounded border border-slate-200 shadow-sm space-y-2">
-              <span className="font-mono text-[10.5px] uppercase font-bold text-slate-500 block">
-                Hardware Categories
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-[10.5px] uppercase font-bold text-slate-700">
+                  Brand ({allBrands.length})
+                </span>
+                {selectedBrands.length > 0 && (
+                  <button
+                    onClick={() => setSelectedBrands([])}
+                    className="text-[10px] font-mono text-[#b61722] hover:underline"
+                  >
+                    Clear
+                  </button>
+                )}
+              </div>
+              <div className="flex flex-col gap-1 max-h-40 overflow-y-auto pr-1">
+                {allBrands.map((brand) => {
+                  const isChecked = selectedBrands.includes(brand);
+                  const count = HARDWARE_PRODUCTS.filter((p) => p.brand === brand).length;
+                  return (
+                    <label
+                      key={brand}
+                      className={`flex items-center justify-between text-[11.5px] px-1.5 py-1 rounded cursor-pointer transition-colors ${
+                        isChecked ? "bg-red-50 text-[#b61722] font-semibold" : "hover:bg-slate-50 text-slate-700"
+                      }`}
+                    >
+                      <span className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          checked={isChecked}
+                          onChange={(e) => {
+                            if (e.target.checked) setSelectedBrands([...selectedBrands, brand]);
+                            else setSelectedBrands(selectedBrands.filter((b) => b !== brand));
+                          }}
+                          className="accent-[#EF4444] rounded"
+                        />
+                        <span>{brand}</span>
+                      </span>
+                      <span className="font-mono text-[10px] text-slate-400">{count}</span>
+                    </label>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* 2. CPU & MOTHERBOARD SOCKET FACET */}
+            <div className="bg-white p-3.5 rounded border border-slate-200 shadow-sm space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-[10.5px] uppercase font-bold text-slate-700">
+                  Socket Platform
+                </span>
+                {selectedSockets.length > 0 && (
+                  <button
+                    onClick={() => setSelectedSockets([])}
+                    className="text-[10px] font-mono text-[#b61722] hover:underline"
+                  >
+                    Clear
+                  </button>
+                )}
+              </div>
+              <div className="flex flex-col gap-1">
+                {availableSockets.map((sock) => {
+                  const isChecked = selectedSockets.includes(sock);
+                  const count = HARDWARE_PRODUCTS.filter(
+                    (p) =>
+                      p.socket === sock ||
+                      p.specs.some((s) => s.value.includes(sock))
+                  ).length;
+                  return (
+                    <label
+                      key={sock}
+                      className={`flex items-center justify-between text-[11.5px] px-1.5 py-1 rounded cursor-pointer transition-colors ${
+                        isChecked ? "bg-red-50 text-[#b61722] font-semibold" : "hover:bg-slate-50 text-slate-700"
+                      }`}
+                    >
+                      <span className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          checked={isChecked}
+                          onChange={(e) => {
+                            if (e.target.checked) setSelectedSockets([...selectedSockets, sock]);
+                            else setSelectedSockets(selectedSockets.filter((s) => s !== sock));
+                          }}
+                          className="accent-[#EF4444] rounded"
+                        />
+                        <span className="font-mono">{sock}</span>
+                      </span>
+                      <span className="font-mono text-[10px] text-slate-400">{count}</span>
+                    </label>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* 3. PRICE RANGE FACET */}
+            <div className="bg-white p-3.5 rounded border border-slate-200 shadow-sm space-y-2.5">
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-[10.5px] uppercase font-bold text-slate-700">
+                  Price Filter (BDT ৳)
+                </span>
+                {(minPrice > 5000 || maxPrice < 600000) && (
+                  <button
+                    onClick={() => {
+                      setMinPrice(5000);
+                      setMaxPrice(600000);
+                    }}
+                    className="text-[10px] text-[#b61722] hover:underline font-mono"
+                  >
+                    Reset
+                  </button>
+                )}
+              </div>
+              <div className="grid grid-cols-2 gap-1.5">
+                <div className="bg-slate-50 p-1.5 rounded border border-slate-200">
+                  <span className="font-mono text-[8.5px] block text-slate-400 uppercase">Min (৳)</span>
+                  <input
+                    type="number"
+                    value={minPrice}
+                    onChange={(e) => setMinPrice(Number(e.target.value))}
+                    className="w-full bg-transparent font-mono text-[11px] text-slate-900 font-bold focus:outline-none"
+                  />
+                </div>
+                <div className="bg-slate-50 p-1.5 rounded border border-slate-200">
+                  <span className="font-mono text-[8.5px] block text-slate-400 uppercase">Max (৳)</span>
+                  <input
+                    type="number"
+                    value={maxPrice}
+                    onChange={(e) => setMaxPrice(Number(e.target.value))}
+                    className="w-full bg-transparent font-mono text-[11px] text-slate-900 font-bold focus:outline-none"
+                  />
+                </div>
+              </div>
+              {/* Quick Presets */}
+              <div className="grid grid-cols-2 gap-1 pt-1">
+                <button
+                  onClick={() => { setMinPrice(5000); setMaxPrice(30000); }}
+                  className="font-mono text-[9px] py-1 px-1.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 truncate"
+                >
+                  &lt; ৳30,000
+                </button>
+                <button
+                  onClick={() => { setMinPrice(30000); setMaxPrice(75000); }}
+                  className="font-mono text-[9px] py-1 px-1.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 truncate"
+                >
+                  ৳30k - ৳75k
+                </button>
+                <button
+                  onClick={() => { setMinPrice(75000); setMaxPrice(150000); }}
+                  className="font-mono text-[9px] py-1 px-1.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 truncate"
+                >
+                  ৳75k - ৳150k
+                </button>
+                <button
+                  onClick={() => { setMinPrice(150000); setMaxPrice(600000); }}
+                  className="font-mono text-[9px] py-1 px-1.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 truncate"
+                >
+                  ৳150k+ Ultra
+                </button>
+              </div>
+            </div>
+
+            {/* 4. STOCK & SHOWROOM AVAILABILITY FACET */}
+            <div className="bg-white p-3.5 rounded border border-slate-200 shadow-sm space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-[10.5px] uppercase font-bold text-slate-700">
+                  Stock &amp; Availability
+                </span>
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              </div>
+              <div className="flex flex-col gap-1 text-[11.5px]">
+                <button
+                  onClick={() => setStockStatus("all")}
+                  className={`text-left px-2 py-1.5 rounded flex items-center justify-between transition-colors ${
+                    stockStatus === "all" ? "bg-slate-900 text-white font-bold" : "hover:bg-slate-100 text-slate-700"
+                  }`}
+                >
+                  <span>All Inventory</span>
+                  <span className="font-mono text-[10px]">{HARDWARE_PRODUCTS.length}</span>
+                </button>
+                <button
+                  onClick={() => setStockStatus("in-stock")}
+                  className={`text-left px-2 py-1.5 rounded flex items-center justify-between transition-colors ${
+                    stockStatus === "in-stock" ? "bg-[#EF4444] text-white font-bold" : "hover:bg-slate-100 text-slate-700"
+                  }`}
+                >
+                  <span className="flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                    Immediate In-Stock
+                  </span>
+                  <span className="font-mono text-[10px]">
+                    {HARDWARE_PRODUCTS.filter((p) => ((p.branchStock.idb || 0) + (p.branchStock.multiplan || 0) + (p.branchStock.central || 0)) > 0).length}
+                  </span>
+                </button>
+                <button
+                  onClick={() => setStockStatus("idb")}
+                  className={`text-left px-2 py-1.5 rounded flex items-center justify-between transition-colors ${
+                    stockStatus === "idb" ? "bg-[#EF4444] text-white font-bold" : "hover:bg-slate-100 text-slate-700"
+                  }`}
+                >
+                  <span>IDB Bhaban Showroom</span>
+                  <span className="font-mono text-[10px]">
+                    {HARDWARE_PRODUCTS.filter((p) => (p.branchStock.idb || 0) > 0).length}
+                  </span>
+                </button>
+                <button
+                  onClick={() => setStockStatus("central")}
+                  className={`text-left px-2 py-1.5 rounded flex items-center justify-between transition-colors ${
+                    stockStatus === "central" ? "bg-[#EF4444] text-white font-bold" : "hover:bg-slate-100 text-slate-700"
+                  }`}
+                >
+                  <span>Central Savar Warehouse</span>
+                  <span className="font-mono text-[10px]">
+                    {HARDWARE_PRODUCTS.filter((p) => (p.branchStock.central || 0) > 0).length}
+                  </span>
+                </button>
+              </div>
+            </div>
+
+            {/* Category Filter */}
+            <div className="bg-white p-3.5 rounded border border-slate-200 shadow-sm space-y-2">
+              <span className="font-mono text-[10.5px] uppercase font-bold text-slate-700 block">
+                Hardware Category
               </span>
-              <div className="flex flex-col gap-1 text-[12px]">
+              <div className="flex flex-col gap-1 text-[11.5px] max-h-48 overflow-y-auto pr-1">
                 {[
-                  { id: "all", label: "All Components & Parts" },
-                  { id: "gpu", label: "Graphics Cards (GPUs)" },
-                  { id: "cpu", label: "Processors (CPUs)" },
+                  { id: "all", label: "All Components" },
+                  { id: "gpu", label: "Graphics Cards (GPU)" },
+                  { id: "cpu", label: "Processors (CPU)" },
                   { id: "motherboard", label: "Motherboards" },
-                  { id: "ram", label: "DDR5 / DDR4 Memory (RAM)" },
-                  { id: "storage", label: "High-Speed Solid State Drives (SSD)" },
-                  { id: "psu", label: "Power Supplies (PSUs)" },
-                  { id: "cooler", label: "CPU Liquid & Air Coolers" },
-                  { id: "chassis", label: "Computer Cases" },
-                  { id: "peripherals", label: "Keyboards, Mice & Displays" },
+                  { id: "ram", label: "Memory (RAM)" },
+                  { id: "storage", label: "Storage (SSD)" },
+                  { id: "psu", label: "Power Supplies" },
+                  { id: "cooler", label: "Coolers" },
+                  { id: "chassis", label: "Cases" },
+                  { id: "peripherals", label: "Peripherals" },
                 ].map((cat) => (
                   <button
                     key={cat.id}
@@ -193,136 +512,13 @@ export default function VoltMatrixCatalog() {
               </div>
             </div>
 
-            {/* Fulfillment & Branch Stock */}
-            <div className="bg-white p-3.5 rounded border border-slate-200 shadow-sm space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="font-mono text-[10.5px] uppercase font-bold text-slate-500">
-                  Stock &amp; Delivery Options
-                </span>
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              </div>
-              <div className="flex flex-col gap-1.5 pt-1">
-                <label className="flex items-center justify-between p-2 rounded bg-slate-50 hover:bg-slate-100 cursor-pointer transition-colors text-[12px]">
-                  <span className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      checked={idbOnly}
-                      onChange={(e) => setIdbOnly(e.target.checked)}
-                      className="accent-[#EF4444]"
-                    />
-                    <span className="text-slate-900 font-medium">In Stock @ IDB Depot</span>
-                  </span>
-                  <span className="font-mono text-[10px] text-emerald-700 font-bold bg-white px-1.5 py-0.5 rounded border border-slate-200">
-                    28
-                  </span>
-                </label>
-                <div className="flex items-center justify-between p-2 rounded bg-slate-50 text-[12px]">
-                  <span className="text-slate-700">Nationwide COD Delivery</span>
-                  <span className="font-mono text-[10px] text-slate-600 font-bold">Active</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Price Range Slider Presets */}
-            <div className="bg-white p-3.5 rounded border border-slate-200 shadow-sm space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="font-mono text-[10.5px] uppercase font-bold text-slate-500">
-                  Budget Filter (BDT ৳)
-                </span>
-                <button
-                  onClick={() => {
-                    setMinPrice(5000);
-                    setMaxPrice(150000);
-                  }}
-                  className="text-[11px] text-[#b61722] hover:underline font-mono"
-                >
-                  Reset
-                </button>
-              </div>
-              <div className="grid grid-cols-2 gap-2">
-                <div className="bg-slate-50 p-2 rounded border border-slate-200">
-                  <span className="font-mono text-[9px] block text-slate-400 uppercase">Min Price (৳)</span>
-                  <input
-                    type="number"
-                    value={minPrice}
-                    onChange={(e) => setMinPrice(Number(e.target.value))}
-                    className="w-full bg-transparent font-mono text-[12px] text-slate-900 font-bold focus:outline-none"
-                  />
-                </div>
-                <div className="bg-slate-50 p-2 rounded border border-slate-200">
-                  <span className="font-mono text-[9px] block text-slate-400 uppercase">Max Price (৳)</span>
-                  <input
-                    type="number"
-                    value={maxPrice}
-                    onChange={(e) => setMaxPrice(Number(e.target.value))}
-                    className="w-full bg-transparent font-mono text-[12px] text-slate-900 font-bold focus:outline-none"
-                  />
-                </div>
-              </div>
-              {/* Presets */}
-              <div className="flex flex-wrap gap-1">
-                <button
-                  onClick={() => { setMinPrice(5000); setMaxPrice(30000); }}
-                  className="font-mono text-[9.5px] px-2 py-0.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700"
-                >
-                  Entry Tier
-                </button>
-                <button
-                  onClick={() => { setMinPrice(30000); setMaxPrice(80000); }}
-                  className="font-mono text-[9.5px] px-2 py-0.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700"
-                >
-                  Mid-Range 1440p
-                </button>
-                <button
-                  onClick={() => { setMinPrice(80000); setMaxPrice(200000); }}
-                  className="font-mono text-[9.5px] px-2 py-0.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700"
-                >
-                  Ultra Workstation
-                </button>
-              </div>
-            </div>
-
-            {/* Manufacturer Brand Filter */}
-            <div className="bg-white p-3.5 rounded border border-slate-200 shadow-sm space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="font-mono text-[10.5px] uppercase font-bold text-slate-500">
-                  Manufacturer Brand
-                </span>
-                <span className="font-mono text-[10px] text-slate-400">{allBrands.length} Brands</span>
-              </div>
-              <div className="flex flex-col gap-1 max-h-40 overflow-y-auto">
-                {allBrands.map((brand) => (
-                  <label key={brand} className="flex items-center justify-between text-[12px] hover:bg-slate-50 p-1 rounded cursor-pointer">
-                    <span className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        checked={selectedBrands.includes(brand)}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setSelectedBrands([...selectedBrands, brand]);
-                          } else {
-                            setSelectedBrands(selectedBrands.filter((b) => b !== brand));
-                          }
-                        }}
-                        className="accent-[#EF4444]"
-                      />
-                      <span>{brand}</span>
-                    </span>
-                    <span className="font-mono text-[10px] text-slate-400">
-                      {HARDWARE_PRODUCTS.filter((p) => p.brand === brand).length}
-                    </span>
-                  </label>
-                ))}
-              </div>
-            </div>
-
             {/* VRAM Capacity Facet */}
             <div className="bg-white p-3.5 rounded border border-slate-200 shadow-sm space-y-2">
-              <span className="font-mono text-[10.5px] uppercase font-bold text-slate-500 block">
+              <span className="font-mono text-[10.5px] uppercase font-bold text-slate-700 block">
                 Video Memory (VRAM) Size
               </span>
               <div className="flex flex-wrap gap-1">
-                {["8GB", "12GB", "16GB", "32GB"].map((vram) => {
+                {["8GB", "12GB", "16GB", "24GB", "32GB"].map((vram) => {
                   const isSelected = selectedVram.includes(vram);
                   return (
                     <button
@@ -345,16 +541,16 @@ export default function VoltMatrixCatalog() {
             </div>
 
             {/* Telemetry Diagnostic Widget */}
-            <div className="bg-slate-900 text-white p-3.5 rounded border border-slate-800 space-y-2 shadow-sm">
-              <div className="flex items-center justify-between font-mono text-[11px] font-bold">
-                <span>POWER SUPPLY SAFETY GUIDE</span>
+            <div className="bg-slate-900 text-white p-3 rounded border border-slate-800 space-y-2 shadow-sm">
+              <div className="flex items-center justify-between font-mono text-[10.5px] font-bold">
+                <span>FOUNDRY POWER SAFETY</span>
                 <span className="text-emerald-400">SAFE</span>
               </div>
-              <p className="text-[11px] text-slate-400 leading-snug">
-                Ensure your power supply handles peak surges safely by choosing modern certified power units.
+              <p className="text-[10px] text-slate-400 leading-snug">
+                ATX 3.1 &amp; PCIe 5.0 single-cable 12V-2x6 transient load safety verified on all GPUs.
               </p>
               <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                <div className="bg-emerald-500 h-full w-[72%]"></div>
+                <div className="bg-emerald-500 h-full w-[78%]"></div>
               </div>
             </div>
           </aside>
@@ -694,7 +890,7 @@ export default function VoltMatrixCatalog() {
       {/* DOCKED BOTTOM PERSISTENT COMPARISON DRAWER (Matches Stitch Design) */}
       {comparedProducts.length > 0 && (
         <aside className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t-2 border-slate-900 shadow-2xl py-2 px-3 sm:px-4">
-          <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-3">
+          <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6 flex flex-col md:flex-row items-center justify-between gap-3">
             <div className="flex items-center gap-3 w-full md:w-auto">
               <div className="w-8 h-8 rounded bg-slate-900 text-white flex items-center justify-center shrink-0">
                 <span className="material-symbols-outlined text-[18px]">compare_arrows</span>

@@ -48,7 +48,7 @@ export default function OmniPulseHome() {
     <div className="w-full bg-[#F4F6F9] text-slate-900 font-sans antialiased min-h-screen">
       {/* 1. Ryans Benchmark: 3-Split Commercial Promo Grid (Hero) */}
       <section className="w-full pt-4 pb-3">
-        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
             {/* 65% Main Consumer Promo Banner (8 cols on lg) */}
             <div className="lg:col-span-8 rounded-2xl overflow-hidden relative bg-gradient-to-r from-[#061C40] via-[#0D47A1] to-[#1565C0] text-white p-6 sm:p-10 flex flex-col justify-between shadow-lg min-h-[380px] lg:min-h-[420px]">
@@ -175,7 +175,7 @@ export default function OmniPulseHome() {
 
       {/* 2. Ryans Benchmark: 4-Column Commercial Trust Badge Bar */}
       <section className="w-full py-2">
-        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
             <div className="flex items-center gap-3 p-2">
               <div className="w-10 h-10 rounded-full bg-blue-50 text-[#0D47A1] flex items-center justify-center shrink-0">
@@ -222,7 +222,7 @@ export default function OmniPulseHome() {
 
       {/* 3. Ryans Benchmark: Top Category Icon Rail */}
       <section className="w-full py-4">
-        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6">
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-lg sm:text-xl font-extrabold text-slate-900 font-sans flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-[#0D47A1]" />
@@ -267,7 +267,7 @@ export default function OmniPulseHome() {
 
       {/* 4. Ryans Benchmark: 4-Column Featured Deals Grid with Real-time Branch Stock */}
       <section className="w-full py-4 pb-10">
-        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+        <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6 space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-3 pb-2 border-b border-slate-200">
             <div>
               <h2 className="text-xl sm:text-2xl font-black text-slate-900 font-sans flex items-center gap-2">
@@ -421,7 +421,7 @@ export default function OmniPulseHome() {
 
       {/* 5. Physical Showroom Network & 3D Interactive Map */}
       <section className="w-full py-8 bg-white border-t border-slate-200">
-        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+        <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6 space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
             <div>
               <span className="text-xs font-bold text-[#0D47A1] uppercase tracking-wider font-mono">

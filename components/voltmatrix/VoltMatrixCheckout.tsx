@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useCartStore, PaymentMethod, FulfillmentMode, BranchKey } from "@/store/useCartStore";
 import { HARDWARE_PRODUCTS } from "@/data/hardwareDatabase";
+import { useBranches } from "@/lib/services/branchService";
+import { processCheckout } from "@/app/actions/checkout";
 
 export default function VoltMatrixCheckout() {
   const {
@@ -40,6 +42,8 @@ export default function VoltMatrixCheckout() {
     getTotalItemCount,
   } = useCartStore();
 
+  const { branches: dbBranches, isSingleBranch, activeBranch, setActiveBranchId } = useBranches();
+
   const [isRigCollapsed, setIsRigCollapsed] = useState(false);
   const [voucherInput, setVoucherInput] = useState(couponCode || "ARCHITECT10");
   const [voucherMsg, setVoucherMsg] = useState<string | null>(null);
@@ -70,6 +74,62 @@ export default function VoltMatrixCheckout() {
     setTimeout(() => setVoucherMsg(null), 3000);
   };
 
+  const executeServerCheckout = async () => {
+    setIsSubmitting(true);
+    try {
+      const items: { productId?: string; slug?: string; quantity: number; name?: string }[] = [];
+
+      standaloneItems.forEach((si) => {
+        items.push({
+          productId: si.product.id,
+          slug: si.product.slug,
+          quantity: si.quantity,
+          name: si.product.name,
+        });
+      });
+
+      bundledRigs.forEach((rig) => {
+        Object.values(rig.components).forEach((comp) => {
+          if (comp) {
+            items.push({
+              productId: comp.id,
+              slug: comp.slug,
+              quantity: 1,
+              name: comp.name,
+            });
+          }
+        });
+      });
+
+      const res = await processCheckout({
+        customerName: deliveryDetails.fullName || "Chattogram Customer",
+        customerEmail: "customer@voltmatrix.bd",
+        customerPhone: deliveryDetails.phone || "+8801800000000",
+        shippingAddress: {
+          district: deliveryDetails.district,
+          thana: deliveryDetails.thana,
+          address: deliveryDetails.address,
+        },
+        deliveryMethod: fulfillmentMode === "pickup" ? "store_pickup" : "courier_cod",
+        pickupBranchId: deliveryDetails.pickupBranch,
+        paymentMethod: paymentMethod === "mfs" ? "bkash" : paymentMethod,
+        notes: deliveryDetails.notes,
+        items,
+      });
+
+      if (res.success && res.trackingCode) {
+        await submitOrder(res.trackingCode);
+      } else {
+        await submitOrder();
+      }
+    } catch (err) {
+      console.error("Checkout execution error:", err);
+      await submitOrder();
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const handleOrderSubmit = async () => {
     if (paymentMethod === "mfs") {
       setMfsStep("number");
@@ -77,11 +137,7 @@ export default function VoltMatrixCheckout() {
       return;
     }
 
-    setIsSubmitting(true);
-    setTimeout(async () => {
-      await submitOrder();
-      setIsSubmitting(false);
-    }, 1400);
+    await executeServerCheckout();
   };
 
   const handleMfsSimulatePay = () => {
@@ -91,7 +147,7 @@ export default function VoltMatrixCheckout() {
       setMfsStep("success");
       setTimeout(async () => {
         setMfsModalOpen(false);
-        await submitOrder();
+        await executeServerCheckout();
       }, 1500);
     }
   };
@@ -102,7 +158,7 @@ export default function VoltMatrixCheckout() {
     <div className="w-full bg-[#f8f9ff] min-h-screen">
       {/* Sub-Header Breadcrumb & Telemetry */}
       <section className="w-full bg-slate-100 border-b border-slate-200 py-2">
-        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center justify-between gap-2">
+        <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6 flex flex-wrap items-center justify-between gap-2">
           <nav className="flex items-center gap-1.5 text-slate-500 text-[12px] font-mono">
             <Link href="/" className="hover:text-[#EF4444] transition-colors">Home</Link>
             <span className="material-symbols-outlined text-[14px]">chevron_right</span>
@@ -123,7 +179,7 @@ export default function VoltMatrixCheckout() {
       </section>
 
       {/* Main Checkout Viewport Container */}
-      <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* ================= LEFT 8 COLS: ITEMIZED BOM RIG & FULFILLMENT ================= */}
           <div className="lg:col-span-8 space-y-6">
@@ -405,26 +461,43 @@ export default function VoltMatrixCheckout() {
                   <span className="font-mono text-[11px] font-bold text-slate-700 uppercase block">
                     Choose Pickup Showroom Location:
                   </span>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[12px]">
-                    {[
-                      { key: "idb", label: "Dhaka IDB Bhaban Hub (Level 3)" },
-                      { key: "multiplan", label: "Multiplan Center Hub (Level 9)" },
-                      { key: "motijheel", label: "Motijheel Commercial Hub" },
-                      { key: "chittagong", label: "Chittagong GEC Sanmar Depot" },
-                    ].map((hub) => (
-                      <button
-                        key={hub.key}
-                        onClick={() => updateDeliveryDetails({ pickupBranch: hub.key as BranchKey })}
-                        className={`p-2 rounded text-left border transition-colors ${
-                          deliveryDetails.pickupBranch === hub.key
-                            ? "bg-white border-[#EF4444] text-[#b61722] font-bold"
-                            : "bg-white border-slate-200 text-slate-700 hover:bg-slate-100"
-                        }`}
-                      >
-                        {hub.label}
-                      </button>
-                    ))}
-                  </div>
+                  {isSingleBranch ? (
+                    <div className="p-3 bg-white border border-red-200 rounded text-[13px] flex items-center justify-between">
+                      <div>
+                        <div className="font-bold text-slate-900 flex items-center gap-1.5">
+                          <span className="material-symbols-outlined text-red-600 text-[18px]">storefront</span>
+                          <span>Pick up at {activeBranch.name || "Chattogram Showroom"}</span>
+                        </div>
+                        <div className="text-[11px] text-slate-500 mt-0.5">
+                          {activeBranch.address || "GEC Circle / Agrabad Commercial Area, Chattogram"} {activeBranch.phone ? `(${activeBranch.phone})` : ""}
+                        </div>
+                      </div>
+                      <span className="font-mono text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded font-bold uppercase">
+                        Ready in 2 Hours
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[12px]">
+                      {dbBranches.map((hub) => (
+                        <button
+                          key={hub.id}
+                          type="button"
+                          onClick={() => {
+                            updateDeliveryDetails({ pickupBranch: hub.id });
+                            setActiveBranchId(hub.id);
+                          }}
+                          className={`p-2.5 rounded text-left border transition-colors ${
+                            deliveryDetails.pickupBranch === hub.id || activeBranch.id === hub.id
+                              ? "bg-white border-[#EF4444] text-[#b61722] font-bold shadow-sm"
+                              : "bg-white border-slate-200 text-slate-700 hover:bg-slate-100"
+                          }`}
+                        >
+                          <div className="font-semibold">{hub.name}</div>
+                          <div className="text-[11px] text-slate-500">{hub.district}</div>
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -897,16 +970,17 @@ export default function VoltMatrixCheckout() {
 
             <div className="pt-2 flex flex-col sm:flex-row gap-3">
               <Link
+                href={`/track-order?code=${orderId}`}
+                className="flex-1 h-10 bg-[#b61722] hover:bg-[#99131c] text-white rounded font-mono text-[12px] uppercase font-bold flex items-center justify-center gap-1.5 shadow-md"
+              >
+                <span className="material-symbols-outlined text-[16px]">local_shipping</span>
+                <span>Track Order Live</span>
+              </Link>
+              <Link
                 href="/"
                 className="flex-1 h-10 bg-slate-900 hover:bg-slate-800 text-white rounded font-mono text-[12px] uppercase font-bold flex items-center justify-center"
               >
-                Return to Master Store
-              </Link>
-              <Link
-                href="/pc-builder"
-                className="flex-1 h-10 bg-[#EF4444] hover:bg-[#dc2626] text-white rounded font-mono text-[12px] uppercase font-bold flex items-center justify-center"
-              >
-                Configure Another Rig
+                Return to Store
               </Link>
             </div>
           </div>

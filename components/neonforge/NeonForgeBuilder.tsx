@@ -204,7 +204,7 @@ export default function NeonForgeBuilder() {
 
   return (
     <div className="w-full min-h-screen bg-[#0A0A0F] text-slate-100 selection:bg-[#00F0FF] selection:text-[#0A0A0F] py-6">
-      <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+      <div className="w-full max-w-[1536px] mx-auto px-4 md:px-6 space-y-6">
         {/* Top Header & Telemetry */}
         <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-white/10">
           <div>
