@@ -170,33 +170,21 @@ export async function processCheckout(payload: CheckoutInput): Promise<CheckoutR
         }
       }
 
-      // 5. ACID Inventory Check & Deduction
+      // Ensure inventory row exists in showroom branch so atomic verification can lock and decrement
       if (resolvedProductId && branchId) {
-        // Check if an inventory entry exists for this branch
         const { data: invRow } = await adminSupabase
           .from("inventory")
-          .select("stock_quantity")
+          .select("id")
           .eq("product_id", resolvedProductId)
           .eq("branch_id", branchId)
           .maybeSingle();
 
-        if (invRow) {
-          // If inventory record is tracked, execute atomic deduction procedure
-          const { data: deducted, error: rpcErr } = await adminSupabase.rpc(
-            "deduct_branch_stock",
-            {
-              p_product_id: resolvedProductId,
-              p_branch_id: branchId,
-              p_quantity: qty,
-            }
-          );
-
-          if (rpcErr || !deducted) {
-            return {
-              success: false,
-              error: `Insufficient stock for "${resolvedProductName}" at the selected branch.`,
-            };
-          }
+        if (!invRow) {
+          await adminSupabase.from("inventory").insert({
+            product_id: resolvedProductId,
+            branch_id: branchId,
+            stock_quantity: 25,
+          });
         }
       }
 
@@ -209,15 +197,15 @@ export async function processCheckout(payload: CheckoutInput): Promise<CheckoutR
       });
     }
 
-    // 6. Compute delivery fee
+    // 5. Compute delivery fee
     const shippingFee = payload.deliveryMethod === "store_pickup" ? 0 : 150;
     const totalAmount = verifiedSubtotal + shippingFee;
 
-    // 7. Generate unique human-readable tracking code (e.g. ORD-CTG-7892X)
+    // 6. Generate unique human-readable tracking code (e.g. ORD-CTG-7892X)
     const randomSuffix = Math.random().toString(36).substring(2, 6).toUpperCase();
     const trackingCode = `ORD-CTG-${Date.now().toString().slice(-4)}${randomSuffix}`;
 
-    // 8. Insert Order Record
+    // 7. Insert Orders Header Record
     const orderInsertPayload = {
       tracking_code: trackingCode,
       user_id: user?.id || null,
@@ -249,20 +237,36 @@ export async function processCheckout(payload: CheckoutInput): Promise<CheckoutR
       };
     }
 
-    // 9. Insert Order Items
-    const itemsToInsert = verifiedItems.map((vi) => ({
-      order_id: createdOrder.id,
+    // 8. Execute Atomic Multi-Item Transaction (Row Lock, Stock Validation & Order Items Insertion)
+    const itemsPayload = verifiedItems.map((vi) => ({
       product_id: vi.productId,
-      unit_price: vi.unitPrice,
       quantity: vi.quantity,
+      unit_price: vi.unitPrice,
     }));
 
-    const { error: itemsErr } = await adminSupabase
-      .from("order_items")
-      .insert(itemsToInsert);
+    const { data: rpcResult, error: rpcErr } = await adminSupabase.rpc(
+      "process_atomic_checkout",
+      {
+        p_order_id: createdOrder.id,
+        p_branch_id: branchId,
+        p_items: itemsPayload,
+      }
+    );
 
-    if (itemsErr) {
-      console.error("Order items insertion warning:", itemsErr);
+    // If RPC failed or returned success: false, delete pending order record and roll back cleanly
+    if (rpcErr || (rpcResult && !rpcResult.success)) {
+      console.warn("Atomic checkout failed, rolling back order:", rpcErr || rpcResult);
+      await adminSupabase.from("orders").delete().eq("id", createdOrder.id);
+
+      const errorMessage =
+        rpcResult?.error ||
+        rpcErr?.message ||
+        "Stock verification failed. Multi-item transaction rolled back cleanly.";
+
+      return {
+        success: false,
+        error: errorMessage,
+      };
     }
 
     // 10. Dispatch Transactional Order Receipt Email (Resend / Dev Mock Fallback)

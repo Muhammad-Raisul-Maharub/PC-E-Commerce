@@ -51,6 +51,14 @@ export default async function AdminLayout({
             </Link>
 
             <Link
+              href="/admin/products/import"
+              className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-slate-800 text-slate-300 hover:text-white transition-all font-semibold"
+            >
+              <span className="material-symbols-outlined text-base text-teal-400">upload_file</span>
+              <span>Bulk Importer (Excel)</span>
+            </Link>
+
+            <Link
               href="/admin/orders"
               className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-slate-800 text-slate-300 hover:text-white transition-all font-semibold"
             >

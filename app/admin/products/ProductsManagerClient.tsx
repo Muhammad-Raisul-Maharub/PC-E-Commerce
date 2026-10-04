@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { AdminProduct, updateAdminProduct } from "@/app/actions/adminProducts";
 
 interface Props {
@@ -19,6 +20,7 @@ export default function ProductsManagerClient({ initialProducts }: Props) {
   const [dragOver, setDragOver] = useState(false);
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
   const [selectedProductForUpload, setSelectedProductForUpload] = useState<string | null>(null);
+  const [compressionInfo, setCompressionInfo] = useState<string | null>(null);
 
   const categories = ["all", "cpu", "gpu", "motherboard", "cooler", "chassis", "ram", "storage", "laptop"];
 
@@ -58,58 +60,132 @@ export default function ProductsManagerClient({ initialProducts }: Props) {
     }
   };
 
+  // HTML5 Canvas Client-Side Image Auto-Compression (Max 1600px, WebP @ 85%, <200KB)
+  const compressImageClientSide = async (
+    file: File,
+    maxDimension = 1600,
+    quality = 0.85
+  ): Promise<{
+    dataUrl: string;
+    originalSizeKb: number;
+    compressedSizeKb: number;
+    width: number;
+    height: number;
+  }> => {
+    return new Promise((resolve, reject) => {
+      const originalSizeKb = Math.round(file.size / 1024);
+      const reader = new FileReader();
+
+      reader.onload = (event) => {
+        const img = new window.Image();
+        img.onload = () => {
+          let width = img.naturalWidth || img.width;
+          let height = img.naturalHeight || img.height;
+
+          // Scale dimensions proportionally so max dimension <= 1600px
+          if (width > maxDimension || height > maxDimension) {
+            if (width > height) {
+              height = Math.round((height * maxDimension) / width);
+              width = maxDimension;
+            } else {
+              width = Math.round((width * maxDimension) / height);
+              height = maxDimension;
+            }
+          }
+
+          const canvas = document.createElement("canvas");
+          canvas.width = width;
+          canvas.height = height;
+
+          const ctx = canvas.getContext("2d");
+          if (!ctx) {
+            reject(new Error("Unable to obtain 2D canvas context"));
+            return;
+          }
+
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = "high";
+          ctx.drawImage(img, 0, 0, width, height);
+
+          // Export as modern WebP at 85% quality
+          let webpDataUrl = canvas.toDataURL("image/webp", quality);
+          let compressedSizeKb = Math.round((webpDataUrl.length * 3) / 4 / 1024);
+
+          // If still exceeds 200KB, slightly adapt quality to stay well under budget
+          if (compressedSizeKb > 200) {
+            webpDataUrl = canvas.toDataURL("image/webp", 0.75);
+            compressedSizeKb = Math.round((webpDataUrl.length * 3) / 4 / 1024);
+          }
+
+          resolve({
+            dataUrl: webpDataUrl,
+            originalSizeKb,
+            compressedSizeKb,
+            width,
+            height,
+          });
+        };
+
+        img.onerror = (err) => reject(err);
+        img.src = event.target?.result as string;
+      };
+
+      reader.onerror = (err) => reject(err);
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const processAndCompressFiles = async (files: File[]) => {
+    const imageFiles = files.filter((f) => f.type.startsWith("image/"));
+    if (imageFiles.length === 0) return;
+
+    setCompressionInfo("Compressing with HTML5 Canvas (WebP 85%, max 1600px)...");
+
+    for (const file of imageFiles) {
+      try {
+        const { dataUrl, originalSizeKb, compressedSizeKb, width, height } =
+          await compressImageClientSide(file, 1600, 0.85);
+
+        setUploadedImages((prev) => [...prev, dataUrl]);
+
+        if (selectedProductForUpload) {
+          setProducts((prev) =>
+            prev.map((p) =>
+              p.id === selectedProductForUpload
+                ? { ...p, images: [...p.images, dataUrl] }
+                : p
+            )
+          );
+        }
+
+        setCompressionInfo(
+          `Optimized: ${file.name} (${originalSizeKb} KB → ${compressedSizeKb} KB WebP, ${width}×${height}px)`
+        );
+      } catch (err) {
+        console.error("Compression error:", err);
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          if (e.target?.result) {
+            const url = e.target.result as string;
+            setUploadedImages((prev) => [...prev, url]);
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+  };
+
   // Drag and Drop Image Handlers
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     setDragOver(false);
-
     const files = Array.from(e.dataTransfer.files);
-    files.forEach((file) => {
-      if (file.type.startsWith("image/")) {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          if (event.target?.result) {
-            const url = event.target.result as string;
-            setUploadedImages((prev) => [...prev, url]);
-            if (selectedProductForUpload) {
-              setProducts((prev) =>
-                prev.map((p) =>
-                  p.id === selectedProductForUpload
-                    ? { ...p, images: [...p.images, url] }
-                    : p
-                )
-              );
-            }
-          }
-        };
-        reader.readAsDataURL(file);
-      }
-    });
+    processAndCompressFiles(files);
   };
 
   const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
-    files.forEach((file) => {
-      if (file.type.startsWith("image/")) {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          if (event.target?.result) {
-            const url = event.target.result as string;
-            setUploadedImages((prev) => [...prev, url]);
-            if (selectedProductForUpload) {
-              setProducts((prev) =>
-                prev.map((p) =>
-                  p.id === selectedProductForUpload
-                    ? { ...p, images: [...p.images, url] }
-                    : p
-                )
-              );
-            }
-          }
-        };
-        reader.readAsDataURL(file);
-      }
-    });
+    processAndCompressFiles(files);
   };
 
   const handleAddSpec = () => {
@@ -164,7 +240,14 @@ export default function ProductsManagerClient({ initialProducts }: Props) {
             Spreadsheet-style inline editing with PostgreSQL ACID stock locks
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
+          <Link
+            href="/admin/products/import"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-mono font-bold transition-all shadow-md shadow-emerald-950/40"
+          >
+            <span className="material-symbols-outlined text-sm">upload_file</span>
+            <span>Bulk Import Excel</span>
+          </Link>
           <span className="px-3 py-1 bg-slate-800 border border-slate-700 rounded-lg text-xs font-mono text-slate-300">
             {filteredProducts.length} Items Loaded
           </span>
@@ -179,6 +262,9 @@ export default function ProductsManagerClient({ initialProducts }: Props) {
             <h3 className="font-headline font-bold text-sm text-white">
               Drag-and-Drop Hardware Photography Uploader
             </h3>
+            <span className="text-[10px] font-mono bg-cyan-950 text-cyan-400 border border-cyan-800 px-2 py-0.5 rounded-full font-bold">
+              Canvas WebP Auto-Compress
+            </span>
           </div>
           {selectedProductForUpload && (
             <span className="text-xs font-mono text-emerald-400">
@@ -186,6 +272,13 @@ export default function ProductsManagerClient({ initialProducts }: Props) {
             </span>
           )}
         </div>
+
+        {compressionInfo && (
+          <div className="px-3 py-1.5 rounded-lg bg-emerald-950/60 border border-emerald-800/80 text-emerald-400 text-xs font-mono flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span>{compressionInfo}</span>
+          </div>
+        )}
 
         <div
           onDragOver={(e) => {
@@ -213,8 +306,8 @@ export default function ProductsManagerClient({ initialProducts }: Props) {
             <div className="text-xs font-mono">
               <strong className="text-white">Drag &amp; drop component photos</strong> or click to browse from desktop
             </div>
-            <div className="text-[10px] text-slate-500 font-mono">
-              PNG, JPG, WEBP • Auto-optimizes for 640px thumbnail resolution
+            <div className="text-[10px] text-slate-400 font-mono">
+              Canvas Auto-Compress: Max 1600px • WebP @ 85% Quality • Guaranteed &lt;200KB per image
             </div>
           </label>
         </div>

@@ -4,6 +4,7 @@ import React, { useState, useTransition } from "react";
 import {
   AdminOrder,
   updateOrderStatus,
+  dispatchOrderToCourier,
 } from "@/app/actions/adminOrders";
 import {
   Search,
@@ -37,7 +38,35 @@ export default function OrdersManagerClient({ initialOrders }: OrdersManagerClie
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [selectedOrderForSlip, setSelectedOrderForSlip] = useState<AdminOrder | null>(null);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
+  const [dispatchingId, setDispatchingId] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+
+  const handleDispatchCourier = async (orderId: string) => {
+    setDispatchingId(orderId);
+    try {
+      const res = await dispatchOrderToCourier(orderId);
+      if (res.success && res.consignmentId) {
+        setOrders((prev) =>
+          prev.map((o) =>
+            o.id === orderId
+              ? {
+                  ...o,
+                  status: "dispatched",
+                  courier_consignment_id: res.consignmentId,
+                  courier_tracking_code: res.trackingCode,
+                }
+              : o
+          )
+        );
+      } else {
+        alert("Courier dispatch failed: " + (res.error || "Unknown error"));
+      }
+    } catch (err: unknown) {
+      alert("Error booking courier consignment: " + (err instanceof Error ? err.message : "Unknown error"));
+    } finally {
+      setDispatchingId(null);
+    }
+  };
 
   const statuses = [
     { key: "all", label: "All Orders", icon: Package },
@@ -257,6 +286,12 @@ export default function OrdersManagerClient({ initialOrders }: OrdersManagerClie
                             <p className="text-[10px] text-muted-foreground/70 truncate">
                               {order.shipping_address.address || "Standard Address"}
                             </p>
+                            {order.courier_consignment_id && (
+                              <div className="mt-1 flex items-center gap-1 text-[10px] text-cyan-400 font-mono bg-cyan-950/60 px-1.5 py-0.5 rounded border border-cyan-800/60 w-fit">
+                                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                                <span>Steadfast: {order.courier_consignment_id}</span>
+                              </div>
+                            )}
                           </div>
                         )}
                       </td>
@@ -330,13 +365,45 @@ export default function OrdersManagerClient({ initialOrders }: OrdersManagerClie
 
                       {/* Dispatch & Packing Slip */}
                       <td className="py-3.5 px-4 align-top text-right">
-                        <button
-                          onClick={() => setSelectedOrderForSlip(order)}
-                          className="inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-primary/10 hover:bg-primary/20 text-primary border border-primary/25 rounded-lg text-xs font-semibold transition-colors"
-                        >
-                          <Printer className="w-3.5 h-3.5" />
-                          <span>Dispatch Slip</span>
-                        </button>
+                        <div className="flex flex-col items-end gap-1.5">
+                          {order.delivery_method !== "store_pickup" && (
+                            <div>
+                              {order.courier_consignment_id ? (
+                                <span className="inline-flex items-center gap-1 px-2 py-1 bg-cyan-500/10 text-cyan-400 border border-cyan-500/25 rounded-md text-[11px] font-mono font-medium">
+                                  <Truck className="w-3 h-3 text-cyan-400" />
+                                  <span>{order.courier_consignment_id}</span>
+                                </span>
+                              ) : (
+                                <button
+                                  disabled={dispatchingId === order.id || isUpdating || order.status === "cancelled"}
+                                  onClick={() => handleDispatchCourier(order.id)}
+                                  className="inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-cyan-600 hover:bg-cyan-500 disabled:opacity-50 text-white rounded-lg text-xs font-semibold shadow-sm transition-all shadow-cyan-900/20 active:scale-95"
+                                  title="Dispatch via Steadfast Courier"
+                                >
+                                  {dispatchingId === order.id ? (
+                                    <>
+                                      <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                      <span>Dispatching...</span>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <Truck className="w-3.5 h-3.5" />
+                                      <span>Send to Steadfast</span>
+                                    </>
+                                  )}
+                                </button>
+                              )}
+                            </div>
+                          )}
+
+                          <button
+                            onClick={() => setSelectedOrderForSlip(order)}
+                            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-primary/10 hover:bg-primary/20 text-primary border border-primary/25 rounded-lg text-xs font-semibold transition-colors"
+                          >
+                            <Printer className="w-3.5 h-3.5" />
+                            <span>Dispatch Slip</span>
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   );
@@ -414,6 +481,11 @@ export default function OrdersManagerClient({ initialOrders }: OrdersManagerClie
                   <div className="font-mono text-xs font-bold text-primary">
                     {selectedOrderForSlip.tracking_code}
                   </div>
+                  {selectedOrderForSlip.courier_consignment_id && (
+                    <div className="font-mono text-[10px] text-cyan-400 font-semibold mt-0.5">
+                      Steadfast: {selectedOrderForSlip.courier_consignment_id}
+                    </div>
+                  )}
                 </div>
               </div>
 
